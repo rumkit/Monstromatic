@@ -85,8 +85,8 @@
             <Setter Property="CornerRadius" Value="10"/>
           </Style>
         </StackPanel.Styles>
-        <ToggleButton>На своих&#xa;условиях</ToggleButton>
-        <ToggleButton>На штрафных&#xa;условиях</ToggleButton>
+        <ToggleButton IsChecked="{Binding HasAdvantage}">На своих&#xa;условиях</ToggleButton>
+        <ToggleButton IsChecked="{Binding HasDisadvantage}">На штрафных&#xa;условиях</ToggleButton>
       </StackPanel>
       <TextBlock Grid.Row="1" Text="{Binding Features, Converter={StaticResource StringsJoinConverter}}" Margin="20,5,20,5" FontSize="14"/>
       <Grid Grid.Row="2">
