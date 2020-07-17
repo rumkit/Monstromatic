@@ -1,4 +1,5 @@
 ﻿using System.Reactive;
+using Monstromatic.ViewModels.Design;
 using Monstromatic.Views;
 using ReactiveUI;
 
@@ -13,10 +14,7 @@ namespace Monstromatic.ViewModels
 
         private void OpenTestWindow()
         {
-            var monster = new MonsterDetailsViewModel()
-            {
-                Name = "Test_Test"
-            };
+            var monster = new DesignVmLocator().DetailsVm;
             var window = new MonsterDetailsView(monster);
             window.Show();
         }

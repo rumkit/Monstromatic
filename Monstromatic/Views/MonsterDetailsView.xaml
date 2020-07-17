@@ -6,7 +6,7 @@
         xmlns:vm="clr-namespace:Monstromatic.ViewModels;assembly=Monstromatic"
         mc:Ignorable="d" d:DesignWidth="320" d:DesignHeight="240"
         x:Class="Monstromatic.Views.MonsterDetailsView"
-        Title="TestWindow"
+        Title="{Binding Name}"
         HasSystemDecorations="False"
         CanResize="False"
         SizeToContent="Height"
@@ -14,6 +14,7 @@
         Design.DataContext="{Binding Source={StaticResource DesignVmLocator}, Path=DetailsVm}">
   <Window.Resources>
     <conv:DoubleToGridLengthConverter x:Key="GridLengthConverter"/>
+    <conv:ListToStringConverter x:Key="StringsJoinConverter"/>
   </Window.Resources>
   <Grid VerticalAlignment="Top">
     <Grid.RowDefinitions>
@@ -49,13 +50,66 @@
         </Button.RenderTransform>
         <Path Data="M 0 5 L 5 0 L 10 5" Stroke="{StaticResource ThemeControlHighlightLowBrush}" StrokeThickness="2"></Path>
       </Button>
-      <TextBlock Grid.Column="1" Foreground="{StaticResource ThemeControlLowBrush}" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Name}"/>
+      <StackPanel Grid.Column="1" Margin="5">
+        <StackPanel.Styles>
+          <Style Selector="StackPanel > TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource ThemeControlLowBrush}"/>            
+            <Setter Property="FontSize" Value="14"/> 
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+          </Style>
+        </StackPanel.Styles>
+        <TextBlock Text="{Binding Name}"/>
+        <TextBlock Text="{Binding Level, StringFormat=Ур. \{0\}}"/>
+      </StackPanel>      
       <Button Grid.Column="2" Click="CloseButton_Click">
         <Path Data="M 0 0 L 10 10 M 0 10 L 10 0" Stroke="{StaticResource ThemeControlHighlightLowBrush}" StrokeThickness="2"></Path>
       </Button>
     </Grid>
     <Grid Grid.Row="1" VerticalAlignment="Top" Name="ExpanderGrid" Height="210">
-
+      <Grid.RowDefinitions>
+        <RowDefinition/>
+        <RowDefinition/>
+        <RowDefinition/>
+      </Grid.RowDefinitions>
+      <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel.Styles>
+          <Style Selector="ToggleButton">
+            <Setter Property="Margin" Value="5"/>            
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="MaxHeight" Value="50"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="14"/>
+          </Style>
+          <Style Selector="ToggleButton /template/ ContentPresenter">
+            <Setter Property="CornerRadius" Value="10"/>
+          </Style>
+        </StackPanel.Styles>
+        <ToggleButton>На своих&#xa;условиях</ToggleButton>
+        <ToggleButton>На штрафных&#xa;условиях</ToggleButton>
+      </StackPanel>
+      <TextBlock Grid.Row="1" Text="{Binding Features, Converter={StaticResource StringsJoinConverter}}" Margin="20,5,20,5" FontSize="14"/>
+      <Grid Grid.Row="2">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" HorizontalAlignment="Center" Margin="50,0,0,0">
+          <TextBlock Text="Храбрость"/>
+          <Grid Margin="5"  Width="50">
+            <Ellipse StrokeThickness="2" Stroke="{StaticResource ThemeControlHighlightLowBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            <TextBlock Text="{Binding Moral}" HorizontalAlignment="Center" FontSize="16"/>
+          </Grid>
+        </StackPanel>
+        <StackPanel Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,50,0">
+          <TextBlock Text="Выносливость"/>
+          <Grid Margin="5" Width="50">
+            <Ellipse StrokeThickness="2" Stroke="{StaticResource ThemeControlHighlightLowBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            <TextBlock Text="{Binding Moral}" HorizontalAlignment="Center" FontSize="16"/>
+          </Grid>
+          <TextBlock Text="Бегство" HorizontalAlignment="Center"/>
+        </StackPanel>
+      </Grid>
     </Grid>
   </Grid>
 </Window>
