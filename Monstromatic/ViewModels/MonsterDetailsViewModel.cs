@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reactive.Linq;
-using System.Threading.Channels;
-using Avalonia.Controls.Templates;
-using DynamicData.Binding;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using Console = System.Console;
 
 namespace Monstromatic.ViewModels
 {
