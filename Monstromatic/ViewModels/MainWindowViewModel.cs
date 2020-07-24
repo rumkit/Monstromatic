@@ -9,20 +9,43 @@ using Monstromatic.Models;
 using Monstromatic.ViewModels.Design;
 using Monstromatic.Views;
 using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 
 namespace Monstromatic.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        [Reactive]
+        public bool IsGroup { get; set; }
+
+        [Reactive]
+        public int? GroupCount { get; set; }
+
+        [Reactive]
+        public string Name { get; set; }
+
+        public IEnumerable<int> AvailableQualities => Enumerable.Range(1, 5);
+
+        [Reactive]
+        public int SelectedQuality { get; set; }
+
         public IEnumerable<FeatureViewModel> Features { get; }
 
         public SourceList<FeatureBase> SelectedFeatures { get; }
+
+        public ReactiveCommand<Unit, Unit> TestWindowCommand { get; }
 
         public MainWindowViewModel()
         {
             TestWindowCommand = ReactiveCommand.Create(OpenTestWindow);
             SelectedFeatures = new SourceList<FeatureBase>();
             Features = GetFeatures();
+
+            this.WhenAnyValue(x => x.IsGroup).Subscribe(b =>
+            {
+                if (!b)
+                    GroupCount = null;
+            });
         }
 
         private IEnumerable<FeatureViewModel> GetFeatures()
@@ -42,9 +65,5 @@ namespace Monstromatic.ViewModels
             var window = new MonsterDetailsView(monster);
             window.Show();
         }
-
-        public string Greeting => "Welcome to Avalonia!";
-
-        public ReactiveCommand<Unit, Unit> TestWindowCommand { get; }
     }
 }

@@ -3,6 +3,7 @@
         xmlns:vm="clr-namespace:Monstromatic.ViewModels;assembly=Monstromatic"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:conv="clr-namespace:Monstromatic.Converters;assembly=Monstromatic"
         mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="400"
         Width="1000" Height="400"
         x:Class="Monstromatic.Views.MainWindow"
@@ -12,6 +13,9 @@
   <Design.DataContext>
     <vm:MainWindowViewModel/>
   </Design.DataContext>
+  <Window.Resources>
+    <conv:IntToMonsterQualityConverter x:Key="MonsterQualityConverter" />
+  </Window.Resources>
   <Grid>
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="200"/>
@@ -41,20 +45,15 @@
     <Grid Grid.Column="0">
       <StackPanel Orientation="Vertical" Margin="3,10,3,0">
         <TextBlock>Качество</TextBlock>
-        <ComboBox Height="50" PlaceholderText="Качество" FontSize="16">
-          <ComboBoxItem>Слабый</ComboBoxItem>
-          <ComboBoxItem>Обыватель</ComboBoxItem>
-          <ComboBoxItem>Элита</ComboBoxItem>
-          <ComboBoxItem>Сюжетный</ComboBoxItem>
-          <ComboBoxItem>Каноничный</ComboBoxItem>
-        </ComboBox>
-        <CheckBox Margin="0,50,0,10" FontSize="16">Группа</CheckBox>
-        <TextBox Watermark="Количество" FontSize="16"></TextBox>
+        <ComboBox SelectedItem="{Binding SelectedQuality, Mode=OneWayToSource, Converter={StaticResource MonsterQualityConverter}}"
+                  Items="{Binding AvailableQualities, Converter={StaticResource MonsterQualityConverter}}"
+                  Height="50" PlaceholderText="Качество" FontSize="16"/>
+        <CheckBox IsChecked="{Binding IsGroup}" Margin="0,50,0,10" FontSize="16">Группа</CheckBox>
+        <TextBox Text="{Binding GroupCount}" IsEnabled="{Binding IsGroup}" Watermark="Количество" FontSize="16"></TextBox>
         
       </StackPanel>
       <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" Margin="3,0,3,20">
-        <TextBox Watermark="Имя" FontSize="16" Margin="0,0,0,10"></TextBox>
-        <!--<TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
+        <TextBox Text="{Binding Name}" Watermark="Имя" FontSize="16" Margin="0,0,0,10"></TextBox>        
         <Button Content="Генерировать" Width="200" Height="50" Command="{Binding TestWindowCommand}"></Button>
       </StackPanel>
     </Grid>
