@@ -6,11 +6,6 @@ namespace Monstromatic.Tests
     [TestFixture]
     class FeatureBaseTests
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
         public void TestEquality()
         {
@@ -18,6 +13,15 @@ namespace Monstromatic.Tests
             var feature2 = new TestFeature(nameof(TestFeature));
 
             Assert.That(feature1, Is.EqualTo(feature2));
+        }
+
+        [Test]
+        public void TestNotEquality()
+        {
+            var feature1 = new TestFeature(nameof(TestFeature));
+            var feature2 = new TestFeature("123");
+
+            Assert.That(feature1, Is.Not.EqualTo(feature2));
         }
 
         [Test]
@@ -32,11 +36,13 @@ namespace Monstromatic.Tests
 
         private class TestFeature : FeatureBase
         {
-            public override string Name { get; }
+            public override string Id { get; }
 
-            public TestFeature(string name)
+            public override string DisplayName => "FeatureForTest";
+
+            public TestFeature(string id)
             {
-                Name = name;
+                Id = id;
             }
         }
     }

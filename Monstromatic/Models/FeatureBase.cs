@@ -5,7 +5,11 @@ namespace Monstromatic.Models
 {
     public abstract class FeatureBase
     {
-        public abstract string Name { get; }
+        public abstract string Id { get; }
+
+        public abstract string DisplayName { get; }
+
+        public virtual int LevelModifier => 0;
 
         public virtual IEnumerable<string> IncompatibleFeatures => Enumerable.Empty<string>();
 
@@ -20,12 +24,9 @@ namespace Monstromatic.Models
 
         protected bool Equals(FeatureBase other)
         {
-            return other.Name == Name;
+            return other.Id == Id;
         }
 
-        public override int GetHashCode()
-        {
-            return Name.GetHashCode();
-        }
+        public override int GetHashCode() => DisplayName.GetHashCode();
     }
 }

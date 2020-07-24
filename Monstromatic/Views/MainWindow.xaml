@@ -8,11 +8,27 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="Monstromatic">
 
-    <Design.DataContext>
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
-
-    <!--<TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
-    <Button Content="Test" Width="200" Height="50" Command="{Binding TestWindowCommand}"></Button>
+  <Design.DataContext>
+    <vm:MainWindowViewModel/>
+  </Design.DataContext>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="1*"/>
+      <ColumnDefinition Width="700"/>
+    </Grid.ColumnDefinitions>
+    <Grid Grid.Column="0">
+      <!--<TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
+      <Button Content="Test" Width="200" Height="50" Command="{Binding TestWindowCommand}"></Button>
+    </Grid>
+    <Grid Grid.Column="1">
+      <ItemsControl Items="{Binding Features}">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <UniformGrid Columns="3" />
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+      </ItemsControl>
+    </Grid>
+  </Grid>
 
 </Window>

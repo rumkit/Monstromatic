@@ -5,7 +5,7 @@ using ReactiveUI.Fody.Helpers;
 
 namespace Monstromatic.ViewModels
 {
-    public class MonsterDetailsViewModel : ReactiveObject
+    public class MonsterDetailsViewModel : ViewModelBase
     {
         [Reactive]
         public string Name { get; set; }
