@@ -3,7 +3,7 @@
     public class RegenerationFeature : FeatureBase
     {
         public override string Id => nameof(RegenerationFeature);
-        public override string DisplayName => "Регенрация/Маг";
-        public override int LevelModifier => 1;
+        public override string DisplayName => "Регенeрация/Маг";
+        public override int StaminaModifier => 1;
     }
 }

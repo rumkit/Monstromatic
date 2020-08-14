@@ -11,6 +11,10 @@ namespace Monstromatic.Models
 
         public virtual int LevelModifier => 0;
 
+        public virtual int BraveryModifier => 0;
+
+        public virtual int StaminaModifier => 0;
+
         public virtual IEnumerable<string> IncompatibleFeatures => Enumerable.Empty<string>();
 
         public override bool Equals(object obj)

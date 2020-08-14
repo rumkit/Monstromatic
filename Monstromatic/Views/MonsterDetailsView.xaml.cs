@@ -17,6 +17,9 @@ namespace Monstromatic.Views
         public MonsterDetailsView()
         {
             this.InitializeComponent();
+#if DEBUG
+            this.AttachDevTools();
+#endif
         }
 
         public MonsterDetailsView(object context) : this()

@@ -6,7 +6,11 @@ namespace Monstromatic.Models
     {
         public override string Id => nameof(GiantFeature);
         public override string DisplayName => "Гигант";
-        public override int LevelModifier => 2;
+
+        // Level modifier is inherited from BigSizeFeature
+        // that is considered as included into the GiantFeature
+        public override int LevelModifier => 1;
+        public override int BraveryModifier => 1;
 
         public override IEnumerable<string> IncompatibleFeatures
         {
