@@ -33,11 +33,11 @@ namespace Monstromatic.ViewModels
 
         public SourceList<FeatureBase> SelectedFeatures { get; }
 
-        public ReactiveCommand<Unit, Unit> TestWindowCommand { get; }
+        public ReactiveCommand<Unit, Unit> GenerateMonsterCommand { get; }
 
         public MainWindowViewModel()
         {
-            TestWindowCommand = ReactiveCommand.Create(OpenTestWindow);
+            GenerateMonsterCommand = ReactiveCommand.Create(GenerateMonster);
             SelectedFeatures = new SourceList<FeatureBase>();
             Features = GetFeatures();
 
@@ -59,11 +59,23 @@ namespace Monstromatic.ViewModels
                 .Select(f => new FeatureViewModel(f, SelectedFeatures));
         }
 
-        private void OpenTestWindow()
+        private void GenerateMonster()
         {
-            var monster = new DesignVmLocator().DetailsVm;
+            var monster = CreateMonsterDetails();
+            monster = new DesignVmLocator().DetailsVm;
             var window = new MonsterDetailsView(monster);
             window.Show();
+        }
+
+        private MonsterDetailsViewModel CreateMonsterDetails()
+        {
+            var features = SelectedFeatures.Items.ToArray();
+            return new MonsterDetailsViewModel()
+            {
+                //Level = SelectedQuality + features.Sum(f => f.LevelModifier),
+                //Bravery
+                
+            };
         }
     }
 }

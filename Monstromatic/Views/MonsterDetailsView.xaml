@@ -9,8 +9,7 @@
         Title="{Binding Name}"
         HasSystemDecorations="False"
         CanResize="False"
-        SizeToContent="Height"
-        Width="320" Height="240"
+        Width="320" Height="260"
         Design.DataContext="{Binding Source={StaticResource DesignVmLocator}, Path=DetailsVm}">
   <Window.Resources>
     <conv:DoubleToGridLengthConverter x:Key="GridLengthConverter"/>
@@ -20,6 +19,7 @@
     <Grid.RowDefinitions>
       <RowDefinition Height="50"/>
       <RowDefinition Height="{Binding #ExpanderGrid.Bounds.Height, Mode=OneWay, Converter={StaticResource GridLengthConverter}}"/>
+      <RowDefinition Height="210"/>
     </Grid.RowDefinitions>
     <Border Grid.RowSpan="2" BorderThickness="2" BorderBrush="{StaticResource ThemeControlHighlightLowBrush}"/>
     <Grid Grid.Row="0" Background="{StaticResource ThemeControlHighlightLowBrush}" PointerPressed="Header_PointerPressed">
@@ -98,14 +98,14 @@
           <TextBlock Text="Храбрость"/>
           <Grid Margin="5"  Width="50">
             <Ellipse StrokeThickness="2" Stroke="{StaticResource ThemeControlHighlightLowBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-            <TextBlock Text="{Binding Moral}" HorizontalAlignment="Center" FontSize="16"/>
+            <TextBlock Text="{Binding Bravery}" HorizontalAlignment="Center" FontSize="16"/>
           </Grid>
         </StackPanel>
         <StackPanel Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,50,0">
           <TextBlock Text="Выносливость"/>
           <Grid Margin="5" Width="50">
             <Ellipse StrokeThickness="2" Stroke="{StaticResource ThemeControlHighlightLowBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-            <TextBlock Text="{Binding Moral}" HorizontalAlignment="Center" FontSize="16"/>
+            <TextBlock Text="{Binding Stamina}" HorizontalAlignment="Center" FontSize="16"/>
           </Grid>
           <TextBlock Text="Бегство" HorizontalAlignment="Center"/>
         </StackPanel>

@@ -54,7 +54,7 @@
       </StackPanel>
       <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" Margin="3,0,3,20">
         <TextBox Text="{Binding Name}" Watermark="Имя" FontSize="16" Margin="0,0,0,10"></TextBox>        
-        <Button Content="Генерировать" Width="200" Height="50" Command="{Binding TestWindowCommand}"></Button>
+        <Button Content="Генерировать" Width="200" Height="50" Command="{Binding GenerateMonsterCommand}"></Button>
       </StackPanel>
     </Grid>
     <HeaderedContentControl Grid.Column="1" Margin="3" Header="Особенности" Background="{StaticResource ThemeControlHighlightLowBrush}">

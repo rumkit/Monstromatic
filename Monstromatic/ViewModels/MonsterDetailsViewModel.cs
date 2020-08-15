@@ -20,7 +20,7 @@ namespace Monstromatic.ViewModels
 
         public List<string> Features { get; set; }
 
-        public int Moral { [ObservableAsProperty] get; }
+        public int Stamina { [ObservableAsProperty] get; }
 
         public int Bravery { [ObservableAsProperty] get; }
 
@@ -46,7 +46,7 @@ namespace Monstromatic.ViewModels
                 this.RaisePropertyChanged(nameof(Level));
             });
 
-            this.WhenAnyValue(x => x.Level).ToPropertyEx(this, x => x.Moral);
+            this.WhenAnyValue(x => x.Level).ToPropertyEx(this, x => x.Stamina);
             this.WhenAnyValue(x => x.Level).ToPropertyEx(this, x => x.Bravery);
         }
 
