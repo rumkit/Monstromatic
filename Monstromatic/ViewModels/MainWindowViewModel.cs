@@ -61,21 +61,9 @@ namespace Monstromatic.ViewModels
 
         private void GenerateMonster()
         {
-            var monster = CreateMonsterDetails();
-            monster = new DesignVmLocator().DetailsVm;
+            var monster = new MonsterDetailsViewModel(Name, SelectedQuality, SelectedFeatures.Items);
             var window = new MonsterDetailsView(monster);
             window.Show();
-        }
-
-        private MonsterDetailsViewModel CreateMonsterDetails()
-        {
-            var features = SelectedFeatures.Items.ToArray();
-            return new MonsterDetailsViewModel()
-            {
-                //Level = SelectedQuality + features.Sum(f => f.LevelModifier),
-                //Bravery
-                
-            };
         }
     }
 }

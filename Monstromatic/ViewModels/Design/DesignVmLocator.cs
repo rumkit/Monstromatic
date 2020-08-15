@@ -11,7 +11,7 @@ namespace Monstromatic.ViewModels.Design
         {
             Name = "TestName",
             Level = 5,
-            Features = new List<string>(){"Особенность №1","Особенность №2","Особенность №3"}
+            Features = new List<FeatureBase>(){new AnimalFeature(), new PowerfulAttackFeature(), new PredatorFeature()}
         };
 
         public FeatureViewModel FeatureVm => new FeatureViewModel(new PredatorFeature(), new SourceList<FeatureBase>());
