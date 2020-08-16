@@ -7,6 +7,7 @@ using DynamicData;
 using DynamicData.Binding;
 using Monstromatic.Models;
 using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 
 namespace Monstromatic.ViewModels
 {
@@ -18,6 +19,8 @@ namespace Monstromatic.ViewModels
         public string Id => _feature.Id;
 
         public string DisplayName => _feature.DisplayName;
+
+        public bool IsFeatureSelected { [ObservableAsProperty] get; }
 
         public FeatureViewModel(FeatureBase feature, SourceList<FeatureBase> selectedFeatures)
         {
@@ -31,6 +34,11 @@ namespace Monstromatic.ViewModels
             canAddFeature = canAddFeature.StartWith(true);
 
             AddFeatureCommand = ReactiveCommand.Create<bool>(AddFeature, canAddFeature);
+
+            _selectedFeatures
+                .Connect()
+                .QueryWhenChanged(x => x.Contains(_feature))
+                .ToPropertyEx(this, x => x.IsFeatureSelected);
         }
 
         private bool CanAddFeature(IReadOnlyCollection<FeatureBase> selectedFeatures)

@@ -67,6 +67,14 @@ namespace Monstromatic.ViewModels
             var monster = new MonsterDetailsViewModel(Name, SelectedQuality, SelectedFeatures.Items);
             var window = new MonsterDetailsView(monster);
             window.Show();
+            SetDefaultValues();
+        }
+
+        private void SetDefaultValues()
+        {
+            SelectedFeatures.Clear();
+            Name = string.Empty;
+            IsGroup = false;
         }
     }
 }
