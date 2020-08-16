@@ -64,7 +64,7 @@ namespace Monstromatic.ViewModels
 
         private void GenerateMonster()
         {
-            var monster = new MonsterDetailsViewModel(Name, SelectedQuality, SelectedFeatures.Items);
+            var monster = new MonsterDetailsViewModel(Name, SelectedQuality, SelectedFeatures.Items, GroupCount ?? 0);
             var window = new MonsterDetailsView(monster);
             window.Show();
             SetDefaultValues();

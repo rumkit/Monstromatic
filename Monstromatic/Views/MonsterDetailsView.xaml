@@ -92,7 +92,7 @@
       <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1" Margin="20,5,20,5">
         <TextBlock Text="{Binding FeatureNames, Converter={StaticResource StringsJoinConverter}}" FontSize="14"/>
       </ScrollViewer>
-      <Grid Grid.Row="2" IsVisible="{Binding !IsBerserkOrCoward}">
+      <Grid Grid.Row="2" IsVisible="{Binding HasRegularCounters}">
         <Grid.ColumnDefinitions>
           <ColumnDefinition/>
           <ColumnDefinition/>
@@ -126,6 +126,26 @@
                 </MultiBinding>
               </TextBlock.Text>
             </TextBlock>
+          </Grid>
+        </StackPanel>
+      </Grid>
+      <Grid Grid.Row="2" IsVisible="{Binding IsGroup}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" HorizontalAlignment="Center" Margin="50,0,0,0">
+          <TextBlock Text="Храбрость"/>
+          <Grid Margin="5"  Width="50">
+            <Ellipse StrokeThickness="2" Stroke="{StaticResource ThemeControlHighlightLowBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            <TextBlock Text="{Binding Bravery}" HorizontalAlignment="Center" FontSize="16"/>
+          </Grid>
+        </StackPanel>
+        <StackPanel Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,50,0">
+          <TextBlock Text="Количество"/>
+          <Grid Margin="5" Width="50">
+            <Ellipse StrokeThickness="2" Stroke="{StaticResource ThemeControlHighlightLowBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            <TextBlock Text="{Binding UnitsCount}" HorizontalAlignment="Center" FontSize="16"/>
           </Grid>
         </StackPanel>
       </Grid>

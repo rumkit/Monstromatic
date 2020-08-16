@@ -7,12 +7,11 @@ namespace Monstromatic.ViewModels.Design
 {
     public class DesignVmLocator
     {
-        public MonsterDetailsViewModel DetailsVm => new MonsterDetailsViewModel()
-        {
-            Name = "TestName",
-            Level = 5,
-            Features = new List<FeatureBase>(){new AnimalFeature(), new PowerfulAttackFeature(), new PredatorFeature()}
-        };
+        public MonsterDetailsViewModel DetailsVm => new MonsterDetailsViewModel(
+            "TestName",
+            5,
+            new List<FeatureBase>() {new AnimalFeature(), new PowerfulAttackFeature(), new PredatorFeature()},
+            55);
 
         public FeatureViewModel FeatureVm => new FeatureViewModel(new PredatorFeature(), new SourceList<FeatureBase>());
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Monstromatic.Models;
@@ -22,6 +23,8 @@ namespace Monstromatic.ViewModels
             set => this.RaiseAndSetIfChanged(ref _level, value);
         }
 
+        public int UnitsCount { get; }
+
         public IEnumerable<string> FeatureNames => Features.Select(f => f.DisplayName);
 
         public List<FeatureBase> Features { get; set; }
@@ -39,7 +42,11 @@ namespace Monstromatic.ViewModels
         public bool HasDisadvantage { get; set; }
 
         public bool IsBerserkOrCoward =>
-            Features.Any(x => x.Id == nameof(CowardFeature) || x.Id == nameof(BerserkFeature));
+            Features.Any(x => x.Id == nameof(CowardFeature) || x.Id == nameof(BerserkFeature)) && !IsGroup;
+
+        public bool IsGroup => UnitsCount > 0;
+
+        public bool HasRegularCounters => !IsGroup && !IsBerserkOrCoward;
 
         public MonsterDetailsViewModel()
         {
@@ -68,11 +75,12 @@ namespace Monstromatic.ViewModels
                 .ToPropertyEx(this, x => x.Bravery);
         }
 
-        public MonsterDetailsViewModel(string name, int baseLevel, IEnumerable<FeatureBase> features) : this()
+        public MonsterDetailsViewModel(string name, int baseLevel, IEnumerable<FeatureBase> features, int unitsCount = 0) : this()
         {
             Features.AddRange(features);
             Name = name;
             Level = baseLevel;
+            UnitsCount = unitsCount;
         }
 
         private int GetLevelModifier()
