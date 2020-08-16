@@ -38,6 +38,9 @@ namespace Monstromatic.ViewModels
         [Reactive]
         public bool HasDisadvantage { get; set; }
 
+        public bool IsBerserkOrCoward =>
+            Features.Any(x => x.Id == nameof(CowardFeature) || x.Id == nameof(BerserkFeature));
+
         public MonsterDetailsViewModel()
         {
             Features = new List<FeatureBase>();

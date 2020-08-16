@@ -4,16 +4,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:conv="clr-namespace:Monstromatic.Converters;assembly=Monstromatic"
         xmlns:vm="clr-namespace:Monstromatic.ViewModels;assembly=Monstromatic"
-        mc:Ignorable="d" d:DesignWidth="320" d:DesignHeight="240"
+        mc:Ignorable="d" d:DesignWidth="320" d:DesignHeight="280"
         x:Class="Monstromatic.Views.MonsterDetailsView"
         Title="{Binding Name}"
         HasSystemDecorations="False"
         CanResize="False"
-        Width="320" Height="260"
+        Width="320" Height="280"
         Design.DataContext="{Binding Source={StaticResource DesignVmLocator}, Path=DetailsVm}">
   <Window.Resources>
     <conv:DoubleToGridLengthConverter x:Key="GridLengthConverter"/>
     <conv:ListToStringConverter x:Key="StringsJoinConverter"/>
+    <conv:IntegerSumConverter x:Key="IntSumConverter"/>
   </Window.Resources>
   <Grid VerticalAlignment="Top">
     <Grid.RowDefinitions>
@@ -91,7 +92,7 @@
       <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1" Margin="20,5,20,5">
         <TextBlock Text="{Binding FeatureNames, Converter={StaticResource StringsJoinConverter}}" FontSize="14"/>
       </ScrollViewer>
-      <Grid Grid.Row="2">
+      <Grid Grid.Row="2" IsVisible="{Binding !IsBerserkOrCoward}">
         <Grid.ColumnDefinitions>
           <ColumnDefinition/>
           <ColumnDefinition/>
@@ -110,6 +111,22 @@
             <TextBlock Text="{Binding Stamina}" HorizontalAlignment="Center" FontSize="16"/>
           </Grid>
           <TextBlock Text="Бегство" HorizontalAlignment="Center"/>
+        </StackPanel>
+      </Grid>
+      <Grid Grid.Row="2" IsVisible="{Binding IsBerserkOrCoward}">
+        <StackPanel Grid.Column="0" HorizontalAlignment="Center" Margin="5">
+          <TextBlock Text="Ярость" HorizontalAlignment="Center"/>
+          <Grid Margin="5"  Width="50">
+            <Ellipse StrokeThickness="2" Stroke="{StaticResource ThemeControlHighlightLowBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            <TextBlock HorizontalAlignment="Center" FontSize="16">
+              <TextBlock.Text>
+                <MultiBinding Converter="{StaticResource IntSumConverter}">
+                  <Binding Path="Bravery"></Binding>
+                  <Binding Path="Stamina"></Binding>
+                </MultiBinding>
+              </TextBlock.Text>
+            </TextBlock>
+          </Grid>
         </StackPanel>
       </Grid>
     </Grid>

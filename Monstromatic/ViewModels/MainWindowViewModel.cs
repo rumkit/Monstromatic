@@ -37,7 +37,10 @@ namespace Monstromatic.ViewModels
 
         public MainWindowViewModel()
         {
-            GenerateMonsterCommand = ReactiveCommand.Create(GenerateMonster);
+            var canGenerate = this
+                .WhenAnyValue(x => x.Name, x => x.SelectedQuality,
+                    (name, quality) => !string.IsNullOrWhiteSpace(name) && quality > 0);
+            GenerateMonsterCommand = ReactiveCommand.Create(GenerateMonster, canGenerate);
             SelectedFeatures = new SourceList<FeatureBase>();
             Features = GetFeatures();
 
