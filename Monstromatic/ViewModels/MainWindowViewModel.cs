@@ -46,8 +46,16 @@ namespace Monstromatic.ViewModels
 
             this.WhenAnyValue(x => x.IsGroup).Subscribe(b =>
             {
-                if (!b)
+                if (b)
+                {
+                    if(SelectedFeatures.Items.All(f => f.Id != nameof(MassAttackFeature)))
+                        SelectedFeatures.Add(new MassAttackFeature());
+                }
+                else
+                {
+                    SelectedFeatures.Remove(new MassAttackFeature());
                     GroupCount = null;
+                }
             });
         }
 
