@@ -15,6 +15,8 @@ namespace Monstromatic.Models
 
         public virtual int StaminaModifier => 0;
 
+        public virtual string Description => string.Empty;
+
         public virtual IEnumerable<string> IncompatibleFeatures => Enumerable.Empty<string>();
 
         public override bool Equals(object obj)
@@ -31,6 +33,6 @@ namespace Monstromatic.Models
             return other.Id == Id;
         }
 
-        public override int GetHashCode() => DisplayName.GetHashCode();
+        public override int GetHashCode() => DisplayName.GetHashCode() | Id.GetHashCode();
     }
 }

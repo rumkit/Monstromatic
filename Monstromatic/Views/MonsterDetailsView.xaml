@@ -4,6 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:conv="clr-namespace:Monstromatic.Converters;assembly=Monstromatic"
         xmlns:vm="clr-namespace:Monstromatic.ViewModels;assembly=Monstromatic"
+        xmlns:m="clr-namespace:Monstomatic.Models;assembly=Monstromatic"
         mc:Ignorable="d" d:DesignWidth="320" d:DesignHeight="280"
         x:Class="Monstromatic.Views.MonsterDetailsView"
         Title="{Binding Name}"
@@ -90,7 +91,15 @@
         <ToggleButton IsChecked="{Binding HasDisadvantage}">На штрафных&#xa;условиях</ToggleButton>
       </StackPanel>
       <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1" Margin="20,5,20,5">
-        <TextBlock Text="{Binding FeatureNames, Converter={StaticResource StringsJoinConverter}}" FontSize="14"/>
+        <ListBox Items="{Binding DescriptiveFeatures}">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding DisplayName}" ToolTip.Tip="{Binding Description}">               
+              </TextBlock>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+        <!--<TextBlock Text="{Binding FeatureNames, Converter={StaticResource StringsJoinConverter}}" FontSize="14"/>-->
       </ScrollViewer>
       <Grid Grid.Row="2" IsVisible="{Binding HasRegularCounters}">
         <Grid.ColumnDefinitions>

@@ -10,7 +10,7 @@ namespace Monstromatic.ViewModels.Design
         public MonsterDetailsViewModel DetailsVm => new MonsterDetailsViewModel(
             "TestName",
             5,
-            new List<FeatureBase>() {new AnimalFeature(), new PowerfulAttackFeature(), new PredatorFeature()},
+            new List<FeatureBase>() {new AnimalFeature(), new PowerfulAttackFeature(), new FlyingFeature()},
             55);
 
         public FeatureViewModel FeatureVm => new FeatureViewModel(new PredatorFeature(), new SourceList<FeatureBase>());

@@ -25,7 +25,7 @@ namespace Monstromatic.ViewModels
 
         public int UnitsCount { get; }
 
-        public IEnumerable<string> FeatureNames => Features.Select(f => f.DisplayName);
+        public IEnumerable<FeatureBase> DescriptiveFeatures => Features.Where(f => !string.IsNullOrEmpty(f.Description));
 
         public List<FeatureBase> Features { get; set; }
 

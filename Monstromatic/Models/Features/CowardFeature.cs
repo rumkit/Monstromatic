@@ -6,6 +6,7 @@ namespace Monstromatic.Models
     {
         public override string Id => nameof(CowardFeature);
         public override string DisplayName => "Трус";
+        public override string Description => "Бежит после первой раны";
 
         public override IEnumerable<string> IncompatibleFeatures
         {
