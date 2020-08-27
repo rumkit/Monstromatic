@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:conv="clr-namespace:Monstromatic.Converters;assembly=Monstromatic"
-        mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="400"
-        Width="1000" Height="400"
+        mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="340"
+        Width="1000" Height="340"
         x:Class="Monstromatic.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="Monstromatic">
@@ -61,7 +61,7 @@
       <ItemsControl Items="{Binding Features}">
         <ItemsControl.ItemsPanel>
           <ItemsPanelTemplate>
-            <UniformGrid Columns="3" />
+            <UniformGrid Columns="4" />
           </ItemsPanelTemplate>
         </ItemsControl.ItemsPanel>
       </ItemsControl>

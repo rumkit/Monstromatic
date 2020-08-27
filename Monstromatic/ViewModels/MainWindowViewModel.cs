@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
 using System.Reflection;
 using DynamicData;
 using Monstromatic.Models;
-using Monstromatic.ViewModels.Design;
 using Monstromatic.Views;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -37,19 +35,23 @@ namespace Monstromatic.ViewModels
 
         public MainWindowViewModel()
         {
-            var canGenerate = this
+            var canGenerateMonster = this
                 .WhenAnyValue(x => x.Name, x => x.SelectedQuality,
                     (name, quality) => !string.IsNullOrWhiteSpace(name) && quality > 0);
-            GenerateMonsterCommand = ReactiveCommand.Create(GenerateMonster, canGenerate);
+
+            GenerateMonsterCommand = ReactiveCommand.Create(GenerateMonster, canGenerateMonster);
+
             SelectedFeatures = new SourceList<FeatureBase>();
+
             Features = GetFeatures();
 
-            this.WhenAnyValue(x => x.IsGroup).Subscribe(b =>
+            this.WhenAnyValue(x => x.IsGroup)
+                .Subscribe(b =>
             {
                 if (b)
                 {
-                    if(SelectedFeatures.Items.All(f => f.Id != nameof(MassAttackFeature)))
-                        SelectedFeatures.Add(new MassAttackFeature());
+                    AddFeatureOnce(new MassAttackFeature());
+                    AddFeatureOnce(new GroupFeature());
                 }
                 else
                 {
@@ -59,20 +61,31 @@ namespace Monstromatic.ViewModels
             });
         }
 
+        private void AddFeatureOnce(FeatureBase featureToAdd)
+        {
+            if (!SelectedFeatures.Items.Contains(featureToAdd))
+                SelectedFeatures.Add(featureToAdd);
+        }
+
         private IEnumerable<FeatureViewModel> GetFeatures()
         {
             var features = Assembly.GetCallingAssembly().GetTypes()
                 .Where(t => t.BaseType == typeof(FeatureBase))
+                .Where(t => t.CustomAttributes.All(attr => attr.AttributeType != typeof(HideFeatureAttribute)))
                 .Select(t => Activator.CreateInstance(t) as FeatureBase);
 
             return features
                 .Where(f => f != null)
-                .Select(f => new FeatureViewModel(f, SelectedFeatures));
+                .Select(f => new FeatureViewModel(f, SelectedFeatures))
+                .OrderBy(f => f.DisplayName);
         }
 
         private void GenerateMonster()
         {
-            var monster = new MonsterDetailsViewModel(Name, SelectedQuality, SelectedFeatures.Items, GroupCount ?? 0);
+            if (SelectedFeatures.Items.FirstOrDefault(f => f.Id == nameof(GroupFeature)) is GroupFeature groupFeature)
+                groupFeature.Count = GroupCount ?? 0;
+
+            var monster = new MonsterDetailsViewModel(Name, SelectedQuality, SelectedFeatures.Items);
             var window = new MonsterDetailsView(monster);
             window.Show();
             SetDefaultValues();

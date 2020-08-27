@@ -23,8 +23,6 @@ namespace Monstromatic.ViewModels
             set => this.RaiseAndSetIfChanged(ref _level, value);
         }
 
-        public int UnitsCount { get; }
-
         public IEnumerable<FeatureBase> DescriptiveFeatures => Features.Where(f => !string.IsNullOrEmpty(f.Description));
 
         public List<FeatureBase> Features { get; set; }
@@ -44,9 +42,13 @@ namespace Monstromatic.ViewModels
         public bool IsBerserkOrCoward =>
             Features.Any(x => x.Id == nameof(CowardFeature) || x.Id == nameof(BerserkFeature)) && !IsGroup;
 
-        public bool IsGroup => UnitsCount > 0;
+        public bool IsGroup => Group != null;
+
+        public int UnitsCount => Group?.Count ?? 0;
 
         public bool HasRegularCounters => !IsGroup && !IsBerserkOrCoward;
+
+        private GroupFeature Group => Features.FirstOrDefault(f => f.Id == nameof(GroupFeature)) as GroupFeature;
 
         public MonsterDetailsViewModel()
         {
@@ -80,7 +82,6 @@ namespace Monstromatic.ViewModels
             Features.AddRange(features);
             Name = name;
             Level = baseLevel;
-            UnitsCount = unitsCount;
         }
 
         private int GetLevelModifier()
