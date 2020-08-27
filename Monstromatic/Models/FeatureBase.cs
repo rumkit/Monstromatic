@@ -9,6 +9,8 @@ namespace Monstromatic.Models
 
         public abstract string DisplayName { get; }
 
+        public virtual string DetailsDisplayName => DisplayName;
+
         public virtual int LevelModifier => 0;
 
         public virtual int BraveryModifier => 0;

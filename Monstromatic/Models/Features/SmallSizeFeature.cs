@@ -6,6 +6,7 @@ namespace Monstromatic.Models
     {
         public override string Id => nameof(SmallSizeFeature);
         public override string DisplayName => "Малый размер";
+        public override string DetailsDisplayName => "Безвредный";
         public override int LevelModifier => 1;
         public override string Description => "Неспособен наносить ран, если не ядовит";
 

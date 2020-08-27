@@ -4,6 +4,7 @@
     {
         public override string Id => nameof(RangeAtackFeature);
         public override string DisplayName => "Дальний бой";
+        public override string DetailsDisplayName => "Дистанционная атака";
         public override string Description => "Атакует на дистанции";
     }
 }

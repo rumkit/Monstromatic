@@ -9,19 +9,20 @@
         x:Class="Monstromatic.Views.MonsterDetailsView"
         Title="{Binding Name}"
         HasSystemDecorations="False"
-        CanResize="False"
-        Width="320" Height="280"
+        CanResize="True"
+        Width="320"
+        Height="300"
         Design.DataContext="{Binding Source={StaticResource DesignVmLocator}, Path=DetailsVm}">
-  <Window.Resources>
-    <conv:DoubleToGridLengthConverter x:Key="GridLengthConverter"/>
+  <Window.Resources>    
     <conv:ListToStringConverter x:Key="StringsJoinConverter"/>
     <conv:IntegerSumConverter x:Key="IntSumConverter"/>
+    <conv:DoubleToGridLengthConverter x:Key="GridLengthConverter"/>
   </Window.Resources>
   <Grid VerticalAlignment="Top">
     <Grid.RowDefinitions>
       <RowDefinition Height="50"/>
       <RowDefinition Height="{Binding #ExpanderGrid.Bounds.Height, Mode=OneWay, Converter={StaticResource GridLengthConverter}}"/>
-      <RowDefinition Height="210"/>
+      <!--<RowDefinition Height="*"/>-->
     </Grid.RowDefinitions>
     <Border Grid.RowSpan="2" BorderThickness="2" BorderBrush="{StaticResource ThemeControlHighlightLowBrush}"/>
     <Grid Grid.Row="0" Background="{StaticResource ThemeControlHighlightLowBrush}" PointerPressed="Header_PointerPressed">
@@ -42,7 +43,7 @@
           <Setter Property="CornerRadius" Value="10"/>
         </Style>
       </Grid.Styles>
-      <Button Grid.Column="0" Classes="round" Click="ExpandButton_Click">
+      <Button Grid.Column="0" Classes="round" Click="ExpandButton_Click" Background="{StaticResource MonstromaticAccent}">
         <!--<Button.RenderTransform>
           <RotateTransform Angle="0">
             <RotateTransform.Transitions>
@@ -64,15 +65,15 @@
         <TextBlock Text="{Binding Name}"/>
         <TextBlock Text="{Binding Level, StringFormat=Ур. \{0\}}"/>
       </StackPanel>
-      <Button Grid.Column="2" Click="CloseButton_Click">
+      <Button Grid.Column="2" Click="CloseButton_Click" Background="#bb0000">
         <Path Data="M 0 0 L 10 10 M 0 10 L 10 0" Stroke="{StaticResource ThemeControlHighlightLowBrush}" StrokeThickness="2"></Path>
       </Button>
     </Grid>
-    <Grid Grid.Row="1" VerticalAlignment="Top" Name="ExpanderGrid" Height="210">
+    <Grid Grid.Row="1" VerticalAlignment="Top" Name="ExpanderGrid" Height="250">
       <Grid.RowDefinitions>
-        <RowDefinition/>
-        <RowDefinition/>
-        <RowDefinition/>
+        <RowDefinition Height="70"/>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="70"/>
       </Grid.RowDefinitions>
       <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
         <StackPanel.Styles>
@@ -90,17 +91,14 @@
         <ToggleButton IsChecked="{Binding HasAdvantage}">На своих&#xa;условиях</ToggleButton>
         <ToggleButton IsChecked="{Binding HasDisadvantage}">На штрафных&#xa;условиях</ToggleButton>
       </StackPanel>
-      <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1" Margin="20,5,20,5">
-        <ListBox Items="{Binding DescriptiveFeatures}">
-          <ListBox.ItemTemplate>
-            <DataTemplate>
-              <TextBlock Text="{Binding DisplayName}" ToolTip.Tip="{Binding Description}">               
-              </TextBlock>
-            </DataTemplate>
-          </ListBox.ItemTemplate>
-        </ListBox>
-        <!--<TextBlock Text="{Binding FeatureNames, Converter={StaticResource StringsJoinConverter}}" FontSize="14"/>-->
-      </ScrollViewer>
+      <ListBox Items="{Binding DescriptiveFeatures}" Grid.Row="1" Margin="20,5,20,5">
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding DetailsDisplayName}" ToolTip.Tip="{Binding Description}">
+            </TextBlock>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
       <Grid Grid.Row="2" IsVisible="{Binding HasRegularCounters}">
         <Grid.ColumnDefinitions>
           <ColumnDefinition/>

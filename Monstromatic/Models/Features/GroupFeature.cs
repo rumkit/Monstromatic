@@ -5,6 +5,7 @@
     {
         public override string Id => nameof(GroupFeature);
         public override string DisplayName => "Группа";
+        public override string Description => "Раз два три... много";
         public override int LevelModifier => 1;
         public int Count { get; set; }
     }

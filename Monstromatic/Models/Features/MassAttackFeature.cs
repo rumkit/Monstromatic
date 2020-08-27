@@ -4,6 +4,7 @@
     {
         public override string Id => nameof(MassAttackFeature);
         public override string DisplayName => "Мас. атака/Маг";
+        public override string DetailsDisplayName => "Массовая атака";
         public override string Description => "Атакует сразу несколько целей";
     }
 }

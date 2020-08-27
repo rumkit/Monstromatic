@@ -9,6 +9,7 @@
 
   <Application.Resources>
     <dvm:DesignVmLocator x:Key="DesignVmLocator"/>
+    <SolidColorBrush x:Key="MonstromaticAccent" Color="#553399"></SolidColorBrush>
   </Application.Resources>
 
   <Application.Styles>
