@@ -51,15 +51,14 @@
         </Style>
       </Grid.Styles>
       <Grid Grid.Column="0">
-        <StackPanel Orientation="Vertical" Margin="5,20,5,20">
+        <StackPanel Orientation="Vertical" Margin="5,20,5,20" VerticalAlignment="Top">
           <ComboBox SelectedItem="{Binding SelectedQuality, Mode=OneWayToSource, Converter={StaticResource MonsterQualityConverter}}"
                     Items="{Binding AvailableQualities, Converter={StaticResource MonsterQualityConverter}}"
                     Height="50" PlaceholderText="Качество" FontSize="16"/>
           <CheckBox IsChecked="{Binding IsGroup}" Margin="0,50,0,10" FontSize="16">Группа</CheckBox>
           <TextBox Text="{Binding GroupCount}" IsEnabled="{Binding IsGroup}" Watermark="Количество" FontSize="16"></TextBox>
-
         </StackPanel>
-        <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" Margin="3,0,3,20">
+        <StackPanel Orientation="Vertical" Margin="3,0,3,10" VerticalAlignment="Bottom">
           <TextBox Text="{Binding Name}" Watermark="Имя" FontSize="16" Margin="0,0,0,10"></TextBox>
           <Button Content="Генерировать" Height="50" Command="{Binding GenerateMonsterCommand}"></Button>
         </StackPanel>
@@ -68,7 +67,7 @@
         <ItemsControl Items="{Binding Features}">
           <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
-              <UniformGrid Columns="4" />
+              <UniformGrid Columns="4"/>
             </ItemsPanelTemplate>
           </ItemsControl.ItemsPanel>
         </ItemsControl>
