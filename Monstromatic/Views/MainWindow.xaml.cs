@@ -1,4 +1,5 @@
-﻿using Avalonia;
+﻿using System.Reflection;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
@@ -17,6 +18,12 @@ namespace Monstromatic.Views
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
+            this.Title += $" version {GetVersion()}-alpha";
+        }
+
+        private string GetVersion()
+        {
+            return GetType().Assembly.GetName().Version.ToString();
         }
     }
 }

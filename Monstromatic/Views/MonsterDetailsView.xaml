@@ -44,13 +44,13 @@
         </Style>
       </Grid.Styles>
       <Button Grid.Column="0" Classes="round" Click="ExpandButton_Click" Background="{StaticResource MonstromaticAccent}">
-        <!--<Button.RenderTransform>
+        <Button.RenderTransform>
           <RotateTransform Angle="0">
-            <RotateTransform.Transitions>
-              <DoubleTransition Property="Angle" Duration="0:0:0.1"/>
-            </RotateTransform.Transitions>
+            <!--<RotateTransform.Transitions>
+              <DoubleTransition Property="Angle" Duration="0:0:0.1" Easing="SplineEasing"/>
+            </RotateTransform.Transitions>-->            
           </RotateTransform>
-        </Button.RenderTransform>-->
+        </Button.RenderTransform>
         <Path Data="M 0 5 L 5 0 L 10 5" Stroke="{StaticResource ThemeControlHighlightLowBrush}" StrokeThickness="2"></Path>
       </Button>
       <StackPanel Grid.Column="1" Margin="5">

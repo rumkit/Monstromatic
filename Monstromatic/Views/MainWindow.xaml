@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:conv="clr-namespace:Monstromatic.Converters;assembly=Monstromatic"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="330"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="500"
         Width="800" Height="330"
+        MinWidth="650" MinHeight="300"
         x:Class="Monstromatic.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="Monstromatic"
@@ -34,17 +35,15 @@
           <Setter Property="Template">
             <Setter.Value>
               <ControlTemplate>
-                <Border>
-                  <StackPanel>
-                    <ContentPresenter TextBlock.FontWeight="Bold" Content="{TemplateBinding Header}" />
-                    <Border
-                        BorderBrush="{TemplateBinding Background}"
-                        BorderThickness="2"
-                        CornerRadius="5">
-                      <ContentPresenter Content="{TemplateBinding Content}" />
-                    </Border>
-                  </StackPanel>
-                </Border>
+                <DockPanel>
+                  <ContentPresenter DockPanel.Dock="Top" Margin="0,0,0,5" TextBlock.FontWeight="Bold" Content="{TemplateBinding Header}"/>
+                  <Border
+                      BorderBrush="{TemplateBinding Background}"
+                      BorderThickness="2"
+                      CornerRadius="5">
+                    <ContentPresenter Content="{TemplateBinding Content}" />
+                  </Border>
+                </DockPanel>
               </ControlTemplate>
             </Setter.Value>
           </Setter>
