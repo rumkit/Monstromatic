@@ -10,10 +10,8 @@
         x:Class="Monstromatic.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="Monstromatic"
-        TransparencyLevelHint="AcrylicBlur">
-  <Design.DataContext>
-    <vm:MainWindowViewModel/>
-  </Design.DataContext>
+        TransparencyLevelHint="AcrylicBlur"
+        Design.DataContext="{Binding Source={StaticResource DesignVmLocator}, Path=MainWindowVM}">
   <Window.Resources>
     <conv:IntToMonsterQualityConverter x:Key="MonsterQualityConverter" />
   </Window.Resources>

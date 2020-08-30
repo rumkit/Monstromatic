@@ -33,8 +33,12 @@ namespace Monstromatic.ViewModels
 
         public ReactiveCommand<Unit, Unit> GenerateMonsterCommand { get; }
 
-        public MainWindowViewModel()
+        private readonly IFeatureRepository _featureRepository;
+
+        public MainWindowViewModel(IFeatureRepository featureRepository)
         {
+            _featureRepository = featureRepository;
+
             var canGenerateMonster = this
                 .WhenAnyValue(x => x.Name, x => x.SelectedQuality,
                     (name, quality) => !string.IsNullOrWhiteSpace(name) && quality > 0);
@@ -47,18 +51,18 @@ namespace Monstromatic.ViewModels
 
             this.WhenAnyValue(x => x.IsGroup)
                 .Subscribe(b =>
-            {
-                if (b)
                 {
-                    AddFeatureOnce(new MassAttackFeature());
-                    AddFeatureOnce(new GroupFeature());
-                }
-                else
-                {
-                    SelectedFeatures.Remove(new MassAttackFeature());
-                    GroupCount = null;
-                }
-            });
+                    if (b)
+                    {
+                        AddFeatureOnce(new MassAttackFeature());
+                        AddFeatureOnce(new GroupFeature());
+                    }
+                    else
+                    {
+                        SelectedFeatures.Remove(new MassAttackFeature());
+                        GroupCount = null;
+                    }
+                });
         }
 
         private void AddFeatureOnce(FeatureBase featureToAdd)
@@ -69,12 +73,7 @@ namespace Monstromatic.ViewModels
 
         private IEnumerable<FeatureViewModel> GetFeatures()
         {
-            var features = Assembly.GetCallingAssembly().GetTypes()
-                .Where(t => t.BaseType == typeof(FeatureBase))
-                .Where(t => t.CustomAttributes.All(attr => attr.AttributeType != typeof(HideFeatureAttribute)))
-                .Select(t => Activator.CreateInstance(t) as FeatureBase);
-
-            return features
+            return _featureRepository.GetFeatures()
                 .Where(f => f != null)
                 .Select(f => new FeatureViewModel(f, SelectedFeatures))
                 .OrderBy(f => f.DisplayName);

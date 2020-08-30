@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Monstromatic.Utils;
 using Monstromatic.ViewModels;
 using Monstromatic.Views;
 
@@ -19,7 +20,7 @@ namespace Monstromatic
             {
                 desktop.MainWindow = new MainWindow
                 {
-                    DataContext = new MainWindowViewModel(),
+                    DataContext = ServiceHub.Default.ServiceProvider.Get<MainWindowViewModel>(),
                 };
             }
 

@@ -77,7 +77,7 @@ namespace Monstromatic.ViewModels
                 .ToPropertyEx(this, x => x.Bravery);
         }
 
-        public MonsterDetailsViewModel(string name, int baseLevel, IEnumerable<FeatureBase> features, int unitsCount = 0) : this()
+        public MonsterDetailsViewModel(string name, int baseLevel, IEnumerable<FeatureBase> features) : this()
         {
             Features.AddRange(features);
             Name = name;
