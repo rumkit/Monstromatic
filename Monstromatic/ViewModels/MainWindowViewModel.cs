@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reactive;
 using DynamicData;
 using Monstromatic.Models;
-using Monstromatic.Utils;
 using Monstromatic.Views;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
