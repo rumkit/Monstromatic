@@ -8,9 +8,9 @@ namespace Monstromatic.Models
         public override string DisplayName => "Трус";
         public override string Description => "Бежит после первой раны";
 
-        public override IEnumerable<string> IncompatibleFeatures
+        public override IEnumerable<FeatureBase> IncompatibleFeatures
         {
-            get { yield return nameof(BerserkFeature); }
+            get { yield return new BerserkFeature(); }
         }
     }
 }

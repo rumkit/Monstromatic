@@ -19,7 +19,7 @@ namespace Monstromatic.Models
 
         public virtual string Description => string.Empty;
 
-        public virtual IEnumerable<string> IncompatibleFeatures => Enumerable.Empty<string>();
+        public virtual IEnumerable<FeatureBase> IncompatibleFeatures => Enumerable.Empty<FeatureBase>();
 
         public virtual IEnumerable<FeatureBase> IncludedFeatures => Enumerable.Empty<FeatureBase>();
 

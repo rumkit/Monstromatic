@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using DynamicData;
-using DynamicData.Binding;
+using JetBrains.Annotations;
 using Monstromatic.Models;
-using Monstromatic.Utils;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
@@ -15,20 +13,21 @@ namespace Monstromatic.ViewModels
     public class FeatureViewModel : ViewModelBase
     {
         private readonly FeatureBase _feature;
-        private readonly SourceList<FeatureBase> _selectedFeatures;
+        private readonly IFeatureController _featureController;
 
         public string Id => _feature.Id;
 
         public string DisplayName => _feature.DisplayName;
 
+        [UsedImplicitly] 
         public bool IsFeatureSelected { [ObservableAsProperty] get; }
 
-        public FeatureViewModel(FeatureBase feature, SourceList<FeatureBase> selectedFeatures)
+        public FeatureViewModel(FeatureBase feature, IFeatureController featureController)
         {
             _feature = feature;
-            _selectedFeatures = selectedFeatures;
+            _featureController = featureController;
 
-            var canAddFeature = _selectedFeatures
+            var canAddFeature = _featureController.SelectedFeatures
                 .Connect()
                 .QueryWhenChanged(CanAddFeature);
 
@@ -36,7 +35,7 @@ namespace Monstromatic.ViewModels
 
             AddFeatureCommand = ReactiveCommand.Create<bool>(AddFeature, canAddFeature);
 
-            _selectedFeatures
+            _featureController.SelectedFeatures
                 .Connect()
                 .QueryWhenChanged(x => x.Contains(_feature))
                 .ToPropertyEx(this, x => x.IsFeatureSelected);
@@ -45,7 +44,7 @@ namespace Monstromatic.ViewModels
         private bool CanAddFeature(IReadOnlyCollection<FeatureBase> selectedFeatures)
         {
             var containsIncompatibleFeatures = selectedFeatures.Any(
-                f => _feature.IncompatibleFeatures.Contains(f.Id));
+                f => _feature.IncompatibleFeatures.Contains(f));
 
             return !containsIncompatibleFeatures;
         }
@@ -54,14 +53,10 @@ namespace Monstromatic.ViewModels
         {
             if (isChecked)
             {
-                _selectedFeatures.Add(_feature);
-                foreach (var includedFeature in _feature.IncludedFeatures)
-                {
-                    _selectedFeatures.AddOnce(includedFeature);
-                }
+                _featureController.AddFeature(_feature);
             }
             else
-                _selectedFeatures.Remove(_feature);
+                _featureController.RemoveFeature(_feature);
         }
 
         public ReactiveCommand<bool, Unit> AddFeatureCommand { get; }

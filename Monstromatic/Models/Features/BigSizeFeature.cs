@@ -8,11 +8,11 @@ namespace Monstromatic.Models
         public override string DisplayName => "Большой размер";
         public override int LevelModifier => 1;
 
-        public override IEnumerable<string> IncompatibleFeatures
+        public override IEnumerable<FeatureBase> IncompatibleFeatures
         {
             get
             {
-                yield return nameof(SmallSizeFeature);
+                yield return new SmallSizeFeature();
             }
         }
     }

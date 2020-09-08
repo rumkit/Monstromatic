@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using DynamicData;
 using Monstromatic.Models;
 using Monstromatic.Utils;
@@ -17,7 +16,7 @@ namespace Monstromatic.ViewModels.Design
                 new SwarmFeature(), new ThornsFeature(), new MassAttackFeature()
             });
 
-        public FeatureViewModel FeatureVm => new FeatureViewModel(new PredatorFeature(), new SourceList<FeatureBase>());
+        public FeatureViewModel FeatureVm => new FeatureViewModel(new PredatorFeature(), new FeatureController());
 
         public MainWindowViewModel MainWindowVM => ServiceHub.Default.ServiceProvider.Get<MainWindowViewModel>();
     }

@@ -10,12 +10,12 @@ namespace Monstromatic.Models
         public override int LevelModifier => 1;
         public override string Description => "Неспособен наносить ран, если не ядовит";
 
-        public override IEnumerable<string> IncompatibleFeatures
+        public override IEnumerable<FeatureBase> IncompatibleFeatures
         {
             get
             {
-                yield return nameof(BigSizeFeature);
-                yield return nameof(GiantFeature);
+                yield return new BigSizeFeature();
+                yield return new GiantFeature();
             }
         }
     }

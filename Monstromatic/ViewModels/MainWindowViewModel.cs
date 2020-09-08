@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
-using System.Reflection;
 using DynamicData;
 using Monstromatic.Models;
 using Monstromatic.Utils;
@@ -35,10 +34,12 @@ namespace Monstromatic.ViewModels
         public ReactiveCommand<Unit, Unit> GenerateMonsterCommand { get; }
 
         private readonly IFeatureRepository _featureRepository;
+        private readonly IFeatureController _featureController;
 
-        public MainWindowViewModel(IFeatureRepository featureRepository)
+        public MainWindowViewModel(IFeatureRepository featureRepository, IFeatureController featureController)
         {
             _featureRepository = featureRepository;
+            _featureController = featureController;
 
             var canGenerateMonster = this
                 .WhenAnyValue(x => x.Name, x => x.SelectedQuality,
@@ -70,7 +71,7 @@ namespace Monstromatic.ViewModels
         {
             return _featureRepository.GetFeatures()
                 .Where(f => f != null)
-                .Select(f => new FeatureViewModel(f, SelectedFeatures))
+                .Select(f => new FeatureViewModel(f, _featureController))
                 .OrderBy(f => f.DisplayName);
         }
 

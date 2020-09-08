@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
 namespace Monstromatic.Models
 {
@@ -9,11 +8,11 @@ namespace Monstromatic.Models
         public override string DisplayName => "Гигант";
         public override int BraveryModifier => 1;
 
-        public override IEnumerable<string> IncompatibleFeatures
+        public override IEnumerable<FeatureBase> IncompatibleFeatures
         {
             get
             {
-                yield return nameof(SmallSizeFeature);
+                yield return new SmallSizeFeature();
             }
         }
         public override IEnumerable<FeatureBase> IncludedFeatures
