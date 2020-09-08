@@ -20,6 +20,7 @@ namespace Monstromatic.Utils
         private void BuildServices(ServiceCollection services)
         {
             services.AddSingleton<IFeatureRepository, ReflectiveFeatureRepository>();
+            services.AddTransient<IFeatureController, FeatureController>();
             services.AddTransient<MainWindowViewModel>();
         }
     }

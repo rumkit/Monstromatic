@@ -29,8 +29,6 @@ namespace Monstromatic.ViewModels
 
         public IEnumerable<FeatureViewModel> Features { get; }
 
-        public SourceList<FeatureBase> SelectedFeatures { get; }
-
         public ReactiveCommand<Unit, Unit> GenerateMonsterCommand { get; }
 
         private readonly IFeatureRepository _featureRepository;
@@ -47,27 +45,25 @@ namespace Monstromatic.ViewModels
 
             GenerateMonsterCommand = ReactiveCommand.Create(GenerateMonster, canGenerateMonster);
 
-            SelectedFeatures = new SourceList<FeatureBase>();
-
-            Features = GetFeatures();
+            Features = GetFeatureViewModels();
 
             this.WhenAnyValue(x => x.IsGroup)
                 .Subscribe(b =>
                 {
                     if (b)
                     {
-                        SelectedFeatures.AddOnce(new MassAttackFeature());
-                        SelectedFeatures.AddOnce(new GroupFeature());
+                        _featureController.AddFeature(new MassAttackFeature());
+                        _featureController.AddFeature(new GroupFeature());
                     }
                     else
                     {
-                        SelectedFeatures.Remove(new MassAttackFeature());
+                        _featureController.RemoveFeature(new GroupFeature());
                         GroupCount = null;
                     }
                 });
         }
 
-        private IEnumerable<FeatureViewModel> GetFeatures()
+        private IEnumerable<FeatureViewModel> GetFeatureViewModels()
         {
             return _featureRepository.GetFeatures()
                 .Where(f => f != null)
@@ -77,10 +73,10 @@ namespace Monstromatic.ViewModels
 
         private void GenerateMonster()
         {
-            if (SelectedFeatures.Items.FirstOrDefault(f => f.Id == nameof(GroupFeature)) is GroupFeature groupFeature)
+            if (_featureController.SelectedFeatures.Items.FirstOrDefault(f => f.Id == nameof(GroupFeature)) is GroupFeature groupFeature)
                 groupFeature.Count = GroupCount ?? 0;
 
-            var monster = new MonsterDetailsViewModel(Name, SelectedQuality, SelectedFeatures.Items);
+            var monster = new MonsterDetailsViewModel(Name, SelectedQuality, _featureController.CreateBundle());
             var window = new MonsterDetailsView(monster);
             window.Show();
             SetDefaultValues();
@@ -88,7 +84,7 @@ namespace Monstromatic.ViewModels
 
         private void SetDefaultValues()
         {
-            SelectedFeatures.Clear();
+            _featureController.SelectedFeatures.Clear();
             Name = string.Empty;
             IsGroup = false;
         }

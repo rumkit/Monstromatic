@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using DynamicData;
 using Monstromatic.Utils;
 
@@ -36,7 +37,8 @@ namespace Monstromatic.Models
 
         public IEnumerable<FeatureBase> CreateBundle()
         {
-            return SelectedFeatures.Items;
+            var mutexes = SelectedFeatures.Items.SelectMany(f => f.MutexFeatures);
+            return SelectedFeatures.Items.Except(mutexes);
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Monstromatic.Utils
 {
-    static class ServiceProvideExtensions
+    internal static class ServiceProviderExtensions
     {
         public static T Get<T>(this IServiceProvider provider)
         {

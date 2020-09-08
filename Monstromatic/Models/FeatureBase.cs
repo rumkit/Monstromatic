@@ -23,6 +23,8 @@ namespace Monstromatic.Models
 
         public virtual IEnumerable<FeatureBase> IncludedFeatures => Enumerable.Empty<FeatureBase>();
 
+        public virtual IEnumerable<FeatureBase> MutexFeatures => Enumerable.Empty<FeatureBase>();
+
         public override bool Equals(object obj)
         {
             if (obj == null)
