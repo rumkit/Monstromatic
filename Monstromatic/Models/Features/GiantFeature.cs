@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Monstromatic.Models
 {
@@ -6,10 +7,6 @@ namespace Monstromatic.Models
     {
         public override string Id => nameof(GiantFeature);
         public override string DisplayName => "Гигант";
-
-        // Level modifier is inherited from BigSizeFeature
-        // that is considered as included into the GiantFeature
-        public override int LevelModifier => 1;
         public override int BraveryModifier => 1;
 
         public override IEnumerable<string> IncompatibleFeatures
@@ -17,8 +14,11 @@ namespace Monstromatic.Models
             get
             {
                 yield return nameof(SmallSizeFeature);
-                yield return nameof(BigSizeFeature);
             }
+        }
+        public override IEnumerable<FeatureBase> IncludedFeatures
+        {
+            get { yield return new BigSizeFeature(); }
         }
     }
 }

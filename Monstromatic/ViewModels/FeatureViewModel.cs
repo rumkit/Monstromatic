@@ -6,6 +6,7 @@ using System.Reactive.Linq;
 using DynamicData;
 using DynamicData.Binding;
 using Monstromatic.Models;
+using Monstromatic.Utils;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
@@ -52,7 +53,13 @@ namespace Monstromatic.ViewModels
         private void AddFeature(bool isChecked)
         {
             if (isChecked)
+            {
                 _selectedFeatures.Add(_feature);
+                foreach (var includedFeature in _feature.IncludedFeatures)
+                {
+                    _selectedFeatures.AddOnce(includedFeature);
+                }
+            }
             else
                 _selectedFeatures.Remove(_feature);
         }

@@ -21,6 +21,8 @@ namespace Monstromatic.Models
 
         public virtual IEnumerable<string> IncompatibleFeatures => Enumerable.Empty<string>();
 
+        public virtual IEnumerable<FeatureBase> IncludedFeatures => Enumerable.Empty<FeatureBase>();
+
         public override bool Equals(object obj)
         {
             if (obj == null)

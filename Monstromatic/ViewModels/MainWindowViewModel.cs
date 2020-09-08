@@ -5,6 +5,7 @@ using System.Reactive;
 using System.Reflection;
 using DynamicData;
 using Monstromatic.Models;
+using Monstromatic.Utils;
 using Monstromatic.Views;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -54,8 +55,8 @@ namespace Monstromatic.ViewModels
                 {
                     if (b)
                     {
-                        AddFeatureOnce(new MassAttackFeature());
-                        AddFeatureOnce(new GroupFeature());
+                        SelectedFeatures.AddOnce(new MassAttackFeature());
+                        SelectedFeatures.AddOnce(new GroupFeature());
                     }
                     else
                     {
@@ -63,12 +64,6 @@ namespace Monstromatic.ViewModels
                         GroupCount = null;
                     }
                 });
-        }
-
-        private void AddFeatureOnce(FeatureBase featureToAdd)
-        {
-            if (!SelectedFeatures.Items.Contains(featureToAdd))
-                SelectedFeatures.Add(featureToAdd);
         }
 
         private IEnumerable<FeatureViewModel> GetFeatures()

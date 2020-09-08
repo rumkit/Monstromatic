@@ -13,7 +13,6 @@ namespace Monstromatic.Models
             get
             {
                 yield return nameof(SmallSizeFeature);
-                yield return nameof(GiantFeature);
             }
         }
     }
