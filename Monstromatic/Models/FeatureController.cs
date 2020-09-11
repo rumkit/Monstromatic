@@ -26,7 +26,7 @@ namespace Monstromatic.Models
 
         public IEnumerable<FeatureBase> CreateBundle()
         {
-            var mutexes = SelectedFeatures.Items.SelectMany(f => f.MutexFeatures);
+            var mutexes = SelectedFeatures.Items.SelectMany(f => f.ExcludedFeatures);
             return SelectedFeatures.Items.Except(mutexes);
         }
     }

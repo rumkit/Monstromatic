@@ -19,7 +19,7 @@ namespace Monstromatic.Models
             }
         }
 
-        public override IEnumerable<FeatureBase> MutexFeatures
+        public override IEnumerable<FeatureBase> ExcludedFeatures
         {
             get { yield return new PowerfulAttackFeature(); }
         }

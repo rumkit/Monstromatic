@@ -9,7 +9,7 @@ namespace Monstromatic.Models
         public override string DetailsDisplayName => "Мощная атака";
         public override string Description => "Оглушает цель в случае успешной атаки";
 
-        public override IEnumerable<FeatureBase> MutexFeatures
+        public override IEnumerable<FeatureBase> ExcludedFeatures
         {
             get { yield return new SmallSizeFeature(); }
         }

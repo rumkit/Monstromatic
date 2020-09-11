@@ -18,5 +18,10 @@ namespace Monstromatic.Models
                 yield return new MassAttackFeature();
             }
         }
+
+        public override IEnumerable<FeatureBase> ExcludedFeatures
+        {
+            get { yield return new SmallSizeFeature(); }
+        }
     }
 }
