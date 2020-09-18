@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
 using Monstromatic.Models;
 using ReactiveUI;
@@ -37,6 +38,9 @@ namespace Monstromatic.ViewModels
         [Reactive]
         public bool HasDisadvantage { get; set; }
 
+        [Reactive]
+        public int HitCounter { get; set; }
+
         public bool IsBerserkOrCoward =>
             Features.Any(x => x.Id == nameof(CowardFeature) || x.Id == nameof(BerserkFeature)) && !IsGroup;
 
@@ -47,6 +51,10 @@ namespace Monstromatic.ViewModels
         public bool HasRegularCounters => !IsGroup && !IsBerserkOrCoward;
 
         private GroupFeature Group => Features.FirstOrDefault(f => f.Id == nameof(GroupFeature)) as GroupFeature;
+
+        public ReactiveCommand<Unit, Unit> IncrementHitCounterCommand { get; }
+
+        public ReactiveCommand<Unit, Unit> DecrementHitCounterCommand { get; }
 
         public MonsterDetailsViewModel()
         {
@@ -73,6 +81,19 @@ namespace Monstromatic.ViewModels
             this.WhenAnyValue(x => x.Level)
                 .Select(x => (Features.Sum(f => f.BraveryModifier) + 1) * x)
                 .ToPropertyEx(this, x => x.Bravery);
+
+            IncrementHitCounterCommand = ReactiveCommand.Create(IncrementHitCounter);
+            DecrementHitCounterCommand = ReactiveCommand.Create(DecrementHitCounter);
+        }
+
+        private void DecrementHitCounter()
+        {
+            HitCounter--;
+        }
+
+        private void IncrementHitCounter()
+        {
+            HitCounter++;
         }
 
         public MonsterDetailsViewModel(string name, int baseLevel, IEnumerable<FeatureBase> features) : this()

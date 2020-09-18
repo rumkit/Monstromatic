@@ -13,7 +13,7 @@
         Width="320"
         Height="300"
         Design.DataContext="{Binding Source={StaticResource DesignVmLocator}, Path=DetailsVm}">
-  <Window.Resources>    
+  <Window.Resources>
     <conv:ListToStringConverter x:Key="StringsJoinConverter"/>
     <conv:IntegerSumConverter x:Key="IntSumConverter"/>
     <conv:DoubleToGridLengthConverter x:Key="GridLengthConverter"/>
@@ -48,7 +48,7 @@
           <RotateTransform Angle="0">
             <!--<RotateTransform.Transitions>
               <DoubleTransition Property="Angle" Duration="0:0:0.1" Easing="SplineEasing"/>
-            </RotateTransform.Transitions>-->            
+            </RotateTransform.Transitions>-->
           </RotateTransform>
         </Button.RenderTransform>
         <Path Data="M 0 5 L 5 0 L 10 5" Stroke="{StaticResource ThemeControlHighlightLowBrush}" StrokeThickness="2"></Path>
@@ -99,69 +99,91 @@
           </DataTemplate>
         </ListBox.ItemTemplate>
       </ListBox>
-      <Grid Grid.Row="2" IsVisible="{Binding HasRegularCounters}">
+      <Grid Grid.Row="2">
         <Grid.ColumnDefinitions>
-          <ColumnDefinition/>
-          <ColumnDefinition/>
+          <ColumnDefinition Width="135"/>
+          <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0" HorizontalAlignment="Center" Margin="50,0,0,0">
-          <TextBlock Text="Храбрость"/>
-          <Grid Margin="5"  Width="50">
-            <Ellipse StrokeThickness="2" Stroke="{StaticResource ThemeControlHighlightLowBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-            <TextBlock Text="{Binding Bravery}" HorizontalAlignment="Center" FontSize="16"/>
-          </Grid>
-        </StackPanel>
-        <StackPanel Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,50,0">
-          <TextBlock Text="Выносливость"/>
-          <Grid Margin="5" Width="50">
-            <Ellipse StrokeThickness="2" Stroke="{StaticResource ThemeControlHighlightLowBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-            <TextBlock Text="{Binding Stamina}" HorizontalAlignment="Center" FontSize="16"/>
-          </Grid>
-          <TextBlock Text="Бегство" HorizontalAlignment="Center"/>
-        </StackPanel>
-      </Grid>
-      <Grid Grid.Row="2" IsVisible="{Binding IsBerserkOrCoward}">
-        <StackPanel Grid.Column="0" HorizontalAlignment="Center" Margin="5">
-          <TextBlock Text="Ярость" HorizontalAlignment="Center"/>
-          <Grid Margin="5"  Width="50">
-            <Ellipse StrokeThickness="2" Stroke="{StaticResource ThemeControlHighlightLowBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-            <TextBlock HorizontalAlignment="Center" FontSize="16">
-              <TextBlock.Text>
-                <MultiBinding Converter="{StaticResource IntSumConverter}">
-                  <Binding Path="Bravery"></Binding>
-                  <Binding Path="Stamina"></Binding>
-                </MultiBinding>
-              </TextBlock.Text>
-            </TextBlock>
-          </Grid>
-        </StackPanel>
-      </Grid>
-      <Grid Grid.Row="2" IsVisible="{Binding IsGroup}">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition/>
-          <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0" HorizontalAlignment="Center" Margin="50,0,0,0">
-          <TextBlock Text="Храбрость"/>
-          <Grid Margin="5"  Width="50">
-            <Ellipse StrokeThickness="2" Stroke="{StaticResource ThemeControlHighlightLowBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-            <TextBlock HorizontalAlignment="Center" FontSize="16">
-              <TextBlock.Text>
-                <MultiBinding Converter="{StaticResource IntSumConverter}">
-                  <Binding Path="Bravery"></Binding>
-                  <Binding Path="Stamina"></Binding>
-                </MultiBinding>
-              </TextBlock.Text>
-            </TextBlock>
-          </Grid>
-        </StackPanel>
-        <StackPanel Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,50,0">
-          <TextBlock Text="Количество"/>
-          <Grid Margin="5" Width="50">
-            <Ellipse StrokeThickness="2" Stroke="{StaticResource ThemeControlHighlightLowBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-            <TextBlock Text="{Binding UnitsCount}" HorizontalAlignment="Center" FontSize="16"/>
-          </Grid>
-        </StackPanel>
+        <Grid Grid.Column="1" Margin="10,0,20,0" IsVisible="{Binding HasRegularCounters}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+          </Grid.ColumnDefinitions>
+          <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+            <TextBlock Text="Храбрость"/>
+            <Grid Margin="5"  Width="50">
+              <Ellipse StrokeThickness="2" Stroke="{StaticResource ThemeControlHighlightLowBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+              <TextBlock Text="{Binding Bravery}" HorizontalAlignment="Center" FontSize="16"/>
+            </Grid>
+          </StackPanel>
+          <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+            <TextBlock Text="Выносливость"/>
+            <Grid Margin="5" Width="50">
+              <Ellipse StrokeThickness="2" Stroke="{StaticResource ThemeControlHighlightLowBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+              <TextBlock Text="{Binding Stamina}" HorizontalAlignment="Center" FontSize="16"/>
+            </Grid>
+            <TextBlock Text="Бегство" HorizontalAlignment="Center"/>
+          </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1" Margin="10,0,20,0" IsVisible="{Binding IsBerserkOrCoward}">
+          <StackPanel Grid.Column="0" HorizontalAlignment="Center" Margin="5">
+            <TextBlock Text="Ярость" HorizontalAlignment="Center"/>
+            <Grid Margin="5"  Width="50">
+              <Ellipse StrokeThickness="2" Stroke="{StaticResource ThemeControlHighlightLowBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+              <TextBlock HorizontalAlignment="Center" FontSize="16">
+                <TextBlock.Text>
+                  <MultiBinding Converter="{StaticResource IntSumConverter}">
+                    <Binding Path="Bravery"></Binding>
+                    <Binding Path="Stamina"></Binding>
+                  </MultiBinding>
+                </TextBlock.Text>
+              </TextBlock>
+            </Grid>
+          </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1" Margin="10,0,20,0" IsVisible="{Binding IsGroup}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+          </Grid.ColumnDefinitions>
+          <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+            <TextBlock Text="Храбрость"/>
+            <Grid Margin="5"  Width="50">
+              <Ellipse StrokeThickness="2" Stroke="{StaticResource ThemeControlHighlightLowBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+              <TextBlock HorizontalAlignment="Center" FontSize="16">
+                <TextBlock.Text>
+                  <MultiBinding Converter="{StaticResource IntSumConverter}">
+                    <Binding Path="Bravery"></Binding>
+                    <Binding Path="Stamina"></Binding>
+                  </MultiBinding>
+                </TextBlock.Text>
+              </TextBlock>
+            </Grid>
+          </StackPanel>
+          <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+            <TextBlock Text="Количество"/>
+            <Grid Margin="5" Width="50">
+              <Ellipse StrokeThickness="2" Stroke="{StaticResource ThemeControlHighlightLowBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+              <TextBlock Text="{Binding UnitsCount}" HorizontalAlignment="Center" FontSize="16"/>
+            </Grid>
+          </StackPanel>
+        </Grid>
+        <Grid Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center">
+          <StackPanel Orientation="Horizontal">
+            <StackPanel.Styles>
+              <Style Selector="Button">
+                <Setter Property="Height" Value="30"></Setter>
+                <Setter Property="Width" Value="30"></Setter>
+                <Setter Property="Margin" Value="5"></Setter>
+                <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+                <Setter Property="FontSize" Value="15"></Setter>                
+              </Style>
+            </StackPanel.Styles>
+            <Button Content="-" Command="{Binding DecrementHitCounterCommand}"></Button>
+            <TextBox Text="{Binding HitCounter}" Height="30" Width="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"></TextBox>
+            <Button Content="+" Command="{Binding IncrementHitCounterCommand}"></Button>
+          </StackPanel>
+        </Grid>
       </Grid>
     </Grid>
   </Grid>
