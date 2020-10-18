@@ -1,7 +1,8 @@
+using FluentAssertions;
 using Monstromatic.Models;
 using NUnit.Framework;
 
-namespace Monstromatic.Tests
+namespace Monstromatic.Tests.Models
 {
     [TestFixture]
     class FeatureBaseTests
@@ -12,7 +13,7 @@ namespace Monstromatic.Tests
             var feature1 = new TestFeature(nameof(TestFeature));
             var feature2 = new TestFeature(nameof(TestFeature));
 
-            Assert.That(feature1, Is.EqualTo(feature2));
+            feature1.Should().Be(feature2);
         }
 
         [Test]
@@ -21,7 +22,23 @@ namespace Monstromatic.Tests
             var feature1 = new TestFeature(nameof(TestFeature));
             var feature2 = new TestFeature("123");
 
-            Assert.That(feature1, Is.Not.EqualTo(feature2));
+            feature1.Should().NotBe(feature2);
+        }
+
+        [Test]
+        public void TestGetHashCodeMatch()
+        {
+            var feature1 = new TestFeature(nameof(TestFeature));
+            feature1.GetHashCode().Should().Be(feature1.GetHashCode());
+        }
+
+        [Test]
+        public void TestGetHashCodeDiffers()
+        {
+            var feature1 = new TestFeature(nameof(TestFeature));
+            var feature2 = new TestFeature("123");
+
+            feature1.GetHashCode().Should().NotBe(feature2.GetHashCode());
         }
 
         [Test]
@@ -31,7 +48,7 @@ namespace Monstromatic.Tests
             var feature2 = new TestFeature(nameof(TestFeature));
 
             // ReSharper disable once PossibleUnintendedReferenceComparison
-            Assert.That(feature1 == feature2, Is.False);
+            (feature1 == feature2).Should().BeFalse();
         }
 
         private class TestFeature : FeatureBase

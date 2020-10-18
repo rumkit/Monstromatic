@@ -3,7 +3,7 @@ using DynamicData;
 
 namespace Monstromatic.Utils
 {
-    static class SourceListExtensions
+    public static class SourceListExtensions
     {
         public static void AddOnce<T>(this SourceList<T> sourceList, T item)
         {

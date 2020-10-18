@@ -86,6 +86,13 @@ namespace Monstromatic.ViewModels
             DecrementHitCounterCommand = ReactiveCommand.Create(DecrementHitCounter);
         }
 
+        public MonsterDetailsViewModel(string name, int baseLevel, IEnumerable<FeatureBase> features) : this()
+        {
+            Features.AddRange(features);
+            Name = name;
+            Level = baseLevel;
+        }
+
         private void DecrementHitCounter()
         {
             HitCounter--;
@@ -94,13 +101,6 @@ namespace Monstromatic.ViewModels
         private void IncrementHitCounter()
         {
             HitCounter++;
-        }
-
-        public MonsterDetailsViewModel(string name, int baseLevel, IEnumerable<FeatureBase> features) : this()
-        {
-            Features.AddRange(features);
-            Name = name;
-            Level = baseLevel;
         }
 
         private int GetLevelModifier()
