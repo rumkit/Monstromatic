@@ -9,20 +9,20 @@
         x:Class="Monstromatic.Views.MonsterDetailsView"
         Title="{Binding Name}"
         HasSystemDecorations="False"
+        SizeToContent="Height"
         CanResize="True"
         Width="320"
-        Height="300"
         Design.DataContext="{Binding Source={StaticResource DesignVmLocator}, Path=DetailsVm}">
   <Window.Resources>
     <conv:ListToStringConverter x:Key="StringsJoinConverter"/>
     <conv:IntegerSumConverter x:Key="IntSumConverter"/>
     <conv:DoubleToGridLengthConverter x:Key="GridLengthConverter"/>
+    <conv:GridHeightFeatureCountConverter x:Key="FeatureCountConverter" />
   </Window.Resources>
   <Grid VerticalAlignment="Top">
     <Grid.RowDefinitions>
       <RowDefinition Height="50"/>
       <RowDefinition Height="{Binding #ExpanderGrid.Bounds.Height, Mode=OneWay, Converter={StaticResource GridLengthConverter}}"/>
-      <!--<RowDefinition Height="*"/>-->
     </Grid.RowDefinitions>
     <Border Grid.RowSpan="2" BorderThickness="2" BorderBrush="{StaticResource ThemeControlHighlightLowBrush}"/>
     <Grid Grid.Row="0" Background="{StaticResource ThemeControlHighlightLowBrush}" PointerPressed="Header_PointerPressed">
@@ -46,11 +46,11 @@
       <Button Grid.Column="0" Classes="round" Click="ExpandButton_Click" Background="{StaticResource MonstromaticAccent}">
         <Button.RenderTransform>
           <RotateTransform Angle="0">
-            <!--<RotateTransform.Transitions>
-              <DoubleTransition Property="Angle" Duration="0:0:0.1" Easing="SplineEasing"/>
-            </RotateTransform.Transitions>-->
           </RotateTransform>
         </Button.RenderTransform>
+        <!--<Button.Transitions>          
+         <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.1" Easing="SplineEasing"/>
+        </Button.Transitions>-->
         <Path Data="M 0 5 L 5 0 L 10 5" Stroke="{StaticResource ThemeControlHighlightLowBrush}" StrokeThickness="2"></Path>
       </Button>
       <StackPanel Grid.Column="1" Margin="5">
@@ -69,7 +69,9 @@
         <Path Data="M 0 0 L 10 10 M 0 10 L 10 0" Stroke="{StaticResource ThemeControlHighlightLowBrush}" StrokeThickness="2"></Path>
       </Button>
     </Grid>
-    <Grid Grid.Row="1" VerticalAlignment="Top" Name="ExpanderGrid" Height="250">
+    <Grid Grid.Row="1" VerticalAlignment="Top" Name="ExpanderGrid"
+          Height="{Binding DescriptiveFeatures, FallbackValue=150, Mode=OneWay, 
+          Converter={StaticResource FeatureCountConverter}, ConverterParameter=150;31}">
       <Grid.RowDefinitions>
         <RowDefinition Height="70"/>
         <RowDefinition Height="*"/>
@@ -91,14 +93,27 @@
         <ToggleButton IsChecked="{Binding HasAdvantage}">На своих&#xa;условиях</ToggleButton>
         <ToggleButton IsChecked="{Binding HasDisadvantage}">На штрафных&#xa;условиях</ToggleButton>
       </StackPanel>
-      <ListBox Items="{Binding DescriptiveFeatures}" Grid.Row="1" Margin="20,5,20,5">
-        <ListBox.ItemTemplate>
-          <DataTemplate>
-            <TextBlock Text="{Binding DetailsDisplayName}" ToolTip.Tip="{Binding Description}">
-            </TextBlock>
-          </DataTemplate>
-        </ListBox.ItemTemplate>
-      </ListBox>
+      <Grid Grid.Row="1" Margin="20,0,20,0">
+        <Border BorderBrush="{StaticResource ThemeControlHighlightLowBrush}" BorderThickness="2" CornerRadius="5">
+          <ItemsControl Items="{Binding DescriptiveFeatures}">
+            <ItemsControl.Styles>
+              <Style Selector="TextBlock:pointerover">
+                <Setter Property="Background" Value="{StaticResource ThemeControlHighlightLowBrush}"/>
+              </Style>
+            </ItemsControl.Styles>
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <StackPanel Margin="0,5,0,0" Orientation="Vertical"/>
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <TextBlock Margin="10,3,10,3" Height="25" FontSize="14" Text="{Binding DetailsDisplayName}" ToolTip.Tip="{Binding Description}"/>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </Border>
+      </Grid>
       <Grid Grid.Row="2">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="135"/>
@@ -176,7 +191,7 @@
                 <Setter Property="Width" Value="30"></Setter>
                 <Setter Property="Margin" Value="5"></Setter>
                 <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-                <Setter Property="FontSize" Value="15"></Setter>                
+                <Setter Property="FontSize" Value="15"></Setter>
               </Style>
             </StackPanel.Styles>
             <Button Content="-" Command="{Binding DecrementHitCounterCommand}"></Button>
