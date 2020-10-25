@@ -15,7 +15,7 @@ namespace Monstromatic.ViewModels.Design
                 new SwarmFeature(), new ThornsFeature(), new MassAttackFeature()
             });
 
-        public FeatureViewModel FeatureVm => new FeatureViewModel(new PredatorFeature(), new FeatureController());
+        public FeatureViewModel FeatureVm => new FeatureViewModel(new AnimalFeature(), new FeatureController());
 
         public MainWindowViewModel MainWindowVM => ServiceHub.Default.ServiceProvider.Get<MainWindowViewModel>();
     }
