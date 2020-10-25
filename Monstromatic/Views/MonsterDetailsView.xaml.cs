@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Shapes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
@@ -37,6 +39,37 @@ namespace Monstromatic.Views
         {
             base.OnOpened(e);
             UpdateWindowMeasureAsync();
+            FillColorSelector();
+        }
+
+        private void FillColorSelector()
+        {
+            var colorSelector = this.FindControl<ComboBox>("ColorSelector");
+            var header = this.FindControl<Grid>("WindowHeaderGrid");
+            var colors = new List<IBrush>
+            {
+                header.Background,
+                Brushes.Blue,
+                Brushes.Red,
+                Brushes.Black,
+                Brushes.White,
+                Brushes.Green,
+                Brushes.Yellow,
+                Brushes.Azure,
+                Brushes.DarkGreen
+            };
+
+            colorSelector.Items = colors;
+            colorSelector.SelectedIndex = 0;
+            colorSelector.SelectionChanged -= ColorSelectorOnSelectionChanged;
+            colorSelector.SelectionChanged += ColorSelectorOnSelectionChanged;
+        }
+
+        private void ColorSelectorOnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var header = this.FindControl<Grid>("WindowHeaderGrid");
+            var colorSelector = this.FindControl<ComboBox>("ColorSelector");
+            header.Background = (IBrush)colorSelector.SelectedItem;
         }
 
         public void Header_PointerPressed(object o, PointerPressedEventArgs e)
