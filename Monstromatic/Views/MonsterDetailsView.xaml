@@ -148,7 +148,14 @@
             <TextBlock Text="Выносливость"/>
             <Grid Margin="5" Width="50">
               <Ellipse StrokeThickness="2" Stroke="{StaticResource ThemeControlHighlightLowBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-              <TextBlock Text="{Binding Stamina}" HorizontalAlignment="Center" FontSize="16"/>
+              <TextBlock HorizontalAlignment="Center" FontSize="16">
+              <TextBlock.Text>
+                 <MultiBinding Converter="{StaticResource IntSumConverter}">
+                    <Binding Path="Bravery"></Binding>
+                    <Binding Path="Stamina"></Binding>
+                  </MultiBinding>
+              </TextBlock.Text>
+            </TextBlock>
             </Grid>
             <TextBlock Text="Бегство" HorizontalAlignment="Center"/>
           </StackPanel>

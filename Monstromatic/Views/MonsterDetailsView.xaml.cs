@@ -51,11 +51,11 @@ namespace Monstromatic.Views
                 header.Background,
                 Brushes.Blue,
                 Brushes.Red,
-                Brushes.Black,
-                Brushes.White,
+                Brushes.Brown,
+                Brushes.DarkOrange,
                 Brushes.Green,
                 Brushes.Yellow,
-                Brushes.Azure,
+                Brushes.Violet,
                 Brushes.DarkGreen
             };
 
