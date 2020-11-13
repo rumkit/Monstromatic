@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netcoreapp5.0</TargetFramework>
     <OutputType>WinExe</OutputType>
   </PropertyGroup>
   <PropertyGroup>
@@ -23,10 +23,10 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.10.0-preview5" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.10.0-preview5" />
-    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.0-preview5" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0-preview5" />
+    <PackageReference Include="Avalonia" Version="0.10.0-preview6" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.0-preview6" />
+    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.0-preview6" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0-preview6" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.7" />
     <PackageReference Include="ReactiveUI.Fody" Version="11.4.17" />
   </ItemGroup>

@@ -2,6 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:Monstromatic.Views;assembly=Monstromatic"
         xmlns:conv="clr-namespace:Monstromatic.Converters;assembly=Monstromatic"
         xmlns:vm="clr-namespace:Monstromatic.ViewModels;assembly=Monstromatic"
         xmlns:m="clr-namespace:Monstomatic.Models;assembly=Monstromatic"
@@ -204,7 +205,7 @@
           </StackPanel>
         </Grid>
         <Grid Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center">
-          <StackPanel Orientation="Horizontal">
+          <!--<StackPanel Orientation="Horizontal">
             <StackPanel.Styles>
               <Style Selector="Button">
                 <Setter Property="Height" Value="30"></Setter>
@@ -217,7 +218,8 @@
             <Button Content="-" Command="{Binding DecrementHitCounterCommand}"></Button>
             <TextBox Text="{Binding HitCounter}" Height="30" Width="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"></TextBox>
             <Button Content="+" Command="{Binding IncrementHitCounterCommand}"></Button>
-          </StackPanel>
+          </StackPanel>-->
+          <views:HitCounter CounterSource="{Binding HitCounter}"/>
         </Grid>
       </Grid>
     </Grid>
