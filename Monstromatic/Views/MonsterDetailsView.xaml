@@ -219,7 +219,7 @@
             <TextBox Text="{Binding HitCounter}" Height="30" Width="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"></TextBox>
             <Button Content="+" Command="{Binding IncrementHitCounterCommand}"></Button>
           </StackPanel>-->
-          <views:HitCounter CounterSource="{Binding HitCounter}"/>
+          <views:HitCounter CounterSource="{Binding HitCounter, Mode=TwoWay}" ResetCommand="{Binding ResetHitCounterCommand}"/>
         </Grid>
       </Grid>
     </Grid>

@@ -52,9 +52,7 @@ namespace Monstromatic.ViewModels
 
         private GroupFeature Group => Features.FirstOrDefault(f => f.Id == nameof(GroupFeature)) as GroupFeature;
 
-        public ReactiveCommand<Unit, Unit> IncrementHitCounterCommand { get; }
-
-        public ReactiveCommand<Unit, Unit> DecrementHitCounterCommand { get; }
+        public ReactiveCommand<Unit, Unit> ResetHitCounterCommand { get; }
 
         public MonsterDetailsViewModel()
         {
@@ -82,8 +80,7 @@ namespace Monstromatic.ViewModels
                 .Select(x => (Features.Sum(f => f.BraveryModifier) + 1) * x)
                 .ToPropertyEx(this, x => x.Bravery);
 
-            IncrementHitCounterCommand = ReactiveCommand.Create(IncrementHitCounter);
-            DecrementHitCounterCommand = ReactiveCommand.Create(DecrementHitCounter);
+            ResetHitCounterCommand = ReactiveCommand.Create(ResetHitCounter);
         }
 
         public MonsterDetailsViewModel(string name, int baseLevel, IEnumerable<FeatureBase> features) : this()
@@ -93,14 +90,9 @@ namespace Monstromatic.ViewModels
             Level = baseLevel;
         }
 
-        private void DecrementHitCounter()
+        private void ResetHitCounter()
         {
-            HitCounter--;
-        }
-
-        private void IncrementHitCounter()
-        {
-            HitCounter++;
+            HitCounter = 0;
         }
 
         private int GetLevelModifier()

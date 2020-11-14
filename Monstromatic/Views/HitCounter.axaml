@@ -5,18 +5,23 @@
              xmlns:views="clr-namespace:Monstromatic.Views;assembly=Monstromatic"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Monstromatic.Views.HitCounter">
-  <StackPanel Orientation="Horizontal">
-    <StackPanel.Styles>
-      <Style Selector="Button">
-        <Setter Property="Height" Value="30"></Setter>
-        <Setter Property="Width" Value="30"></Setter>
-        <Setter Property="Margin" Value="5"></Setter>
-        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-        <Setter Property="FontSize" Value="15"></Setter>
-      </Style>
-    </StackPanel.Styles>
-    <Button Content="-"></Button>
-    <TextBox Text="{Binding $parent[views:HitCounter].CounterSource}" Height="30" Width="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"></TextBox>
-    <Button Content="+"></Button>
+  <StackPanel Orientation="Vertical">
+    <StackPanel Orientation="Horizontal">
+      <StackPanel.Styles>
+        <Style Selector="Button">
+          <Setter Property="Height" Value="30"></Setter>
+          <Setter Property="Width" Value="30"></Setter>
+          <Setter Property="Margin" Value="5"></Setter>
+          <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+          <Setter Property="FontSize" Value="15"></Setter>
+        </Style>
+      </StackPanel.Styles>
+      <Button Content="-" Click="DecreaseButtonClick"></Button>
+      <TextBox Text="{Binding $parent[views:HitCounter].CounterSource}" Height="30" Width="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"></TextBox>
+      <Button Content="+" Click="IncreaseButtonClick"></Button>
+    </StackPanel>
+    <Button Height="25" Width="40" Content="R" 
+      IsVisible="{Binding $parent[views:HitCounter].IsResetVisible}"
+      Command="{Binding $parent[views:HitCounter].ResetCommand}"/>
   </StackPanel>
 </UserControl>
