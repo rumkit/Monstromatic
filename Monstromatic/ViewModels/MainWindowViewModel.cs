@@ -21,7 +21,7 @@ namespace Monstromatic.ViewModels
         [Reactive]
         public string Name { get; set; }
 
-        public IEnumerable<int> AvailableQualities => Enumerable.Range(1, 5);
+        public IEnumerable<int> AvailableQualities => Enumerable.Range(1, 4);
 
         [Reactive]
         public int SelectedQuality { get; set; }

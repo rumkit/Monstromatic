@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Shapes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
@@ -49,7 +48,7 @@ namespace Monstromatic.Views
             var colors = new List<IBrush>
             {
                 header.Background,
-                Brushes.Blue,
+                Brushes.CornflowerBlue,
                 Brushes.Red,
                 Brushes.Brown,
                 Brushes.DarkOrange,

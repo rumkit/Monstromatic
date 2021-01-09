@@ -41,16 +41,8 @@ namespace Monstromatic.ViewModels
         [Reactive]
         public int HitCounter { get; set; }
 
-        public bool IsBerserkOrCoward =>
-            Features.Any(x => x.Id == nameof(CowardFeature) || x.Id == nameof(BerserkFeature)) && !IsGroup;
-
-        public bool IsGroup => Group != null;
-
-        public int UnitsCount => Group?.Count ?? 0;
-
-        public bool HasRegularCounters => !IsGroup && !IsBerserkOrCoward;
-
-        private GroupFeature Group => Features.FirstOrDefault(f => f.Id == nameof(GroupFeature)) as GroupFeature;
+        [Reactive]
+        public bool IsGroup { get; set; }
 
         public ReactiveCommand<Unit, Unit> ResetHitCounterCommand { get; }
 
@@ -63,7 +55,7 @@ namespace Monstromatic.ViewModels
                 if (x)
                     HasDisadvantage = false;
                 this.RaisePropertyChanged(nameof(Level));
-            });
+             });
 
             this.WhenAnyValue(x => x.HasDisadvantage).Subscribe(x =>
             {
@@ -71,6 +63,8 @@ namespace Monstromatic.ViewModels
                     HasAdvantage = false;
                 this.RaisePropertyChanged(nameof(Level));
             });
+
+            this.WhenAnyValue(x => x.IsGroup).Subscribe(_ => this.RaisePropertyChanged(nameof(Level)));
 
             this.WhenAnyValue(x => x.Level)
                 .Select(x => (Features.Sum(f => f.StaminaModifier) + 1) * x)
@@ -80,8 +74,10 @@ namespace Monstromatic.ViewModels
                 .Select(x => (Features.Sum(f => f.BraveryModifier) + 1) * x)
                 .ToPropertyEx(this, x => x.Bravery);
 
+
             ResetHitCounterCommand = ReactiveCommand.Create(ResetHitCounter);
         }
+        
 
         public MonsterDetailsViewModel(string name, int baseLevel, IEnumerable<FeatureBase> features) : this()
         {
@@ -99,7 +95,8 @@ namespace Monstromatic.ViewModels
         {
             int advantageModifier = (HasAdvantage ? 1 : 0) - (HasDisadvantage ? 1 : 0);
             int featuresModifier = Features.Sum(f => f.LevelModifier);
-            return advantageModifier + featuresModifier;
+            int groupModifier = IsGroup ? 1 : 0;
+            return advantageModifier + featuresModifier + groupModifier;
         }
     }
 }

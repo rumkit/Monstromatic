@@ -1,12 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp5.0</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <OutputType>WinExe</OutputType>
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
-    <Version>0.4.1.0</Version>
-    <AssemblyVersion>0.4.1.0</AssemblyVersion>
-    <FileVersion>0.4.1.0</FileVersion>
+    <Version>0.4.2.0</Version>
+    <AssemblyVersion>0.4.2.0</AssemblyVersion>
+    <FileVersion>0.4.2.0</FileVersion>
     <Company>RumCode</Company>
     <Authors>rum</Authors>
     <Product>Monstromatic</Product>
@@ -23,12 +24,12 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.10.0-preview6" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.10.0-preview6" />
-    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.0-preview6" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0-preview6" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.7" />
-    <PackageReference Include="ReactiveUI.Fody" Version="11.4.17" />
+    <PackageReference Include="Avalonia" Version="0.10.0-rc1" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.0-rc1" />
+    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.0-rc1" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0-rc1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="ReactiveUI.Fody" Version="13.0.27" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Views\MonsterDetailsView.xaml.cs">

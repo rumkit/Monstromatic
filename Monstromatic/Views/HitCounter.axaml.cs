@@ -34,12 +34,21 @@ namespace Monstromatic.Views
         }
 
         public static readonly StyledProperty<bool> IsResetVisibleProperty =
-            AvaloniaProperty.Register<HitCounter, bool>(nameof(IsResetVisible));
+            AvaloniaProperty.Register<HitCounter, bool>(nameof(IsResetVisible), true);
 
         public bool IsResetVisible
         {
             get => GetValue(IsResetVisibleProperty);
             set => SetValue(IsResetVisibleProperty, value);
+        }
+
+        public static readonly StyledProperty<string> TextProperty =
+            AvaloniaProperty.Register<HitCounter, string>(nameof(Text));
+
+        public string Text
+        {
+            get => GetValue(TextProperty);
+            set => SetValue(TextProperty, value);
         }
 
         private void IncreaseButtonClick(object sender, RoutedEventArgs e) => CounterSource++;
