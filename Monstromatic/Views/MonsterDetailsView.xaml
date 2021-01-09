@@ -4,8 +4,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:Monstromatic.Views;assembly=Monstromatic"
         xmlns:conv="clr-namespace:Monstromatic.Converters;assembly=Monstromatic"
-        xmlns:vm="clr-namespace:Monstromatic.ViewModels;assembly=Monstromatic"
-        xmlns:m="clr-namespace:Monstomatic.Models;assembly=Monstromatic"
         mc:Ignorable="d"
         x:Class="Monstromatic.Views.MonsterDetailsView"
         Title="{Binding Name}"

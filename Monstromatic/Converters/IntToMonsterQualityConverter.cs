@@ -22,9 +22,10 @@ namespace Monstromatic.Converters
 
         private static readonly Dictionary<int, string> Qualities = new Dictionary<int, string>()
         {
-            [1] = "Слабый",
-            [2] = "Обыватель",
-            [3] = "Сюжетный",
+            [0] = "Слабый",
+            [1] = "Обыватель",
+            [2] = "Элита/Спец",
+            [3] = "Сюжетный/Mary Sue",
             [4] = "Каноничный"
         };
     }
