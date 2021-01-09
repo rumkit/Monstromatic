@@ -17,7 +17,7 @@ namespace Monstromatic.Views
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
-            this.Title += $" version {GetVersion()}-alpha NOT FOR USE";
+            this.Title += $" version {GetVersion()}-alpha";
         }
 
         private string GetVersion()

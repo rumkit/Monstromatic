@@ -132,31 +132,23 @@
       <Grid Grid.Row="2">
         <Grid.ColumnDefinitions>
           <ColumnDefinition SharedSizeGroup="counter"/>
-          <ColumnDefinition Width="80"/>
+          <ColumnDefinition SharedSizeGroup="counter"/>
           <ColumnDefinition SharedSizeGroup="counter"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
           <RowDefinition Height="90"/>
           <RowDefinition Height="80"/>
         </Grid.RowDefinitions>
-        <views:HitCounter Grid.Column="0" HorizontalAlignment="Center" Text="Защита"
-                          CounterSource="{Binding HitCounter, Mode=TwoWay}" ResetCommand="{Binding ResetHitCounterCommand}"/>
-        <StackPanel Grid.Column="1" HorizontalAlignment="Center">
-          <TextBlock Text="Выносливость"/>
-          <Grid Margin="5" Width="50">
-            <Ellipse StrokeThickness="2" Stroke="{StaticResource ThemeControlHighlightLowBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-            <TextBlock HorizontalAlignment="Center" FontSize="16">
-              <TextBlock.Text>
-                <MultiBinding Converter="{StaticResource IntSumConverter}">
-                  <Binding Path="Bravery"></Binding>
-                  <Binding Path="Stamina"></Binding>
-                </MultiBinding>
-              </TextBlock.Text>
-            </TextBlock>
-          </Grid>
-        </StackPanel>
-        <views:HitCounter Grid.Column="2" HorizontalAlignment="Left" Text="Атака"
-                          CounterSource="{Binding HitCounter, Mode=TwoWay}" ResetCommand="{Binding ResetHitCounterCommand}"/>
+        
+        <views:HitCounter Grid.Column="0" HorizontalAlignment="Left" Text="Атака"
+                          CounterSource="{Binding Attack, Mode=TwoWay}" ResetCommand="{Binding ResetAttackCounterCommand}"/>
+        
+        <views:HitCounter Grid.Column="1" HorizontalAlignment="Center" Text="Защита"
+                          CounterSource="{Binding Defence, Mode=TwoWay}" ResetCommand="{Binding ResetDefenceCounterCommand}"/>
+
+        <views:HitCounter Grid.Column="2" HorizontalAlignment="Center" Text="Выносливость"
+                          CounterSource="{Binding Stamina, Mode=TwoWay}" ResetCommand="{Binding ResetStaminaCounterCommand}"/>
+
 
         <views:HitCounter Grid.ColumnSpan="3" Grid.Row="1" HorizontalAlignment="Center" Text="Количество"
                           IsEnabled="{Binding IsGroup}" CounterSource="{Binding HitCounter, Mode=TwoWay}" IsResetVisible="False"/>

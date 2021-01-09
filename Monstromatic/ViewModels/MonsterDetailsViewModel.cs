@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
-using System.Reactive.Linq;
 using Monstromatic.Models;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -11,26 +10,29 @@ namespace Monstromatic.ViewModels
 {
     public class MonsterDetailsViewModel : ViewModelBase
     {
-        [Reactive]
-        public string Name { get; set; }
+        [Reactive] public string Name { get; set; }
 
         private int _level;
 
         public int Level
         {
-            get => _level + GetLevelModifier();
+            get => _level + GetResultLevelModifier();
             set => this.RaiseAndSetIfChanged(ref _level, value);
         }
 
-        public IEnumerable<FeatureBase> DescriptiveFeatures => Features.Where(f => !string.IsNullOrEmpty(f.Description));
+        public IEnumerable<FeatureBase> DescriptiveFeatures =>
+            Features.Where(f => !string.IsNullOrEmpty(f.Description));
 
         public List<FeatureBase> Features { get; set; }
 
-        // ReSharper disable once UnassignedGetOnlyAutoProperty
-        public int Stamina { [ObservableAsProperty] get; }
-
-        // ReSharper disable once UnassignedGetOnlyAutoProperty
-        public int Bravery { [ObservableAsProperty] get; }
+        [Reactive]
+        public int Attack { get; set; }
+        
+        [Reactive]
+        public int Defence { get; set; }
+        
+        [Reactive]
+        public int Stamina { get; set; }
 
         [Reactive]
         public bool HasAdvantage { get; set; }
@@ -44,7 +46,13 @@ namespace Monstromatic.ViewModels
         [Reactive]
         public bool IsGroup { get; set; }
 
-        public ReactiveCommand<Unit, Unit> ResetHitCounterCommand { get; }
+        public ReactiveCommand<Unit, Unit> ResetDefenceCounterCommand { get; }
+        public ReactiveCommand<Unit, Unit> ResetAttackCounterCommand { get; }
+        public ReactiveCommand<Unit, Unit> ResetStaminaCounterCommand { get; }
+
+        private int AttackModifier => Features.Sum(f => f.AttackModifier) + 1;
+
+        private int DefenceModifier => Features.Sum(f => f.DefenceModifier) + 1;
 
         public MonsterDetailsViewModel()
         {
@@ -64,38 +72,54 @@ namespace Monstromatic.ViewModels
                 this.RaisePropertyChanged(nameof(Level));
             });
 
-            this.WhenAnyValue(x => x.IsGroup).Subscribe(_ => this.RaisePropertyChanged(nameof(Level)));
+            this.WhenAnyValue(x => x.IsGroup).Subscribe(x =>
+            {
+                this.RaisePropertyChanged(nameof(Level));
+            });
 
-            this.WhenAnyValue(x => x.Level)
-                .Select(x => (Features.Sum(f => f.StaminaModifier) + 1) * x)
-                .ToPropertyEx(this, x => x.Stamina);
+            this.WhenAnyValue(x => x.Level).Subscribe(_ => SetCounterDefaults());
 
-            this.WhenAnyValue(x => x.Level)
-                .Select(x => (Features.Sum(f => f.BraveryModifier) + 1) * x)
-                .ToPropertyEx(this, x => x.Bravery);
-
-
-            ResetHitCounterCommand = ReactiveCommand.Create(ResetHitCounter);
+            ResetDefenceCounterCommand = ReactiveCommand.Create(ResetDefence);
+            ResetAttackCounterCommand = ReactiveCommand.Create(ResetAttack);
+            ResetStaminaCounterCommand = ReactiveCommand.Create(ResetStamina);
         }
-        
+
+        private void SetCounterDefaults()
+        {
+            ResetAttack();
+            ResetDefence();
+            ResetStamina();
+        }
+
 
         public MonsterDetailsViewModel(string name, int baseLevel, IEnumerable<FeatureBase> features) : this()
         {
             Features.AddRange(features);
             Name = name;
             Level = baseLevel;
+            SetCounterDefaults();
         }
 
-        private void ResetHitCounter()
+        private void ResetDefence()
         {
-            HitCounter = 0;
+            Defence = Level * DefenceModifier;
         }
 
-        private int GetLevelModifier()
+        private void ResetAttack()
         {
-            int advantageModifier = (HasAdvantage ? 1 : 0) - (HasDisadvantage ? 1 : 0);
-            int featuresModifier = Features.Sum(f => f.LevelModifier);
-            int groupModifier = IsGroup ? 1 : 0;
+            Attack = Level * AttackModifier;
+        }
+
+        private void ResetStamina()
+        {
+            Stamina = Features.Contains(new RegenerationFeature()) ? Defence * 2 + Level : Defence * 2;
+        }
+        
+        private int GetResultLevelModifier()
+        {
+            var advantageModifier = (HasAdvantage ? 1 : 0) - (HasDisadvantage ? 1 : 0);
+            var featuresModifier = Features.Sum(f => f.LevelModifier);
+            var groupModifier = IsGroup ? 1 : 0;
             return advantageModifier + featuresModifier + groupModifier;
         }
     }

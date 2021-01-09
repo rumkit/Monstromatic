@@ -13,9 +13,9 @@ namespace Monstromatic.Models
 
         public virtual int LevelModifier => 0;
 
-        public virtual int BraveryModifier => 0;
+        public virtual int AttackModifier => 0;
 
-        public virtual int StaminaModifier => 0;
+        public virtual int DefenceModifier => 0;
 
         public virtual string Description => string.Empty;
 

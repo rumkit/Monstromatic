@@ -6,7 +6,6 @@ namespace Monstromatic.Models
     {
         public override string Id => nameof(GiantFeature);
         public override string DisplayName => "Гигант";
-        public override int BraveryModifier => 1;
 
         public override IEnumerable<FeatureBase> IncompatibleFeatures
         {
@@ -17,7 +16,12 @@ namespace Monstromatic.Models
         }
         public override IEnumerable<FeatureBase> IncludedFeatures
         {
-            get { yield return new BigSizeFeature(); }
+            get
+            {
+                yield return new BigSizeFeature();
+                yield return new PowerfulAttackFeature();
+                yield return new MassAttackFeature();
+            }
         }
     }
 }

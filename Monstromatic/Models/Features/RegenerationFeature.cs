@@ -4,6 +4,6 @@
     {
         public override string Id => nameof(RegenerationFeature);
         public override string DisplayName => "Регенeрация/Маг";
-        public override int StaminaModifier => 1;
+        public override int DefenceModifier => 1;
     }
 }

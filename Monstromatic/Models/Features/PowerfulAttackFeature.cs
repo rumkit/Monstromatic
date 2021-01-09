@@ -7,7 +7,9 @@ namespace Monstromatic.Models
         public override string Id => nameof(PowerfulAttackFeature);
         public override string DisplayName => "Мощная атака/Маг/Яд";
         public override string DetailsDisplayName => "Мощная атака";
-        public override string Description => "Оглушает цель в случае успешной атаки";
+        public override string Description => "Атака увеличена вдвое";
+
+        public override int AttackModifier => 1;
 
         public override IEnumerable<FeatureBase> ExcludedFeatures
         {
