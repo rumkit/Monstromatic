@@ -12,7 +12,7 @@ namespace Monstromatic.ViewModels.Design
             new List<FeatureBase>()
             {
                 new AnimalFeature(), new PowerfulAttackFeature(), new FlyingFeature(),
-                new SwarmFeature(), new ThornsFeature(), new MassAttackFeature()
+                new SwarmFeature(), new MassAttackFeature(), new RangeAtackFeature()
             });
 
         public FeatureViewModel FeatureVm => new FeatureViewModel(new AnimalFeature(), new FeatureController());
