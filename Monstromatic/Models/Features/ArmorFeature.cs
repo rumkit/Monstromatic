@@ -5,7 +5,7 @@ namespace Monstromatic.Models
     public class ArmorFeature : FeatureBase
     {
         public override string Id => nameof(ArmorFeature);
-        public override string DisplayName => "Броня/Маг";
+        public override string DisplayName => "Броня";
         public override int LevelModifier => 0;
         public override int DefenceModifier => 1;
         

@@ -6,6 +6,7 @@ namespace Monstromatic.Models
     {
         public override string Id => nameof(GiantFeature);
         public override string DisplayName => "Гигант";
+        public override string DetailsDisplayName => "Гигант";
 
         public override IEnumerable<FeatureBase> IncompatibleFeatures
         {

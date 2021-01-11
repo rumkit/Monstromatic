@@ -40,7 +40,7 @@ namespace Monstromatic.ViewModels
 
             var canGenerateMonster = this
                 .WhenAnyValue(x => x.Name, x => x.SelectedQuality,
-                    (name, quality) => !string.IsNullOrWhiteSpace(name) && quality > 0);
+                    (name, quality) => !string.IsNullOrWhiteSpace(name) && quality >= 0);
 
             GenerateMonsterCommand = ReactiveCommand.Create(GenerateMonster, canGenerateMonster);
 
