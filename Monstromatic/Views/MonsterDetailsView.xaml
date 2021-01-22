@@ -46,11 +46,11 @@
       <Button Grid.Column="0" Classes="round" Click="ExpandButton_Click" Background="{StaticResource MonstromaticAccent}">
         <Button.RenderTransform>
           <RotateTransform Angle="0">
+           <!-- <RotateTransform.Transitions> -->
+           <!--     <DoubleTransition Property="Angle" Duration="0:0:0.1" Easing="SplineEasing"/> -->
+           <!-- </RotateTransform.Transitions> -->
           </RotateTransform>
         </Button.RenderTransform>
-        <!--<Button.Transitions>          
-         <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.1" Easing="SplineEasing"/>
-        </Button.Transitions>-->
         <Path Data="M 0 5 L 5 0 L 10 5" Stroke="{StaticResource ThemeControlHighlightLowBrush}" StrokeThickness="2"></Path>
       </Button>
       <StackPanel Grid.Column="1" Margin="5">
@@ -66,7 +66,7 @@
         <TextBlock Text="{Binding Level, StringFormat=Ур. \{0\}}"/>
       </StackPanel>
       <Grid Grid.Column="2">
-        <ComboBox Height="35" Name="ColorSelector">
+        <ComboBox Height="35" Name="ColorSelector" SelectionChanged="ColorSelectorOnSelectionChanged">
           <ComboBox.ItemsPanel>
             <ItemsPanelTemplate>
               <UniformGrid Columns="3" />

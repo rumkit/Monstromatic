@@ -9,6 +9,7 @@ namespace Monstromatic.Models
         public override string DisplayName => "Упорн.Берсерк";
 
         public override string DetailsDisplayName => "Не бежит";
+        public override string Description => "Не бежит";
 
         public override IEnumerable<FeatureBase> IncompatibleFeatures
         {

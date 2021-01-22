@@ -60,8 +60,6 @@ namespace Monstromatic.Views
 
             colorSelector.Items = colors;
             colorSelector.SelectedIndex = 0;
-            colorSelector.SelectionChanged -= ColorSelectorOnSelectionChanged;
-            colorSelector.SelectionChanged += ColorSelectorOnSelectionChanged;
         }
 
         private void ColorSelectorOnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -73,7 +71,8 @@ namespace Monstromatic.Views
 
         public void Header_PointerPressed(object o, PointerPressedEventArgs e)
         {
-            this.BeginMoveDrag(e as PointerPressedEventArgs);
+            if(e.Source is Grid {Name: "WindowHeaderGrid"})
+                this.BeginMoveDrag(e as PointerPressedEventArgs);
         }
 
         public void CloseButton_Click(object o, RoutedEventArgs e)

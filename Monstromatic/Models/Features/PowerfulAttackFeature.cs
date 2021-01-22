@@ -12,5 +12,10 @@ namespace Monstromatic.Models
         {
             get { yield return new SmallSizeFeature(); }
         }
+        
+        public override IEnumerable<FeatureBase> IncompatibleFeatures
+        {
+            get { yield return new SuperAttackFeature(); }
+        }
     }
 }

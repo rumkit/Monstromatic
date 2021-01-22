@@ -21,7 +21,7 @@ namespace Monstromatic.ViewModels
         }
 
         public IEnumerable<FeatureBase> DescriptiveFeatures =>
-            Features.Where(f => !string.IsNullOrEmpty(f.DetailsDisplayName));
+            Features.Where(f => !string.IsNullOrEmpty(f.Description));
 
         public List<FeatureBase> Features { get; set; }
 
