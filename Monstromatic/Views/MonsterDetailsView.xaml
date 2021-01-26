@@ -53,7 +53,7 @@
         </Button.RenderTransform>
         <Path Data="M 0 5 L 5 0 L 10 5" Stroke="{StaticResource ThemeControlHighlightLowBrush}" StrokeThickness="2"></Path>
       </Button>
-      <StackPanel Grid.Column="1" Margin="5">
+      <StackPanel Grid.Column="1" Margin="5" IsHitTestVisible="False">
         <StackPanel.Styles>
           <Style Selector="StackPanel > TextBlock">
             <Setter Property="Foreground" Value="{StaticResource ThemeControlLowBrush}"/>
