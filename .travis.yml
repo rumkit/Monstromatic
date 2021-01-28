@@ -6,8 +6,8 @@ before_install:
 install:
   - dotnet restore
 script:
-  - dotnet build .\Monstromatic\Monstromatic.csproj -c Release
-  - dotnet publish .\Monstromatic\Monstromatic.csproj -c Release -r win-x64 --self-contained true -p:PublishReadyToRun=true -p:PublishSingleFile=true -p:PublishTrimmed=true -p:IncludeAllContentForSelfExtract=true
+  - dotnet build Monstromatic/Monstromatic.csproj -c Release
+  - dotnet publish Monstromatic/Monstromatic.csproj -c Release -r win-x64 --self-contained true -p:PublishReadyToRun=true -p:PublishSingleFile=true -p:PublishTrimmed=true -p:IncludeAllContentForSelfExtract=true
 after_script:
 # - dotnet publish -c Release -r win-x64 --self-contained true -p:PublishReadyToRun=true -p:PublishSingleFile=true -p:PublishTrimmed=true -p:IncludeAllContentForSelfExtract=true
 # - dotnet test ./ThinkingHome.NooLite.Tests -c Release -f net5.0
