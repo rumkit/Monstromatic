@@ -1,8 +1,9 @@
 language: csharp
 os: windows
 mono: none
-dotnet: 5.0.100
-before_script:
+before_install:
+  - choco install dotnet-5.0-sdk
+install:
   - dotnet restore
 script:
   - dotnet build .\Monstromatic\Monstromatic.csproj -c Release
