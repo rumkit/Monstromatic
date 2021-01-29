@@ -16,6 +16,6 @@ script:
 after_script:
   - ./.travis/dotnet-publish.ps1
   - ./.travis/get-project-version.ps1
-  - Compress-Archive -Path Monstromatic/bin/Release/net5.0/win-x64/publish/Monstromatic.exe -DestinationPath Monstromatic-$env:csproj_version.zip
+  - powershell Compress-Archive -Path Monstromatic/bin/Release/net5.0/win-x64/publish/Monstromatic.exe -DestinationPath Monstromatic-$env:csproj_version.zip
   - wsl .travis/publish-to-telegram.sh $env:TELEGRAM_BOT_TOKEN $env:TELEGRAM_CHAT_ID Monstromatic-$env:csproj_version.zip "The new release is here!"
 
