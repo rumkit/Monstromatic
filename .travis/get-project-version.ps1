@@ -1,3 +1,3 @@
 $proj = [xml](Get-Content .\Monstromatic\Monstromatic.csproj)
 $version = $proj.Project.PropertyGroup.VersionPrefix
-$env:csproj_version = $version
+[System.Environment]::SetEnvironmentVariable('csproj_version',"$version",[System.EnvironmentVariableTarget]::Machine)
