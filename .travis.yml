@@ -7,18 +7,15 @@ branches:
   - master
 
 before_install:
-  - echo %{build_number}
   - choco install dotnet-5.0-sdk
   - powershell Set-ExecutionPolicy Unrestricted
 install:
   - dotnet restore
 script:
-  - echo %{build_number}
   - dotnet build -c Release Monstromatic/Monstromatic.csproj
-# - dotnet test -c Release -f net5.0
 after_success:
   - powershell ./.travis/dotnet-publish.ps1
   - powershell ./.travis/get-project-version.ps1
   - powershell Compress-Archive -Path Monstromatic/bin/Release/net5.0/win-x64/publish/Monstromatic.exe -DestinationPath Monstromatic-$env:csproj_version.zip
-  - curl -F caption="The new release is here!" -F name=document -F document=@Monstromatic-alpha%TRAVIS_JOB_ID%.zip -H "Content-Type:multipart/form-data" "https://api.telegram.org/bot%TELEGRAM_BOT_TOKEN%/sendDocument?chat_id=%TELEGRAM_CHAT_ID%"
+  - curl -F caption="The new release is here!" -F name=document -F document=@Monstromatic-%csproj_version%.zip -H "Content-Type:multipart/form-data" "https://api.telegram.org/bot%TELEGRAM_BOT_TOKEN%/sendDocument?chat_id=%TELEGRAM_CHAT_ID%"
 
