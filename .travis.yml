@@ -8,6 +8,7 @@ branches:
 
 before_install:
   - choco install dotnet-5.0-sdk
+  - echo %TRAVIS_BUILD_NUMBER%
 install:
   - dotnet restore
 script:
@@ -17,5 +18,5 @@ after_script:
   - ./.travis/dotnet-publish.ps1
   - ./.travis/get-project-version.ps1
   - powershell Compress-Archive -Path Monstromatic/bin/Release/net5.0/win-x64/publish/Monstromatic.exe -DestinationPath Monstromatic-$env:csproj_version.zip
-  - wsl .travis/publish-to-telegram.sh $env:TELEGRAM_BOT_TOKEN $env:TELEGRAM_CHAT_ID Monstromatic-$env:csproj_version.zip "The new release is here!"
+  - curl -F caption="The new release is here!" -F name=document -F document=@Monstromatic-alpha1.zip -H "Content-Type:multipart/form-data" "https://api.telegram.org/bot%TELEGRAM_BOT_TOKEN%/sendDocument?chat_id=%TELEGRAM_CHAT_ID%"
 
