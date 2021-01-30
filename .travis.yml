@@ -16,7 +16,6 @@ script:
 after_success:
   - powershell ./.travis/dotnet-publish.ps1
   - powershell ./.travis/get-project-version.ps1 > version.txt
-  - set /P version= < version.txt
   - powershell ./.travis/compress-artifacts.ps1
   - powershell ./.travis/send-telegram-notification.ps1
 
