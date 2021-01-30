@@ -16,6 +16,6 @@ script:
 after_success:
   - powershell ./.travis/dotnet-publish.ps1
   - powershell ./.travis/get-project-version.ps1
-  - powershell Compress-Archive -Path Monstromatic/bin/Release/net5.0/win-x64/publish/Monstromatic.exe -DestinationPath Monstromatic-$env:csproj_version.zip
-  - curl -F caption="The new release is here!" -F name=document -F document=@Monstromatic-%csproj_version%.zip -H "Content-Type:multipart/form-data" "https://api.telegram.org/bot%TELEGRAM_BOT_TOKEN%/sendDocument?chat_id=%TELEGRAM_CHAT_ID%"
+  - powershell Compress-Archive -Path Monstromatic/bin/Release/net5.0/win-x64/publish/Monstromatic.exe -DestinationPath Monstromatic.zip
+  - curl -F caption="The new release is here!" -F name=document -F document=@Monstromatic.zip -H "Content-Type:multipart/form-data" "https://api.telegram.org/bot%TELEGRAM_BOT_TOKEN%/sendDocument?chat_id=%TELEGRAM_CHAT_ID%"
 
