@@ -32,6 +32,12 @@ namespace Monstromatic.Views
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
+            var expander = this.FindControl<Grid>("ExpanderGrid");
+            expander.PropertyChanged += (sender, args) =>
+            {
+                if (args.Property.Name == "Height")
+                    UpdateWindowMeasureAsync();
+            };
         }
 
         protected override void OnOpened(EventArgs e)
