@@ -10,7 +10,7 @@
         HasSystemDecorations="False"
         SizeToContent="Height"
         CanResize="True"
-        Width="350"
+        Width="360"
         Design.DataContext="{Binding Source={StaticResource DesignVmLocator}, Path=DetailsVm}">
   <Window.Resources>
     <conv:ListToStringConverter x:Key="StringsJoinConverter"/>
@@ -28,6 +28,7 @@
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="40"/>
         <ColumnDefinition/>
+        <ColumnDefinition Width="40"/>
         <ColumnDefinition Width="50"/>
         <ColumnDefinition Width="40"/>
       </Grid.ColumnDefinitions>
@@ -65,7 +66,10 @@
         <TextBlock Text="{Binding Name}"/>
         <TextBlock Text="{Binding Level, StringFormat=Ур. \{0\}}"/>
       </StackPanel>
-      <Grid Grid.Column="2">
+      <Button Grid.Column="2" Width="35" Height="35" Command="{Binding SaveMonsterCommand}">
+        <Path Data="M 0 5 L 0 20 L 20 20 L 20 0 L 5 0 L 0 5 M 7 0 L 7 10 L 17 10 L 17 0 M 10 0 L 10 6 L 11 6 L 11 0" Stroke="{StaticResource ThemeControlHighlightLowBrush}" StrokeThickness="2"></Path>
+      </Button>
+      <Grid Grid.Column="3">
         <ComboBox Height="35" Name="ColorSelector" SelectionChanged="ColorSelectorOnSelectionChanged">
           <ComboBox.ItemsPanel>
             <ItemsPanelTemplate>
@@ -79,7 +83,7 @@
           </ComboBox.ItemTemplate>
         </ComboBox>
       </Grid>
-      <Button Grid.Column="3" Click="CloseButton_Click" Background="#bb0000">
+      <Button Grid.Column="4" Click="CloseButton_Click" Background="#bb0000">
         <Path Data="M 0 0 L 10 10 M 0 10 L 10 0" Stroke="{StaticResource ThemeControlHighlightLowBrush}" StrokeThickness="2"></Path>
       </Button>
     </Grid>

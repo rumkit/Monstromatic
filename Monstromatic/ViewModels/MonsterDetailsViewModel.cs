@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reactive;
-using System.Threading;
+using System.Text.Json;
 using Monstromatic.Models;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -44,7 +45,7 @@ namespace Monstromatic.ViewModels
         public ReactiveCommand<Unit, Unit> ResetAttackCounterCommand { get; }
         public ReactiveCommand<Unit, Unit> ResetStaminaCounterCommand { get; }
 
-        public ReactiveCommand<bool, Unit> UpdateGroupFeatureCommand { get; }
+        public ReactiveCommand<Unit, Unit> SaveMonsterCommand { get; }
 
         private int AttackModifier => Features.Sum(f => f.AttackModifier) + 1;
 
@@ -84,6 +85,7 @@ namespace Monstromatic.ViewModels
             ResetDefenceCounterCommand = ReactiveCommand.Create(ResetDefence);
             ResetAttackCounterCommand = ReactiveCommand.Create(ResetAttack);
             ResetStaminaCounterCommand = ReactiveCommand.Create(ResetStamina);
+            SaveMonsterCommand = ReactiveCommand.Create(SaveMonster);
         }
         
         public MonsterDetailsViewModel(string name, int baseLevel, IEnumerable<FeatureBase> features) : this()
@@ -114,6 +116,13 @@ namespace Monstromatic.ViewModels
         private void ResetStamina()
         {
             Stamina = Features.Contains(new RegenerationFeature()) ? Defence * 2 + Level : Defence * 2;
+        }
+        
+        private void SaveMonster()
+        {
+            var monster = new Monster(Name, _level, Features.Select(f => f.Id).ToList());
+            var jsonString = JsonSerializer.Serialize(monster);
+            File.WriteAllText(@"C:\Users\anton\Downloads\test.monster", jsonString);
         }
         
         private int GetResultLevelModifier()
