@@ -21,14 +21,14 @@ namespace Monstromatic.ViewModels
         [Reactive]
         public string Name { get; set; }
 
-        public IEnumerable<int> AvailableQualities => Enumerable.Range(0, 5);
-
         [Reactive]
         public int SelectedQuality { get; set; }
 
         public IEnumerable<FeatureViewModel> Features { get; }
 
         public ReactiveCommand<Unit, Unit> GenerateMonsterCommand { get; }
+        
+        public ReactiveCommand<string, Unit> SetMonsterQualityCommand { get; }
 
         private readonly IFeatureRepository _featureRepository;
         private readonly IFeatureController _featureController;
@@ -43,6 +43,12 @@ namespace Monstromatic.ViewModels
                     (name, quality) => !string.IsNullOrWhiteSpace(name) && quality >= 0);
 
             GenerateMonsterCommand = ReactiveCommand.Create(GenerateMonster, canGenerateMonster);
+
+            SetMonsterQualityCommand = ReactiveCommand.Create<string, Unit>((p) =>
+            {
+                SelectedQuality = int.Parse(p);
+                return Unit.Default;
+            });
 
             Features = GetFeatureViewModels();
 
@@ -78,7 +84,6 @@ namespace Monstromatic.ViewModels
             var monster = new MonsterDetailsViewModel(Name, SelectedQuality, _featureController.CreateBundle());
             var window = new MonsterDetailsView(monster);
             window.Show();
-            SetDefaultValues();
         }
 
         private void SetDefaultValues()

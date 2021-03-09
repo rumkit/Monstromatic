@@ -12,62 +12,83 @@
         Title="Monstromatic"
         TransparencyLevelHint="AcrylicBlur"
         Design.DataContext="{Binding Source={StaticResource DesignVmLocator}, Path=MainWindowVM}">
-  <Window.Resources>
-    <conv:IntToMonsterQualityConverter x:Key="MonsterQualityConverter" />
-  </Window.Resources>
-  <ExperimentalAcrylicBorder >
-    <ExperimentalAcrylicBorder.Material>
-      <ExperimentalAcrylicMaterial
-        TintColor="Black"
-        TintOpacity="1"
-        MaterialOpacity="0.7"
-        BackgroundSource="Digger" />
-    </ExperimentalAcrylicBorder.Material>
-    <Grid>
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="150"/>
-        <ColumnDefinition Width="*"/>
-      </Grid.ColumnDefinitions>
-      <Grid.Styles>
-        <Style Selector="HeaderedContentControl">
-          <Setter Property="Template">
-            <Setter.Value>
-              <ControlTemplate>
-                <DockPanel>
-                  <ContentPresenter DockPanel.Dock="Top" Margin="0,0,0,5" TextBlock.FontWeight="Bold" Content="{TemplateBinding Header}"/>
-                  <Border
-                      BorderBrush="{TemplateBinding Background}"
-                      BorderThickness="2"
-                      CornerRadius="5">
-                    <ContentPresenter Content="{TemplateBinding Content}" />
-                  </Border>
-                </DockPanel>
-              </ControlTemplate>
-            </Setter.Value>
-          </Setter>
-        </Style>
-      </Grid.Styles>
-      <Grid Grid.Column="0">
-        <StackPanel Orientation="Vertical" Margin="5,20,5,20" VerticalAlignment="Top">
-          <ComboBox SelectedItem="{Binding SelectedQuality, Mode=OneWayToSource, Converter={StaticResource MonsterQualityConverter}}"
-                    Items="{Binding AvailableQualities, Converter={StaticResource MonsterQualityConverter}}"
-                    Height="50" PlaceholderText="Качество" FontSize="16"/>
-        </StackPanel>
-        <StackPanel Orientation="Vertical" Margin="3,0,3,10" VerticalAlignment="Bottom">
-          <TextBox Text="{Binding Name}" Watermark="Имя" FontSize="16" Margin="0,0,0,10"></TextBox>
-          <Button Content="Генерировать" Height="50" Command="{Binding GenerateMonsterCommand}"></Button>
-        </StackPanel>
-      </Grid>
-      <HeaderedContentControl Grid.Column="1" Margin="3" Header="Особенности" Background="{StaticResource ThemeControlHighlightLowBrush}">
-        <ItemsControl Items="{Binding Features}">
-          <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-              <UniformGrid Columns="4"/>
-            </ItemsPanelTemplate>
-          </ItemsControl.ItemsPanel>
-        </ItemsControl>
-      </HeaderedContentControl>
-    </Grid>
-  </ExperimentalAcrylicBorder>
+    <Window.Resources>
+        <conv:IsCheckedToMonsterQualityConverter x:Key="MonsterQualityConverter" />
+    </Window.Resources>
+    <ExperimentalAcrylicBorder>
+        <ExperimentalAcrylicBorder.Material>
+            <ExperimentalAcrylicMaterial
+                TintColor="Black"
+                TintOpacity="1"
+                MaterialOpacity="0.7"
+                BackgroundSource="Digger" />
+        </ExperimentalAcrylicBorder.Material>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.Styles>
+                <Style Selector="HeaderedContentControl">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <DockPanel>
+                                    <ContentPresenter DockPanel.Dock="Top" Margin="0,0,0,5" TextBlock.FontWeight="Bold"
+                                                      Content="{TemplateBinding Header}" />
+                                    <Border
+                                        BorderBrush="{TemplateBinding Background}"
+                                        BorderThickness="2"
+                                        CornerRadius="5">
+                                        <ContentPresenter Content="{TemplateBinding Content}" />
+                                    </Border>
+                                </DockPanel>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Grid.Styles>
+            <Grid Grid.Column="0">
+                <StackPanel Orientation="Vertical" Margin="5,20,5,20" VerticalAlignment="Top">
+                    <StackPanel.Styles>
+                        <Style Selector="ToggleButton">
+                            <Setter Property="Height" Value="30" />
+                            <Setter Property="Margin" Value="5" />
+                        </Style>
+                    </StackPanel.Styles>
+                    <ToggleButton Content="Слабый"
+                                  IsChecked="{Binding SelectedQuality, Converter={StaticResource MonsterQualityConverter} , ConverterParameter=0}"
+                                  Command="{Binding SetMonsterQualityCommand}" CommandParameter="0" />
+                    <ToggleButton Content="Обыватель"
+                                  IsChecked="{Binding SelectedQuality, Converter={StaticResource MonsterQualityConverter} , ConverterParameter=1}"
+                                  Command="{Binding SetMonsterQualityCommand}" CommandParameter="1" />
+                    <ToggleButton Content="Элита/Спец"
+                                  IsChecked="{Binding SelectedQuality, Converter={StaticResource MonsterQualityConverter} , ConverterParameter=2}"
+                                  Command="{Binding SetMonsterQualityCommand}" CommandParameter="2" />
+                    <ToggleButton Content="Сюжетный/Mary Sue"
+                                  IsChecked="{Binding SelectedQuality, Converter={StaticResource MonsterQualityConverter} , ConverterParameter=3}"
+                                  Command="{Binding SetMonsterQualityCommand}" CommandParameter="3" />
+                    <ToggleButton Content="Каноничный"
+                                  IsChecked="{Binding SelectedQuality, Converter={StaticResource MonsterQualityConverter} , ConverterParameter=4}"
+                                  Command="{Binding SetMonsterQualityCommand}" CommandParameter="4" />
+
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="3,0,3,10" VerticalAlignment="Bottom">
+                    <TextBox Text="{Binding Name}" Watermark="Имя" FontSize="16" Margin="0,0,0,10" />
+                    <Button Content="Генерировать" Height="50" Command="{Binding GenerateMonsterCommand}" />
+                </StackPanel>
+            </Grid>
+            <HeaderedContentControl Grid.Column="1" Margin="3" Header="Особенности"
+                                    Background="{StaticResource ThemeControlHighlightLowBrush}">
+                <ItemsControl Items="{Binding Features}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="4" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </HeaderedContentControl>
+        </Grid>
+    </ExperimentalAcrylicBorder>
 
 </Window>
