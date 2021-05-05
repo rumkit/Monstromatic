@@ -10,6 +10,7 @@ before_install:
   - choco install dotnet-5.0-sdk
   - powershell Set-ExecutionPolicy Unrestricted
 install:
+  - dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org
   - dotnet restore
 script:
   - dotnet build -c Release Monstromatic/Monstromatic.csproj
