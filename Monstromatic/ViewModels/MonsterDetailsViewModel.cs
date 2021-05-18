@@ -113,7 +113,7 @@ namespace Monstromatic.ViewModels
 
         private void ResetStamina()
         {
-            Stamina = Defence * 2;
+            Stamina = Features.Contains(new ArmorFeature()) ? Level * 3 : Level * 2;
         }
         
         private int GetResultLevelModifier()
