@@ -57,20 +57,20 @@
                         </Style>
                     </StackPanel.Styles>
                     <ToggleButton Content="Слабый"
-                                  IsChecked="{Binding SelectedQuality, Converter={StaticResource MonsterQualityConverter} , ConverterParameter=0}"
-                                  Command="{Binding SetMonsterQualityCommand}" CommandParameter="0" />
-                    <ToggleButton Content="Обыватель"
                                   IsChecked="{Binding SelectedQuality, Converter={StaticResource MonsterQualityConverter} , ConverterParameter=1}"
                                   Command="{Binding SetMonsterQualityCommand}" CommandParameter="1" />
-                    <ToggleButton Content="Элита/Спец"
+                    <ToggleButton Content="Обыватель"
                                   IsChecked="{Binding SelectedQuality, Converter={StaticResource MonsterQualityConverter} , ConverterParameter=2}"
                                   Command="{Binding SetMonsterQualityCommand}" CommandParameter="2" />
-                    <ToggleButton Content="Сюжетный/Mary Sue"
+                    <ToggleButton Content="Элита/Спец"
                                   IsChecked="{Binding SelectedQuality, Converter={StaticResource MonsterQualityConverter} , ConverterParameter=3}"
                                   Command="{Binding SetMonsterQualityCommand}" CommandParameter="3" />
-                    <ToggleButton Content="Каноничный"
+                    <ToggleButton Content="Сюжетный/Mary Sue"
                                   IsChecked="{Binding SelectedQuality, Converter={StaticResource MonsterQualityConverter} , ConverterParameter=4}"
                                   Command="{Binding SetMonsterQualityCommand}" CommandParameter="4" />
+                    <ToggleButton Content="Каноничный"
+                                  IsChecked="{Binding SelectedQuality, Converter={StaticResource MonsterQualityConverter} , ConverterParameter=5}"
+                                  Command="{Binding SetMonsterQualityCommand}" CommandParameter="5" />
 
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Margin="3,0,3,10" VerticalAlignment="Bottom">
