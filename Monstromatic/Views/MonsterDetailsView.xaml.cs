@@ -54,14 +54,14 @@ namespace Monstromatic.Views
             var colors = new List<IBrush>
             {
                 header.Background,
-                Brushes.CornflowerBlue,
-                Brushes.Red,
-                Brushes.Brown,
-                Brushes.DarkOrange,
-                Brushes.Green,
-                Brushes.Yellow,
-                Brushes.Violet,
-                Brushes.DarkGreen
+                new SolidColorBrush(0xFFFB0300), // red
+                new SolidColorBrush(0xFFFE6A00), // orange
+                new SolidColorBrush(0xFFFFD800), // yellow
+                new SolidColorBrush(0xFF00FE21), // green
+                new SolidColorBrush(0xFF0094FE), // blue
+                new SolidColorBrush(0xFF4801FF), // cian
+                new SolidColorBrush(0xFFB100FE), // purple
+                new SolidColorBrush(0xFF7A0300)  // brown
             };
 
             colorSelector.Items = colors;
