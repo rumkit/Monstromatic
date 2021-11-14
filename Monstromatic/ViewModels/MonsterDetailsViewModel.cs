@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reactive;
 using System.Threading;
@@ -44,6 +45,9 @@ namespace Monstromatic.ViewModels
         public ReactiveCommand<Unit, Unit> ResetAttackCounterCommand { get; }
         public ReactiveCommand<Unit, Unit> ResetStaminaCounterCommand { get; }
 
+        public ReactiveCommand<Unit,Unit> IncreaseLevelCommand { get; }
+        public ReactiveCommand<Unit, Unit> DecreaseLevelCommand { get; }
+
         public ReactiveCommand<bool, Unit> UpdateGroupFeatureCommand { get; }
 
         private int AttackModifier => Features.Sum(f => f.AttackModifier) + 1;
@@ -84,8 +88,10 @@ namespace Monstromatic.ViewModels
             ResetDefenceCounterCommand = ReactiveCommand.Create(ResetDefence);
             ResetAttackCounterCommand = ReactiveCommand.Create(ResetAttack);
             ResetStaminaCounterCommand = ReactiveCommand.Create(ResetStamina);
+            IncreaseLevelCommand = ReactiveCommand.Create(() => UpdateLevel(1));
+            DecreaseLevelCommand = ReactiveCommand.Create(() => UpdateLevel(-1));
         }
-        
+
         public MonsterDetailsViewModel(string name, int baseLevel, IEnumerable<FeatureBase> features) : this()
         {
             Features.AddRange(features);
@@ -93,7 +99,13 @@ namespace Monstromatic.ViewModels
             Level = baseLevel;
             SetCounterDefaults();
         }
-        
+
+        private void UpdateLevel(int delta)
+        {
+            _level+=delta;
+            this.RaisePropertyChanged(nameof(Level));
+        }
+
         private void SetCounterDefaults()
         {
             ResetAttack();
