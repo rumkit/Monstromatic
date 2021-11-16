@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Monstromatic.Data;
 using Monstromatic.Models;
 using Monstromatic.ViewModels;
 
@@ -22,6 +23,7 @@ namespace Monstromatic.Utils
             services.AddSingleton<IFeatureRepository, ReflectiveFeatureRepository>();
             services.AddTransient<IFeatureController, FeatureController>();
             services.AddTransient<MainWindowViewModel>();
+            services.AddSingleton<IDataStore<MonstromaticSettings>, SettingsStore>();
         }
     }
 }
