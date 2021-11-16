@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
 using DynamicData;
+using Monstromatic.Data;
 using Monstromatic.Models;
 using Monstromatic.Views;
 using ReactiveUI;
@@ -21,34 +22,32 @@ namespace Monstromatic.ViewModels
         [Reactive]
         public string Name { get; set; }
 
+        [Reactive] public IEnumerable<string> Qualities { get; set; }
+
         [Reactive]
-        public int SelectedQuality { get; set; }
+        public string SelectedQuality { get; set; }
 
         public IEnumerable<FeatureViewModel> Features { get; }
 
         public ReactiveCommand<Unit, Unit> GenerateMonsterCommand { get; }
-        
-        public ReactiveCommand<string, Unit> SetMonsterQualityCommand { get; }
 
         private readonly IFeatureRepository _featureRepository;
         private readonly IFeatureController _featureController;
+        private readonly MonstromaticSettings _settings;
 
-        public MainWindowViewModel(IFeatureRepository featureRepository, IFeatureController featureController)
+        public MainWindowViewModel(IFeatureRepository featureRepository, IFeatureController featureController, IDataStore<MonstromaticSettings> settingsSore)
         {
             _featureRepository = featureRepository;
             _featureController = featureController;
+            _settings = settingsSore.Read();
 
             var canGenerateMonster = this
                 .WhenAnyValue(x => x.Name, x => x.SelectedQuality,
-                    (name, quality) => !string.IsNullOrWhiteSpace(name) && quality >= 0);
+                    (name, quality) => !string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(quality));
 
             GenerateMonsterCommand = ReactiveCommand.Create(GenerateMonster, canGenerateMonster);
 
-            SetMonsterQualityCommand = ReactiveCommand.Create<string, Unit>((p) =>
-            {
-                SelectedQuality = int.Parse(p);
-                return Unit.Default;
-            });
+            Qualities = _settings.MonsterQualities.Select(x => x.Key);
 
             Features = GetFeatureViewModels();
 
@@ -81,7 +80,7 @@ namespace Monstromatic.ViewModels
             if (_featureController.SelectedFeatures.Items.FirstOrDefault(f => f.Id == nameof(GroupFeature)) is GroupFeature groupFeature)
                 groupFeature.Count = GroupCount ?? 0;
 
-            var monster = new MonsterDetailsViewModel(Name, SelectedQuality, _featureController.CreateBundle());
+            var monster = new MonsterDetailsViewModel(Name, _settings.MonsterQualities[SelectedQuality], _featureController.CreateBundle());
             var window = new MonsterDetailsView(monster);
             window.Show();
         }

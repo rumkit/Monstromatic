@@ -24,7 +24,7 @@ namespace Monstromatic.Data
         public void Save(T data)
         {
             using var stream = File.OpenWrite(Path.Combine(BasePath, FileName));
-            JsonSerializer.Serialize(stream, data);
+            JsonSerializer.Serialize(stream, data, new JsonSerializerOptions(){WriteIndented = true});
         }
     }
 }

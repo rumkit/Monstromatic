@@ -6,26 +6,18 @@ using Avalonia.Data.Converters;
 
 namespace Monstromatic.Converters
 {
-    public class IsCheckedToMonsterQualityConverter : IValueConverter
+    public class BoolInverseConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var parameterParsed = int.TryParse(parameter.ToString(), out var parameterValue);
-            return parameterParsed switch
-            {
-                true => (int) value == parameterValue,
-                _ => false
-            };
+            bool booleanValue = (bool)value;
+            return !booleanValue;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var parameterParsed = int.TryParse(parameter.ToString(), out var parameterValue);
-            return parameterParsed switch
-            {
-                true when (bool) value => parameterValue,
-                _ => -1
-            };
+            bool booleanValue = (bool)value;
+            return !booleanValue;
         }
     }
 }

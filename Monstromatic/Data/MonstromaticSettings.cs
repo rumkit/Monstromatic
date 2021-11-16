@@ -1,7 +1,9 @@
-﻿namespace Monstromatic.Data
+﻿using System.Collections.Generic;
+
+namespace Monstromatic.Data
 {
-    public record MonstromaticSettings
+    public class MonstromaticSettings
     {
-        public string Name = "Text";
+        public Dictionary<string, int> MonsterQualities { get; init; }
     }
 }

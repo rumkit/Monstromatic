@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -18,7 +19,18 @@ namespace Monstromatic.Data
             if (!Directory.Exists(BasePath))
                 Directory.CreateDirectory(BasePath);
             if (!File.Exists(Path.Combine(BasePath, FilePath)))
-                _dataStore.Save(new MonstromaticSettings());
+                _dataStore.Save(data: GetDefaultSettings());
+        }
+
+        private MonstromaticSettings GetDefaultSettings()
+        {
+            return new MonstromaticSettings()
+            {
+                MonsterQualities = new Dictionary<string, int>()
+                {
+                    { "Слабый", 1 }, { "Обыватель", 2 },{ "Элита/Спец", 3 },{ "Сюжетный/Mary Sue", 4 },{ "Каноничный", 5 },
+                }
+            };
         }
 
         public MonstromaticSettings Read()
