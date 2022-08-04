@@ -24,16 +24,20 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.10.10" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.10.10" />
-    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.10" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.10" />
+    <PackageReference Include="Avalonia" Version="0.10.17" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.17" />
+    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.17" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.17" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
-    <PackageReference Include="ReactiveUI.Fody" Version="16.3.10" />
+    <PackageReference Include="ReactiveUI.Fody" Version="18.3.1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Views\MonsterDetailsView.xaml.cs">
       <DependentUpon>MonsterDetailsView.xaml</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Data\DefaultSettings.json" />
+    <EmbeddedResource Include="Data\DefaultSettings.json" />
   </ItemGroup>
 </Project>

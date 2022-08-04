@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Monstromatic.Data
+namespace Monstromatic.Models
 {
     public class MonstromaticSettings
     {

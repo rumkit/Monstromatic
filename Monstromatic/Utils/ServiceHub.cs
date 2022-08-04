@@ -23,7 +23,7 @@ namespace Monstromatic.Utils
             services.AddSingleton<IFeatureRepository, ReflectiveFeatureRepository>();
             services.AddTransient<IFeatureController, FeatureController>();
             services.AddTransient<MainWindowViewModel>();
-            services.AddSingleton<IDataStore<MonstromaticSettings>, SettingsStore>();
+            services.AddSingleton<IDataStorage<MonstromaticSettings>, SettingsStorage>();
         }
     }
 }

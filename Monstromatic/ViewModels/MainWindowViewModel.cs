@@ -5,6 +5,7 @@ using System.Reactive;
 using DynamicData;
 using Monstromatic.Data;
 using Monstromatic.Models;
+using Monstromatic.Utils;
 using Monstromatic.Views;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -35,11 +36,13 @@ namespace Monstromatic.ViewModels
         private readonly IFeatureController _featureController;
         private readonly MonstromaticSettings _settings;
 
-        public MainWindowViewModel(IFeatureRepository featureRepository, IFeatureController featureController, IDataStore<MonstromaticSettings> settingsSore)
+        public MainWindowViewModel(IFeatureRepository featureRepository, IFeatureController featureController, IDataStorage<MonstromaticSettings> settingsStorage)
         {
             _featureRepository = featureRepository;
             _featureController = featureController;
-            _settings = settingsSore.Read();
+
+
+            _settings = settingsStorage.Read();
 
             var canGenerateMonster = this
                 .WhenAnyValue(x => x.Name, x => x.SelectedQuality,

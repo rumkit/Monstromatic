@@ -2,7 +2,7 @@
 
 namespace Monstromatic.Data
 {
-    public interface IDataStore<T>
+    public interface IDataStorage<T>
     {
         T Read();
         void Save(T data);
