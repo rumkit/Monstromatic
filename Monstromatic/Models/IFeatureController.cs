@@ -5,12 +5,12 @@ namespace Monstromatic.Models
 {
     public interface IFeatureController
     {
-        SourceList<FeatureBase> SelectedFeatures { get; }
+        SourceList<MonsterFeature> SelectedFeatures { get; }
 
-        void AddFeature(FeatureBase feature);
+        void AddFeature(MonsterFeature feature);
 
-        void RemoveFeature(FeatureBase feature);
+        void RemoveFeature(MonsterFeature feature);
 
-        IEnumerable<FeatureBase> CreateBundle();
+        IEnumerable<MonsterFeature> CreateBundle();
     }
 }

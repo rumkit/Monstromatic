@@ -13,7 +13,7 @@ namespace Monstromatic.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var (paddingUnits, unitsPerItem) = GetParameters(parameter.ToString());
-            var enumerable = value as IEnumerable<FeatureBase>;
+            var enumerable = value as IEnumerable<MonsterFeature>;
             return (paddingUnits + enumerable.Count() * unitsPerItem);
         }
 

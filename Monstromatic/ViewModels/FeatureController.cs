@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using DynamicData;
+using Monstromatic.Models;
 using Monstromatic.Utils;
 
-namespace Monstromatic.Models
+namespace Monstromatic.ViewModels
 {
     public class FeatureController : IFeatureController
     {
-        public SourceList<FeatureBase> SelectedFeatures { get; } = new SourceList<FeatureBase>();
-
-        public void AddFeature(FeatureBase feature)
+        public SourceList<MonsterFeature> SelectedFeatures { get; } = new SourceList<MonsterFeature>();
+        
+        public void AddFeature(MonsterFeature feature)
         {
             SelectedFeatures.AddOnce(feature);
 
@@ -19,12 +20,12 @@ namespace Monstromatic.Models
             }
         }
 
-        public void RemoveFeature(FeatureBase feature)
+        public void RemoveFeature(MonsterFeature feature)
         {
             SelectedFeatures.Remove(feature);
         }
 
-        public IEnumerable<FeatureBase> CreateBundle()
+        public IEnumerable<MonsterFeature> CreateBundle()
         {
             var mutexes = SelectedFeatures.Items.SelectMany(f => f.ExcludedFeatures);
             return SelectedFeatures.Items.Except(mutexes);

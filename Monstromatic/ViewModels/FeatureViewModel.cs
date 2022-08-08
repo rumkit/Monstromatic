@@ -12,17 +12,17 @@ namespace Monstromatic.ViewModels
 {
     public class FeatureViewModel : ViewModelBase
     {
-        private readonly FeatureBase _feature;
+        private readonly MonsterFeature _feature;
         private readonly IFeatureController _featureController;
 
-        public string Id => _feature.Id;
+        public string Key => _feature.Key;
 
         public string DisplayName => _feature.DisplayName;
 
         [UsedImplicitly] 
         public bool IsFeatureSelected { [ObservableAsProperty] get; }
 
-        public FeatureViewModel(FeatureBase feature, IFeatureController featureController)
+        public FeatureViewModel(MonsterFeature feature, IFeatureController featureController)
         {
             _feature = feature;
             _featureController = featureController;
@@ -41,7 +41,7 @@ namespace Monstromatic.ViewModels
                 .ToPropertyEx(this, x => x.IsFeatureSelected);
         }
 
-        private bool CanAddFeature(IReadOnlyCollection<FeatureBase> selectedFeatures)
+        private bool CanAddFeature(IReadOnlyCollection<MonsterFeature> selectedFeatures)
         {
             var containsIncompatibleFeatures = selectedFeatures.Any(
                 f => _feature.IncompatibleFeatures.Contains(f));

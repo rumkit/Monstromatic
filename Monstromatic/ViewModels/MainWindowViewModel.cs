@@ -5,7 +5,6 @@ using System.Reactive;
 using DynamicData;
 using Monstromatic.Data;
 using Monstromatic.Models;
-using Monstromatic.Utils;
 using Monstromatic.Views;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -31,18 +30,13 @@ namespace Monstromatic.ViewModels
         public IEnumerable<FeatureViewModel> Features { get; }
 
         public ReactiveCommand<Unit, Unit> GenerateMonsterCommand { get; }
+        
+        private readonly IFeatureController _featureController = new FeatureController();
+        private readonly IAppSettingsProvider _settingsProvider;
 
-        private readonly IFeatureRepository _featureRepository;
-        private readonly IFeatureController _featureController;
-        private readonly MonstromaticSettings _settings;
-
-        public MainWindowViewModel(IFeatureRepository featureRepository, IFeatureController featureController, IDataStorage<MonstromaticSettings> settingsStorage)
+        public MainWindowViewModel(IAppSettingsProvider settingsProvider)
         {
-            _featureRepository = featureRepository;
-            _featureController = featureController;
-
-
-            _settings = settingsStorage.Read();
+            _settingsProvider = settingsProvider;
 
             var canGenerateMonster = this
                 .WhenAnyValue(x => x.Name, x => x.SelectedQuality,
@@ -50,40 +44,47 @@ namespace Monstromatic.ViewModels
 
             GenerateMonsterCommand = ReactiveCommand.Create(GenerateMonster, canGenerateMonster);
 
-            Qualities = _settings.MonsterQualities.Select(x => x.Key);
+            Qualities = settingsProvider.Settings.MonsterQualities.Select(x => x.Key);
 
             Features = GetFeatureViewModels();
 
+            //todo: remove?
             this.WhenAnyValue(x => x.IsGroup)
                 .Subscribe(b =>
                 {
                     if (b)
                     {
-                        _featureController.AddFeature(new MassAttackFeature());
-                        _featureController.AddFeature(new GroupFeature());
+                        //todo: remove?
+                        _featureController.AddFeature(GetFeature("MassAttack"));
+                        _featureController.AddFeature(GetFeature("Group"));
                     }
                     else
                     {
-                        _featureController.RemoveFeature(new GroupFeature());
+                        _featureController.RemoveFeature(GetFeature("Group"));
                         GroupCount = null;
                     }
                 });
         }
 
+        private MonsterFeature GetFeature(string key)
+        {
+            return _settingsProvider.Features.Single(f => f.Key == key);
+        }
+
         private IEnumerable<FeatureViewModel> GetFeatureViewModels()
         {
-            return _featureRepository.GetFeatures()
-                .Where(f => f != null)
+            return _settingsProvider.Features
+                .Where(f => f is { IsHidden: false })
                 .Select(f => new FeatureViewModel(f, _featureController))
                 .OrderBy(f => f.DisplayName);
         }
 
         private void GenerateMonster()
         {
-            if (_featureController.SelectedFeatures.Items.FirstOrDefault(f => f.Id == nameof(GroupFeature)) is GroupFeature groupFeature)
-                groupFeature.Count = GroupCount ?? 0;
+            //if (_featureController.SelectedFeatures.Items.FirstOrDefault(f => f.Id == nameof(GroupFeature)) is GroupFeature groupFeature)
+            //    groupFeature.Count = GroupCount ?? 0;
 
-            var monster = new MonsterDetailsViewModel(Name, _settings.MonsterQualities[SelectedQuality], _featureController.CreateBundle());
+            var monster = new MonsterDetailsViewModel(Name, _settingsProvider.Settings.MonsterQualities[SelectedQuality], _featureController.CreateBundle());
             var window = new MonsterDetailsView(monster);
             window.Show();
         }

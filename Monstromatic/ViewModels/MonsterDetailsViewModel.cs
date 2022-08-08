@@ -22,10 +22,10 @@ namespace Monstromatic.ViewModels
             set => this.RaiseAndSetIfChanged(ref _level, value);
         }
 
-        public IEnumerable<FeatureBase> DescriptiveFeatures =>
+        public IEnumerable<MonsterFeature> DescriptiveFeatures =>
             Features.Where(f => !string.IsNullOrEmpty(f.Description));
 
-        public List<FeatureBase> Features { get; set; }
+        public List<MonsterFeature> Features { get; set; }
 
         [Reactive] public int Attack { get; set; }
 
@@ -56,7 +56,7 @@ namespace Monstromatic.ViewModels
 
         public MonsterDetailsViewModel()
         {
-            Features = new List<FeatureBase>();
+            Features = new List<MonsterFeature>();
 
             this.WhenAnyValue(x => x.HasAdvantage).Subscribe(x =>
             {
@@ -74,10 +74,11 @@ namespace Monstromatic.ViewModels
 
             this.WhenAnyValue(x => x.IsGroup).Subscribe(x =>
             {
-                if (x)
-                    Features.Add(new GroupFeature());
-                else
-                    Features.Remove(new GroupFeature());
+                //todo: rework group
+                // if (x)
+                //     Features.Add(new GroupFeature());
+                // else
+                //     Features.Remove(new GroupFeature());
                 
                 this.RaisePropertyChanged(nameof(DescriptiveFeatures));
                 this.RaisePropertyChanged(nameof(Level));
@@ -92,7 +93,7 @@ namespace Monstromatic.ViewModels
             DecreaseLevelCommand = ReactiveCommand.Create(() => UpdateLevel(-1));
         }
 
-        public MonsterDetailsViewModel(string name, int baseLevel, IEnumerable<FeatureBase> features) : this()
+        public MonsterDetailsViewModel(string name, int baseLevel, IEnumerable<MonsterFeature> features) : this()
         {
             Features.AddRange(features);
             Name = name;
@@ -125,7 +126,8 @@ namespace Monstromatic.ViewModels
 
         private void ResetStamina()
         {
-            Stamina = Features.Contains(new ArmorFeature()) ? Level * 3 : Level * 2;
+            //todo: any better way?
+            Stamina = Features.Any(f => f.Key == "Armor") ? Level * 3 : Level * 2;
         }
         
         private int GetResultLevelModifier()
