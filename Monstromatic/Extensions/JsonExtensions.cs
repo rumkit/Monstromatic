@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Monstromatic.Extensions;
 
@@ -11,7 +12,8 @@ public static class JsonExtensions
         JsonSerializerOptions options = new()
         {
             WriteIndented = true,
-            Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+            Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault
         };
         JsonSerializer.Serialize(stream, data, options);
         stream.Position = 0;

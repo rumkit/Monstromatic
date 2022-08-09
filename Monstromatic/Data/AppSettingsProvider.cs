@@ -31,31 +31,16 @@ public class AppSettingsProvider : IAppSettingsProvider
     {
         Settings = _settingsStorage.Read();
         
-        var features = _featuresStorage.Read().ToHashSet();
+        var features = _featuresStorage.Read().ToDictionary(feature => feature.Key);
         
-        Features = features.Select(f =>
+        //todo: there is should be an error handling mechanism
+        foreach (var feature in features.Values)
         {
-            var incompatibleFeaturesKeys = f.IncompatibleFeaturesKeys ?? Array.Empty<string>();
-            var includedFeaturesKeys = f.IncludedFeaturesKeys ?? Array.Empty<string>();
-            var excludedFeaturesKeys = f.ExcludedFeaturesKeys ?? Array.Empty<string>();
-            
-            return new MonsterFeature()
-            {
-                Key = f.Key,
-                DisplayName = f.DisplayName,
-                DetailsDisplayName = f.DetailsDisplayName,
-                LevelModifier = f.LevelModifier,
-                AttackModifier = f.AttackModifier,
-                DefenceModifier = f.DefenceModifier,
-                Description = f.Description,
-                IsHidden = f.IsHidden,
-                IncompatibleFeaturesKeys = incompatibleFeaturesKeys,
-                IncludedFeaturesKeys = includedFeaturesKeys,
-                ExcludedFeaturesKeys = excludedFeaturesKeys,
-                IncompatibleFeatures = features.Where(feature => incompatibleFeaturesKeys.Contains(feature.Key)).ToArray(),
-                IncludedFeatures = features.Where(feature => includedFeaturesKeys.Contains(feature.Key)).ToArray(),
-                ExcludedFeatures = features.Where(feature => excludedFeaturesKeys.Contains(feature.Key)).ToArray()
-            };
-        }).ToArray();
+            feature.IncludedFeatures = feature.IncludedFeaturesKeys.Select(key => features[key]).ToArray();
+            feature.ExcludedFeatures = feature.ExcludedFeaturesKeys.Select(key => features[key]).ToArray();
+            feature.IncompatibleFeatures = feature.IncompatibleFeaturesKeys.Select(key => features[key]).ToArray();
+        }
+
+        Features = features.Values;
     }
 }

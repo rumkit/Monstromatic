@@ -21,7 +21,7 @@
     "Key": "BigSize",
     "DisplayName": "Большой",
     "LevelModifier": 1,
-    "IncompatibleFeatures": [ "Small" ]
+    "IncompatibleFeatures": [ "SmallSize" ]
   },
   {
     "Key": "Coward",
@@ -45,7 +45,7 @@
     "DetailsDisplayName": "Гигант",
     "Description": "Гигант",
     "IncompatibleFeatures": [ "SmallSize" ],
-    "IncludedFeatures": [ "BigSize", "PowerfulAttack", "MassAtack" ]
+    "IncludedFeatures": [ "BigSize", "PowerfulAttack", "MassAttack" ]
   },
   {
     "Key": "Group",
@@ -54,8 +54,8 @@
     "Description": "Раз два три... много",
     "LevelModifier": 1,
     "IsHidden": true,
-    "IncludedFeatures": [ "MassAtack" ],
-    "ExcludedFeatures": [ "Small Size" ]
+    "IncludedFeatures": [ "MassAttack" ],
+    "ExcludedFeatures": [ "SmallSize" ]
   },
   {
     "Key": "LongLiver",
@@ -72,7 +72,7 @@
     "Key": "PowerfulAttack",
     "DisplayName": "Мощ. Атака",
     "AttackModifier": 1,
-    "ExcludedFeatures": [ "Small Size" ]
+    "ExcludedFeatures": [ "SmallSize" ]
   },
   {
     "Key": "RangeAtack",

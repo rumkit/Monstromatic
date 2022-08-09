@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace Monstromatic.Models
@@ -14,24 +15,24 @@ namespace Monstromatic.Models
         public string Description { get; init; }
         
         public bool IsHidden { get; init; }
-        
+
         [JsonPropertyName("IncompatibleFeatures")]
-        public IReadOnlyCollection<string> IncompatibleFeaturesKeys { get; init; }
+        public IReadOnlyCollection<string> IncompatibleFeaturesKeys { get; init; } = Array.Empty<string>();
         
         [JsonPropertyName("IncludedFeatures")]
-        public IReadOnlyCollection<string> IncludedFeaturesKeys { get; init; }
+        public IReadOnlyCollection<string> IncludedFeaturesKeys { get; init; } = Array.Empty<string>();
         
         [JsonPropertyName("ExcludedFeatures")]
-        public IReadOnlyCollection<string> ExcludedFeaturesKeys { get; init; }
+        public IReadOnlyCollection<string> ExcludedFeaturesKeys { get; init; } = Array.Empty<string>();
         
         [JsonIgnore]
-        public IReadOnlyCollection<MonsterFeature> IncompatibleFeatures { get; init; }
+        public IReadOnlyCollection<MonsterFeature> IncompatibleFeatures { get; set; }
         
         [JsonIgnore]
-        public IReadOnlyCollection<MonsterFeature> IncludedFeatures { get; init; }
+        public IReadOnlyCollection<MonsterFeature> IncludedFeatures { get; set; }
         
         [JsonIgnore]
-        public IReadOnlyCollection<MonsterFeature> ExcludedFeatures { get; init; }
+        public IReadOnlyCollection<MonsterFeature> ExcludedFeatures { get; set; }
 
         public override bool Equals(object obj)
         {

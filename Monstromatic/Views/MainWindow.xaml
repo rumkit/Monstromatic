@@ -1,12 +1,11 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="clr-namespace:Monstromatic.ViewModels;assembly=Monstromatic"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:conv="clr-namespace:Monstromatic.Converters;assembly=Monstromatic"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="500"
-        Width="800" Height="330"
-        MinWidth="650" MinHeight="300"
+        Width="800" Height="400"
+        MinWidth="650" MinHeight="350"
         x:Class="Monstromatic.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="Monstromatic"
@@ -23,6 +22,16 @@
                 MaterialOpacity="0.7"
                 BackgroundSource="Digger" />
         </ExperimentalAcrylicBorder.Material>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="Настройки">
+                    <MenuItem Header="Уровни"/>
+                    <MenuItem Header="Особенности"/>
+                    <Separator/>
+                    <MenuItem Header="Сбросить"/>
+                </MenuItem>
+                <MenuItem Header="О программе"/>
+            </Menu>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150" />
@@ -81,6 +90,7 @@
                 </ItemsControl>
             </HeaderedContentControl>
         </Grid>
+        </DockPanel>
     </ExperimentalAcrylicBorder>
 
 </Window>
