@@ -19,7 +19,7 @@
             <ExperimentalAcrylicMaterial
                 TintColor="Black"
                 TintOpacity="1"
-                MaterialOpacity="0.7"
+                MaterialOpacity="0.8"
                 BackgroundSource="Digger" />
         </ExperimentalAcrylicBorder.Material>
         <DockPanel>
@@ -30,7 +30,7 @@
                     <Separator/>
                     <MenuItem Header="Сбросить"/>
                 </MenuItem>
-                <MenuItem Header="О программе"/>
+                <MenuItem Header="О программе" Command="{Binding ShowAboutCommand}"/>
             </Menu>
         <Grid>
             <Grid.ColumnDefinitions>

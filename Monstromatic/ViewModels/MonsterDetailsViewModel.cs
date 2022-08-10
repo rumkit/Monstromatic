@@ -45,7 +45,7 @@ namespace Monstromatic.ViewModels
         [Reactive] public bool IsGroup { get; set; }
         
         public IEnumerable<MonsterFeature> DescriptiveFeatures =>
-            Features.Where(f => !string.IsNullOrEmpty(f.Description));
+            Features.Where(f => !string.IsNullOrEmpty(f.Description)).DistinctBy(f => f.DetailsDisplayName);
 
         public ReactiveCommand<Unit, Unit> ResetDefenceCounterCommand { get; }
         public ReactiveCommand<Unit, Unit> ResetAttackCounterCommand { get; }
@@ -60,7 +60,7 @@ namespace Monstromatic.ViewModels
 
         private int DefenceModifier => Features.Sum(f => f.DefenceModifier) + 1;
 
-        private int StaminaModifier => Features.Sum(f => f.DefenceModifier) + 2;
+        private int StaminaModifier => 1;
 
         public MonsterDetailsViewModel()
         {
