@@ -6,29 +6,35 @@ using Monstromatic.Utils;
 
 namespace Monstromatic.Data
 {
-    public abstract class AppDataFileStorageBase<T> : IDataStorage<T>
+    public interface IAppDataStorage<T> : IDataStorage<T>
     {
-        private readonly string _basePath =
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Monstromatic");
-
+        void ResetToDefault();
+    }
+    
+    public abstract class AppDataFileStorageBase<T> : IAppDataStorage<T>
+    {
+        private readonly string _resourceName;
         private readonly IDataStorage<T> _dataStorage;
 
-        public AppDataFileStorageBase(string fileName, string resourceName)
+        protected AppDataFileStorageBase(string fileName, string resourceName)
         {
-            _dataStorage = new FileDataStorage<T>(_basePath, Path.Combine(_basePath, fileName));
+            _resourceName = resourceName;
+            _dataStorage = new FileDataStorage<T>(fileName);
+
+            var directory = Path.GetDirectoryName(Path.GetFullPath(fileName));
             
-            if (!Directory.Exists(_basePath))
-                Directory.CreateDirectory(_basePath);
-            if (!File.Exists(Path.Combine(_basePath, fileName)))
-                _dataStorage.Save(data: GetDefaultSettings(resourceName));
+            if (directory != null && !Directory.Exists(directory))
+                Directory.CreateDirectory(directory);
+            if (!File.Exists(fileName))
+                ResetToDefault();
         }
 
-        private static T GetDefaultSettings(string resourceName)
+        private T GetDefaultSettings()
         {
             try
             {
                 var assembly = Assembly.GetExecutingAssembly();
-                using var stream = assembly.GetManifestResourceStream(typeof(SettingsStorage), resourceName) ??
+                using var stream = assembly.GetManifestResourceStream(typeof(SettingsStorage), _resourceName) ??
                         throw new InvalidOperationException("Cannot open resources stream");
                 return stream.FromJson<T>();
             }
@@ -39,13 +45,27 @@ namespace Monstromatic.Data
         }
 
         public T Read()
-        { 
-            return _dataStorage.Read();
+        {
+            try
+            {
+                return _dataStorage.Read();
+            }
+            catch
+            {
+                return GetDefaultValue();
+            }
         }
+
+        protected abstract T GetDefaultValue();
 
         public void Save(T data)
         {
             _dataStorage.Save(data);
+        }
+
+        public void ResetToDefault()
+        {
+            _dataStorage.Save(data: GetDefaultSettings());
         }
     }
 }

@@ -3,6 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:conv="clr-namespace:Monstromatic.Converters;assembly=Monstromatic"
+        xmlns:utils="clr-namespace:Monstromatic.Utils;assembly=Monstromatic"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="500"
         Width="800" Height="400"
         MinWidth="650" MinHeight="350"
@@ -13,6 +14,7 @@
         Design.DataContext="{Binding Source={StaticResource DesignVmLocator}, Path=MainWindowVM}">
     <Window.Resources>
         <conv:BoolInverseConverter x:Key="BoolInverseConverter" />
+        <utils:StorageHelper x:Key="StorageHelper"/>
     </Window.Resources>
     <ExperimentalAcrylicBorder>
         <ExperimentalAcrylicBorder.Material>
@@ -25,10 +27,14 @@
         <DockPanel>
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="Настройки">
-                    <MenuItem Header="Уровни"/>
-                    <MenuItem Header="Особенности"/>
+                    <MenuItem Header="Общие"
+                              Command="{Binding ShowSettingsCommand}"
+                              CommandParameter="{Binding Source={StaticResource StorageHelper}, Path=ApplicationSettingsFileName}"/>
+                    <MenuItem Header="Особенности"
+                              Command="{Binding ShowSettingsCommand}"
+                              CommandParameter="{Binding Source={StaticResource StorageHelper}, Path=FeaturesFileName}"/>
                     <Separator/>
-                    <MenuItem Header="Сбросить"/>
+                    <MenuItem Header="Сбросить" Command="{Binding ResetSettingsCommand}"/>
                 </MenuItem>
                 <MenuItem Header="О программе" Command="{Binding ShowAboutCommand}"/>
             </Menu>

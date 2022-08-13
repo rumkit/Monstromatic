@@ -15,9 +15,17 @@ namespace Monstromatic.Views
             InitializeComponent();
             this.WhenActivated(d => d(ViewModel?.ShowNewMonsterWindow.RegisterHandler(DoShowNewMonster)));
             this.WhenActivated(d => d(ViewModel?.ShowAboutDialog.RegisterHandler(DoShowAboutDialog)));
+            this.WhenActivated(d => d(ViewModel?.ConfirmResetChanges.RegisterHandler(DoConfirmResetChanges)));
 #if DEBUG
             this.AttachDevTools();
 #endif
+        }
+
+        private async Task DoConfirmResetChanges(InteractionContext<Unit, bool> interaction)
+        {
+            var dialog = new ConfirmationWindow("Вы уверены, что хотите сбросить все настройки?");
+            var result = await dialog.ShowDialog<bool>(this);
+            interaction.SetOutput(result);
         }
 
         private void InitializeComponent()
@@ -37,7 +45,7 @@ namespace Monstromatic.Views
         
         private async Task DoShowAboutDialog(InteractionContext<Unit, Unit> interaction)
         {
-            var dialog = new AboutWindow();
+            var dialog = new AboutWindow(ViewModel.ProcessHelper);
             await dialog.ShowDialog(this);
             interaction.SetOutput(Unit.Default);
         }

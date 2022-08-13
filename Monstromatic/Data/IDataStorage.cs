@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Monstromatic.Data
+﻿namespace Monstromatic.Data
 {
     public interface IDataStorage<T>
     {

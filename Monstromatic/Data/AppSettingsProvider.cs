@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Monstromatic.Models;
 
@@ -10,17 +9,18 @@ public interface IAppSettingsProvider
     MonstromaticSettings Settings { get; }
     IEnumerable<MonsterFeature> Features { get; }
     void Reload();
+    void Reset();
 }
 
 public class AppSettingsProvider : IAppSettingsProvider
 {
-    private readonly IDataStorage<MonstromaticSettings> _settingsStorage;
-    private readonly IDataStorage<MonsterFeature[]> _featuresStorage;
+    private readonly IAppDataStorage<MonstromaticSettings> _settingsStorage;
+    private readonly IAppDataStorage<MonsterFeature[]> _featuresStorage;
     
     public MonstromaticSettings Settings { get; private set; }
     public IEnumerable<MonsterFeature> Features { get; private set; }
 
-    public AppSettingsProvider(IDataStorage<MonstromaticSettings> settingsStorage, IDataStorage<MonsterFeature[]> featuresStorage)
+    public AppSettingsProvider(IAppDataStorage<MonstromaticSettings> settingsStorage, IAppDataStorage<MonsterFeature[]> featuresStorage)
     {
         _settingsStorage = settingsStorage;
         _featuresStorage = featuresStorage;
@@ -42,5 +42,12 @@ public class AppSettingsProvider : IAppSettingsProvider
         }
 
         Features = features.Values;
+    }
+
+    public void Reset()
+    {
+        _settingsStorage.ResetToDefault();
+        _featuresStorage.ResetToDefault();
+        Reload();
     }
 }

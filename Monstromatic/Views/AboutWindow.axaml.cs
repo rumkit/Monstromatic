@@ -1,14 +1,16 @@
 ﻿using System;
-using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Monstromatic.Utils;
 
 namespace Monstromatic.Views;
 
 public class AboutWindow : Window
 {
+    private readonly IProcessHelper _processHelper;
+
     public AboutWindow()
     {
         InitializeComponent();
@@ -17,11 +19,16 @@ public class AboutWindow : Window
 #endif
     }
 
+    public AboutWindow(IProcessHelper processHelper) : this()
+    {
+        _processHelper = processHelper;
+    }
+
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
         var infoTextBlock = this.FindControl<TextBlock>("InfoTextBlock");
-        infoTextBlock.Text = $"Monstromatic 👾 2022\r\nversion {GetVersion()}-alpha";
+        infoTextBlock.Text = $"Monstromatic 👾 2022\r\nversion {GetVersion()}";
     }
     
     private string GetVersion()
@@ -38,10 +45,7 @@ public class AboutWindow : Window
     {
         try
         {
-            var myProcess = new Process();
-            myProcess.StartInfo.UseShellExecute = true; 
-            myProcess.StartInfo.FileName = "https://github.com/rumkit/Monstromatic";
-            myProcess.Start();
+            _processHelper.StartNew("https://github.com/rumkit/Monstromatic");
         }
         catch
         {

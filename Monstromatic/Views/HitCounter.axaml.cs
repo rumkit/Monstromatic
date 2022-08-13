@@ -1,9 +1,7 @@
-﻿using System.Reactive;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using ReactiveUI;
 using System.Windows.Input;
 
 namespace Monstromatic.Views
