@@ -13,8 +13,6 @@
         Width="350"
         Design.DataContext="{Binding Source={StaticResource DesignVmLocator}, Path=DetailsVm}">
   <Window.Resources>
-    <conv:ListToStringConverter x:Key="StringsJoinConverter"/>
-    <conv:IntegerSumConverter x:Key="IntSumConverter"/>
     <conv:DoubleToGridLengthConverter x:Key="GridLengthConverter"/>
     <conv:GridHeightFeatureCountConverter x:Key="FeatureCountConverter" />
   </Window.Resources>

@@ -1,28 +1,43 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="clr-namespace:Monstromatic.ViewModels;assembly=Monstromatic"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:conv="clr-namespace:Monstromatic.Converters;assembly=Monstromatic"
+        xmlns:utils="clr-namespace:Monstromatic.Utils;assembly=Monstromatic"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="500"
-        Width="800" Height="330"
-        MinWidth="650" MinHeight="300"
+        Width="800" Height="400"
+        MinWidth="650" MinHeight="350"
         x:Class="Monstromatic.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="Monstromatic"
         TransparencyLevelHint="AcrylicBlur"
         Design.DataContext="{Binding Source={StaticResource DesignVmLocator}, Path=MainWindowVM}">
     <Window.Resources>
-        <conv:IsCheckedToMonsterQualityConverter x:Key="MonsterQualityConverter" />
+        <conv:BoolInverseConverter x:Key="BoolInverseConverter" />
+        <utils:StorageHelper x:Key="StorageHelper"/>
     </Window.Resources>
     <ExperimentalAcrylicBorder>
         <ExperimentalAcrylicBorder.Material>
             <ExperimentalAcrylicMaterial
                 TintColor="Black"
                 TintOpacity="1"
-                MaterialOpacity="0.7"
+                MaterialOpacity="0.8"
                 BackgroundSource="Digger" />
         </ExperimentalAcrylicBorder.Material>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="Настройки">
+                    <MenuItem Header="Общие"
+                              Command="{Binding ShowSettingsCommand}"
+                              CommandParameter="{Binding Source={StaticResource StorageHelper}, Path=ApplicationSettingsFileName}"/>
+                    <MenuItem Header="Особенности"
+                              Command="{Binding ShowSettingsCommand}"
+                              CommandParameter="{Binding Source={StaticResource StorageHelper}, Path=FeaturesFileName}"/>
+                    <Separator/>
+                    <MenuItem Header="Сбросить" Command="{Binding ResetSettingsCommand}"/>
+                </MenuItem>
+                <MenuItem Header="О программе" Command="{Binding ShowAboutCommand}"/>
+            </Menu>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150" />
@@ -49,30 +64,22 @@
                 </Style>
             </Grid.Styles>
             <Grid Grid.Column="0">
-                <StackPanel Orientation="Vertical" Margin="5,20,5,20" VerticalAlignment="Top">
-                    <StackPanel.Styles>
-                        <Style Selector="ToggleButton">
-                            <Setter Property="Height" Value="30" />
-                            <Setter Property="Margin" Value="5" />
+                <ListBox Items="{Binding Qualities}"
+                         SelectedItem="{Binding SelectedQuality}"
+                         Margin="0,20,0,20" VerticalAlignment="Top" Background="Transparent" BorderBrush="Transparent">
+                    <ListBox.Styles>
+                        <Style Selector="ListBoxItem">
+                            <Setter Property="Template">
+                                <ControlTemplate>
+                                    <ToggleButton Margin="0,5,0,5" Height="30"
+                                                  Content="{Binding}" 
+                                                  IsChecked="{TemplateBinding IsSelected, Mode=TwoWay}"
+                                                  IsHitTestVisible="{TemplateBinding IsSelected, Converter={StaticResource BoolInverseConverter}}"/>
+                                </ControlTemplate>
+                            </Setter>
                         </Style>
-                    </StackPanel.Styles>
-                    <ToggleButton Content="Слабый"
-                                  IsChecked="{Binding SelectedQuality, Converter={StaticResource MonsterQualityConverter} , ConverterParameter=1}"
-                                  Command="{Binding SetMonsterQualityCommand}" CommandParameter="1" />
-                    <ToggleButton Content="Обыватель"
-                                  IsChecked="{Binding SelectedQuality, Converter={StaticResource MonsterQualityConverter} , ConverterParameter=2}"
-                                  Command="{Binding SetMonsterQualityCommand}" CommandParameter="2" />
-                    <ToggleButton Content="Элита/Спец"
-                                  IsChecked="{Binding SelectedQuality, Converter={StaticResource MonsterQualityConverter} , ConverterParameter=3}"
-                                  Command="{Binding SetMonsterQualityCommand}" CommandParameter="3" />
-                    <ToggleButton Content="Сюжетный/Mary Sue"
-                                  IsChecked="{Binding SelectedQuality, Converter={StaticResource MonsterQualityConverter} , ConverterParameter=4}"
-                                  Command="{Binding SetMonsterQualityCommand}" CommandParameter="4" />
-                    <ToggleButton Content="Каноничный"
-                                  IsChecked="{Binding SelectedQuality, Converter={StaticResource MonsterQualityConverter} , ConverterParameter=5}"
-                                  Command="{Binding SetMonsterQualityCommand}" CommandParameter="5" />
-
-                </StackPanel>
+                    </ListBox.Styles>
+                </ListBox>
                 <StackPanel Orientation="Vertical" Margin="3,0,3,10" VerticalAlignment="Bottom">
                     <TextBox Text="{Binding Name}" Watermark="Имя" FontSize="16" Margin="0,0,0,10" />
                     <Button Content="Генерировать" Height="50" Command="{Binding GenerateMonsterCommand}" />
@@ -89,6 +96,7 @@
                 </ItemsControl>
             </HeaderedContentControl>
         </Grid>
+        </DockPanel>
     </ExperimentalAcrylicBorder>
 
 </Window>

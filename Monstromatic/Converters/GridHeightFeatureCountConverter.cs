@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Avalonia.Controls;
 using Avalonia.Data.Converters;
 using Monstromatic.Models;
 
@@ -13,7 +12,7 @@ namespace Monstromatic.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var (paddingUnits, unitsPerItem) = GetParameters(parameter.ToString());
-            var enumerable = value as IEnumerable<FeatureBase>;
+            var enumerable = value as IEnumerable<MonsterFeature>;
             return (paddingUnits + enumerable.Count() * unitsPerItem);
         }
 

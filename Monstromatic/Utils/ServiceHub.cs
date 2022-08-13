@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Monstromatic.Data;
 using Monstromatic.Models;
 using Monstromatic.ViewModels;
-
 namespace Monstromatic.Utils
 {
     public class ServiceHub
@@ -17,11 +17,13 @@ namespace Monstromatic.Utils
             ServiceProvider = services.BuildServiceProvider();
         }
 
-        private void BuildServices(ServiceCollection services)
+        private static void BuildServices(ServiceCollection services)
         {
-            services.AddSingleton<IFeatureRepository, ReflectiveFeatureRepository>();
-            services.AddTransient<IFeatureController, FeatureController>();
             services.AddTransient<MainWindowViewModel>();
+            services.AddSingleton<IAppDataStorage<MonstromaticSettings>, SettingsStorage>();
+            services.AddSingleton<IAppDataStorage<MonsterFeature[]>, FeaturesStorage>();
+            services.AddSingleton<IAppSettingsProvider, AppSettingsProvider>();
+            services.AddSingleton<IProcessHelper, ProcessHelper>();
         }
     }
 }

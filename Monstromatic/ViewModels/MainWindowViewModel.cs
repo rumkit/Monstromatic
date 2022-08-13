@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
-using DynamicData;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
+using Monstromatic.Data;
 using Monstromatic.Models;
-using Monstromatic.Views;
+using Monstromatic.Utils;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
@@ -12,85 +13,77 @@ namespace Monstromatic.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        [Reactive]
-        public bool IsGroup { get; set; }
-
-        [Reactive]
-        public int? GroupCount { get; set; }
-
+        public IProcessHelper ProcessHelper { get; }
+        private readonly IFeatureController _featureController = new FeatureController();
+        private readonly IAppSettingsProvider _settingsProvider;
+        
         [Reactive]
         public string Name { get; set; }
 
         [Reactive]
-        public int SelectedQuality { get; set; }
+        public string SelectedQuality { get; set; }
 
-        public IEnumerable<FeatureViewModel> Features { get; }
-
+        public IEnumerable<FeatureViewModel> Features => GetFeatureViewModels();
+        public IEnumerable<string> Qualities => _settingsProvider.Settings.MonsterQualities.Select(x => x.Key);
         public ReactiveCommand<Unit, Unit> GenerateMonsterCommand { get; }
+        public ReactiveCommand<Unit, Unit> ShowAboutCommand { get; }
+        public ReactiveCommand<string, Unit> ShowSettingsCommand { get; }
+        public ReactiveCommand<Unit, Unit> ResetSettingsCommand { get; }
+
+        public Interaction<MonsterDetailsViewModel, Unit> ShowNewMonsterWindow { get; } = new ();
+        public Interaction<Unit, Unit> ShowAboutDialog { get; } = new ();
+        public Interaction<Unit, bool> ConfirmResetChanges { get; } = new();
         
-        public ReactiveCommand<string, Unit> SetMonsterQualityCommand { get; }
-
-        private readonly IFeatureRepository _featureRepository;
-        private readonly IFeatureController _featureController;
-
-        public MainWindowViewModel(IFeatureRepository featureRepository, IFeatureController featureController)
+        public MainWindowViewModel(IAppSettingsProvider settingsProvider, IProcessHelper processHelper)
         {
-            _featureRepository = featureRepository;
-            _featureController = featureController;
+            ProcessHelper = processHelper;
+            _settingsProvider = settingsProvider;
 
             var canGenerateMonster = this
                 .WhenAnyValue(x => x.Name, x => x.SelectedQuality,
-                    (name, quality) => !string.IsNullOrWhiteSpace(name) && quality >= 0);
+                    (name, quality) => !string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(quality));
+            
+            GenerateMonsterCommand = ReactiveCommand.CreateFromTask(GenerateNewMonster, canGenerateMonster);
+            ShowAboutCommand = ReactiveCommand.CreateFromTask(async () => await ShowAboutDialog.Handle(Unit.Default));
+            ShowSettingsCommand = ReactiveCommand.CreateFromTask<string>(ShowSettings);
+            ResetSettingsCommand = ReactiveCommand.CreateFromTask(ResetSettings);
+        }
 
-            GenerateMonsterCommand = ReactiveCommand.Create(GenerateMonster, canGenerateMonster);
-
-            SetMonsterQualityCommand = ReactiveCommand.Create<string, Unit>((p) =>
+        private async Task ResetSettings()
+        {
+            var result = await ConfirmResetChanges.Handle(Unit.Default);
+            if (result)
             {
-                SelectedQuality = int.Parse(p);
-                return Unit.Default;
-            });
+                _settingsProvider.Reset();
+                RefreshControls();
+            }
+        }
 
-            Features = GetFeatureViewModels();
+        private async Task GenerateNewMonster()
+        {
+            var monster = new MonsterDetailsViewModel(Name, _settingsProvider.Settings.MonsterQualities[SelectedQuality], _featureController.CreateBundle());
+            await ShowNewMonsterWindow.Handle(monster);
+        }
 
-            this.WhenAnyValue(x => x.IsGroup)
-                .Subscribe(b =>
-                {
-                    if (b)
-                    {
-                        _featureController.AddFeature(new MassAttackFeature());
-                        _featureController.AddFeature(new GroupFeature());
-                    }
-                    else
-                    {
-                        _featureController.RemoveFeature(new GroupFeature());
-                        GroupCount = null;
-                    }
-                });
+        private async Task ShowSettings(string path)
+        {
+            await ProcessHelper.StartNewAndWaitAsync(path);
+            RefreshControls();
+        }
+
+        private void RefreshControls()
+        {
+            _settingsProvider.Reload();
+            this.RaisePropertyChanged(nameof(Features));
+            this.RaisePropertyChanged(nameof(Qualities));
         }
 
         private IEnumerable<FeatureViewModel> GetFeatureViewModels()
         {
-            return _featureRepository.GetFeatures()
-                .Where(f => f != null)
+            return _settingsProvider.Features
+                .Where(f => f is { IsHidden: false })
                 .Select(f => new FeatureViewModel(f, _featureController))
                 .OrderBy(f => f.DisplayName);
-        }
-
-        private void GenerateMonster()
-        {
-            if (_featureController.SelectedFeatures.Items.FirstOrDefault(f => f.Id == nameof(GroupFeature)) is GroupFeature groupFeature)
-                groupFeature.Count = GroupCount ?? 0;
-
-            var monster = new MonsterDetailsViewModel(Name, SelectedQuality, _featureController.CreateBundle());
-            var window = new MonsterDetailsView(monster);
-            window.Show();
-        }
-
-        private void SetDefaultValues()
-        {
-            _featureController.SelectedFeatures.Clear();
-            Name = string.Empty;
-            IsGroup = false;
         }
     }
 }

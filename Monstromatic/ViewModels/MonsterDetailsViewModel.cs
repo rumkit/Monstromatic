@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Reactive;
-using System.Threading;
 using Monstromatic.Models;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -12,9 +10,14 @@ namespace Monstromatic.ViewModels
 {
     public class MonsterDetailsViewModel : ViewModelBase
     {
-        [Reactive] public string Name { get; set; }
-
         private int _level;
+
+        private readonly MonsterFeature GroupFeature = new MonsterFeature()
+        {
+            LevelModifier = 1,
+            Description = "Раз, два, три, много...",
+            DetailsDisplayName = "Массовая атака"
+        };
 
         public int Level
         {
@@ -22,10 +25,7 @@ namespace Monstromatic.ViewModels
             set => this.RaiseAndSetIfChanged(ref _level, value);
         }
 
-        public IEnumerable<FeatureBase> DescriptiveFeatures =>
-            Features.Where(f => !string.IsNullOrEmpty(f.Description));
-
-        public List<FeatureBase> Features { get; set; }
+        [Reactive] public string Name { get; set; }
 
         [Reactive] public int Attack { get; set; }
 
@@ -40,6 +40,9 @@ namespace Monstromatic.ViewModels
         [Reactive] public int HitCounter { get; set; }
 
         [Reactive] public bool IsGroup { get; set; }
+        
+        public IEnumerable<MonsterFeature> DescriptiveFeatures =>
+            Features.Where(f => !string.IsNullOrEmpty(f.Description)).DistinctBy(f => f.DetailsDisplayName);
 
         public ReactiveCommand<Unit, Unit> ResetDefenceCounterCommand { get; }
         public ReactiveCommand<Unit, Unit> ResetAttackCounterCommand { get; }
@@ -47,16 +50,18 @@ namespace Monstromatic.ViewModels
 
         public ReactiveCommand<Unit,Unit> IncreaseLevelCommand { get; }
         public ReactiveCommand<Unit, Unit> DecreaseLevelCommand { get; }
-
-        public ReactiveCommand<bool, Unit> UpdateGroupFeatureCommand { get; }
+        
+        private List<MonsterFeature> Features { get; }
 
         private int AttackModifier => Features.Sum(f => f.AttackModifier) + 1;
 
         private int DefenceModifier => Features.Sum(f => f.DefenceModifier) + 1;
 
+        private int StaminaModifier => 1;
+
         public MonsterDetailsViewModel()
         {
-            Features = new List<FeatureBase>();
+            Features = new List<MonsterFeature>();
 
             this.WhenAnyValue(x => x.HasAdvantage).Subscribe(x =>
             {
@@ -75,9 +80,9 @@ namespace Monstromatic.ViewModels
             this.WhenAnyValue(x => x.IsGroup).Subscribe(x =>
             {
                 if (x)
-                    Features.Add(new GroupFeature());
+                    Features.Add(GroupFeature);
                 else
-                    Features.Remove(new GroupFeature());
+                    Features.Remove(GroupFeature);
                 
                 this.RaisePropertyChanged(nameof(DescriptiveFeatures));
                 this.RaisePropertyChanged(nameof(Level));
@@ -92,7 +97,7 @@ namespace Monstromatic.ViewModels
             DecreaseLevelCommand = ReactiveCommand.Create(() => UpdateLevel(-1));
         }
 
-        public MonsterDetailsViewModel(string name, int baseLevel, IEnumerable<FeatureBase> features) : this()
+        public MonsterDetailsViewModel(string name, int baseLevel, IEnumerable<MonsterFeature> features) : this()
         {
             Features.AddRange(features);
             Name = name;
@@ -125,7 +130,7 @@ namespace Monstromatic.ViewModels
 
         private void ResetStamina()
         {
-            Stamina = Features.Contains(new ArmorFeature()) ? Level * 3 : Level * 2;
+            Stamina = Level * StaminaModifier;
         }
         
         private int GetResultLevelModifier()
