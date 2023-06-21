@@ -1,19 +1,20 @@
-﻿using System;
+using System;
 using System.Globalization;
-using Avalonia.Controls;
 using Avalonia.Data.Converters;
 
 namespace Monstromatic.Converters;
 
-public class DoubleToGridLengthConverter : IValueConverter
+public class BoolInverseConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        return new GridLength((double) value);
+        bool booleanValue = (bool)value;
+        return !booleanValue;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        throw new NotImplementedException();
+        bool booleanValue = (bool)value;
+        return !booleanValue;
     }
 }
