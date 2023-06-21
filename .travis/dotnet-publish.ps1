@@ -1,1 +1,0 @@
-dotnet publish .\Monstromatic\Monstromatic.csproj -c Release -r win-x64 --self-contained true -p:PublishReadyToRun=true -p:PublishSingleFile=true -p:PublishTrimmed=true -p:IncludeAllContentForSelfExtract=true --version-suffix "alpha$env:TRAVIS_BUILD_NUMBER"
