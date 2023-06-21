@@ -12,7 +12,7 @@ namespace Monstromatic.ViewModels
     {
         private int _level;
 
-        private readonly MonsterFeature GroupFeature = new MonsterFeature()
+        private readonly MonsterFeature GroupFeature = new ()
         {
             LevelModifier = 1,
             Description = "Раз, два, три, много...",
