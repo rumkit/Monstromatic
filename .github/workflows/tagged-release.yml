@@ -31,11 +31,11 @@ jobs:
 
       # Publish
       - name: Publish
-        run: dotnet publish ./Monstromatic/Monstromatic.csproj -c Release -r win-x64 --self-contained true -p:PublishReadyToRun=true -p:PublishSingleFile=true -p:PublishTrimmed=true -p:IncludeAllContentForSelfExtract=true -o publish
+        run: dotnet publish ./Monstromatic/Monstromatic.csproj -c Release -r win-x64 --self-contained true -p:PublishReadyToRun=true -p:PublishSingleFile=true -p:IncludeAllContentForSelfExtract=true -o publish
       - name: Zip Artifacts  
         uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r Monstromatic.zip ./publish/Monstromatic.exe
+          args: zip -qq -j -D Monstromatic.zip ./publish/Monstromatic.exe
 
       # Create Release
       - name: Create Release
@@ -44,5 +44,5 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: |
-            LICENSE.txt
+            LICENSE
             Monstromatic.zip
