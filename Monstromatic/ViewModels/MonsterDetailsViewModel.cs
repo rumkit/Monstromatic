@@ -88,8 +88,6 @@ namespace Monstromatic.ViewModels
                 this.RaisePropertyChanged(nameof(Level));
             });
 
-            this.WhenAnyValue(x => x.Level).Subscribe(_ => SetCounterDefaults());
-
             ResetDefenceCounterCommand = ReactiveCommand.Create(ResetDefence);
             ResetAttackCounterCommand = ReactiveCommand.Create(ResetAttack);
             ResetStaminaCounterCommand = ReactiveCommand.Create(ResetStamina);
