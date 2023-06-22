@@ -7,7 +7,7 @@ using Monstromatic.Utils;
 
 namespace Monstromatic.Views;
 
-public class AboutWindow : Window
+public partial class AboutWindow : Window
 {
     private readonly IProcessHelper _processHelper;
 
@@ -28,7 +28,7 @@ public class AboutWindow : Window
     {
         AvaloniaXamlLoader.Load(this);
         var infoTextBlock = this.FindControl<TextBlock>("InfoTextBlock");
-        infoTextBlock.Text = $"Monstromatic 👾 2022\r\nversion {GetVersion()}";
+        infoTextBlock.Text = $"Monstromatic 👾 2023\r\nversion {GetVersion()}";
     }
     
     private string GetVersion()

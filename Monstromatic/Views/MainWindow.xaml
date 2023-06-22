@@ -11,10 +11,11 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="Monstromatic"
         TransparencyLevelHint="AcrylicBlur"
+        WindowStartupLocation="CenterScreen"
         Design.DataContext="{Binding Source={StaticResource DesignVmLocator}, Path=MainWindowVM}">
     <Window.Resources>
         <conv:BoolInverseConverter x:Key="BoolInverseConverter" />
-        <utils:StorageHelper x:Key="StorageHelper"/>
+        <utils:StorageHelper x:Key="StorageHelper" />
     </Window.Resources>
     <ExperimentalAcrylicBorder>
         <ExperimentalAcrylicBorder.Material>
@@ -29,73 +30,71 @@
                 <MenuItem Header="Настройки">
                     <MenuItem Header="Общие"
                               Command="{Binding ShowSettingsCommand}"
-                              CommandParameter="{Binding Source={StaticResource StorageHelper}, Path=ApplicationSettingsFileName}"/>
+                              CommandParameter="{Binding Source={StaticResource StorageHelper}, Path=ApplicationSettingsFileName}" />
                     <MenuItem Header="Особенности"
                               Command="{Binding ShowSettingsCommand}"
-                              CommandParameter="{Binding Source={StaticResource StorageHelper}, Path=FeaturesFileName}"/>
-                    <Separator/>
-                    <MenuItem Header="Сбросить" Command="{Binding ResetSettingsCommand}"/>
+                              CommandParameter="{Binding Source={StaticResource StorageHelper}, Path=FeaturesFileName}" />
+                    <Separator />
+                    <MenuItem Header="Сбросить" Command="{Binding ResetSettingsCommand}" />
                 </MenuItem>
-                <MenuItem Header="О программе" Command="{Binding ShowAboutCommand}"/>
+                <MenuItem Header="О программе" Command="{Binding ShowAboutCommand}" />
             </Menu>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.Styles>
-                <Style Selector="HeaderedContentControl">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <DockPanel>
-                                    <ContentPresenter DockPanel.Dock="Top" Margin="0,0,0,5" TextBlock.FontWeight="Bold"
-                                                      Content="{TemplateBinding Header}" />
-                                    <Border
-                                        BorderBrush="{TemplateBinding Background}"
-                                        BorderThickness="2"
-                                        CornerRadius="5">
-                                        <ContentPresenter Content="{TemplateBinding Content}" />
-                                    </Border>
-                                </DockPanel>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Grid.Styles>
-            <Grid Grid.Column="0">
-                <ListBox Items="{Binding Qualities}"
-                         SelectedItem="{Binding SelectedQuality}"
-                         Margin="0,20,0,20" VerticalAlignment="Top" Background="Transparent" BorderBrush="Transparent">
-                    <ListBox.Styles>
-                        <Style Selector="ListBoxItem">
-                            <Setter Property="Template">
+            <Border DockPanel.Dock="Top" Background="{StaticResource ThemeControlHighBrush}" BorderThickness="1"></Border>
+            <Grid ColumnDefinitions="150,*">
+                <Grid.Styles>
+                    <Style Selector="HeaderedContentControl">
+                        <Setter Property="Template">
+                            <Setter.Value>
                                 <ControlTemplate>
-                                    <ToggleButton Margin="0,5,0,5" Height="30"
-                                                  Content="{Binding}" 
-                                                  IsChecked="{TemplateBinding IsSelected, Mode=TwoWay}"
-                                                  IsHitTestVisible="{TemplateBinding IsSelected, Converter={StaticResource BoolInverseConverter}}"/>
+                                    <DockPanel>
+                                        <ContentPresenter DockPanel.Dock="Top" Margin="0,0,0,5" FontWeight="Bold"
+                                                          Content="{TemplateBinding Header}" />
+                                        <Border
+                                            BorderBrush="{TemplateBinding Background}"
+                                            BorderThickness="2"
+                                            CornerRadius="5">
+                                            <ContentPresenter Content="{TemplateBinding Content}" />
+                                        </Border>
+                                    </DockPanel>
                                 </ControlTemplate>
-                            </Setter>
-                        </Style>
-                    </ListBox.Styles>
-                </ListBox>
-                <StackPanel Orientation="Vertical" Margin="3,0,3,10" VerticalAlignment="Bottom">
-                    <TextBox Text="{Binding Name}" Watermark="Имя" FontSize="16" Margin="0,0,0,10" />
-                    <Button Content="Генерировать" Height="50" Command="{Binding GenerateMonsterCommand}" />
-                </StackPanel>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Grid.Styles>
+                <Grid Grid.Column="0">
+                    <ListBox ItemsSource="{Binding Qualities}"
+                             SelectedItem="{Binding SelectedQuality}"
+                             Margin="0,20,0,20" VerticalAlignment="Top" Background="Transparent"
+                             BorderBrush="Transparent">
+                        <ListBox.Styles>
+                            <Style Selector="ListBoxItem">
+                                <Setter Property="Template">
+                                    <ControlTemplate>
+                                        <ToggleButton Margin="0,5,0,5" Height="30"
+                                                      Content="{Binding}"
+                                                      IsChecked="{TemplateBinding IsSelected, Mode=TwoWay}"
+                                                      IsHitTestVisible="{TemplateBinding IsSelected, Converter={StaticResource BoolInverseConverter}}" />
+                                    </ControlTemplate>
+                                </Setter>
+                            </Style>
+                        </ListBox.Styles>
+                    </ListBox>
+                    <StackPanel Orientation="Vertical" Margin="3,0,3,10" VerticalAlignment="Bottom">
+                        <TextBox Text="{Binding Name}" Watermark="Имя" FontSize="16" Margin="0,0,0,10" />
+                        <Button Content="Генерировать" Height="50" Command="{Binding GenerateMonsterCommand}" />
+                    </StackPanel>
+                </Grid>
+                <HeaderedContentControl Grid.Column="1" Margin="3" Header="Особенности"
+                                        Background="{StaticResource ThemeControlHighlightLowBrush}">
+                    <ItemsControl ItemsSource="{Binding Features}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="4" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </HeaderedContentControl>
             </Grid>
-            <HeaderedContentControl Grid.Column="1" Margin="3" Header="Особенности"
-                                    Background="{StaticResource ThemeControlHighlightLowBrush}">
-                <ItemsControl Items="{Binding Features}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Columns="4" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-            </HeaderedContentControl>
-        </Grid>
         </DockPanel>
     </ExperimentalAcrylicBorder>
 

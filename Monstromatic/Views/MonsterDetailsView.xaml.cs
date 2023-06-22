@@ -11,7 +11,7 @@ using Avalonia.VisualTree;
 
 namespace Monstromatic.Views
 {
-    public class MonsterDetailsView : Window
+    public partial class MonsterDetailsView : Window
     {
         private double _expanderHeight = 0;
         private bool _isExpanded = true;
@@ -64,7 +64,7 @@ namespace Monstromatic.Views
                 new SolidColorBrush(0xFF7A0300)  // brown
             };
 
-            colorSelector.Items = colors;
+            colorSelector.ItemsSource = colors;
             colorSelector.SelectedIndex = 0;
         }
 
@@ -102,11 +102,11 @@ namespace Monstromatic.Views
 
             _isExpanded = !_isExpanded;
 
-            AnimateButton(o as IVisual, _isExpanded);
+            AnimateButton(o as Visual, _isExpanded);
             UpdateWindowMeasureAsync();
         }
 
-        private void AnimateButton(IVisual button, in bool isExpanded)
+        private void AnimateButton(Visual button, in bool isExpanded)
         {
             if (button?.RenderTransform is RotateTransform transform) 
                 transform.Angle = isExpanded? 0 : 180;

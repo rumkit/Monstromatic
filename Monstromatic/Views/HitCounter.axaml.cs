@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace Monstromatic.Views
 {
-    public class HitCounter : UserControl
+    public partial class HitCounter : UserControl
     {
         public HitCounter()
         {
