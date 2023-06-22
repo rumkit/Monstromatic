@@ -57,7 +57,7 @@ namespace Monstromatic.ViewModels
 
         private int DefenceModifier => Features.Sum(f => f.DefenceModifier) + 1;
 
-        private int StaminaModifier => 1;
+        private int StaminaModifier => Features.Sum(f => f.StaminaModifier) + 1;
 
         public MonsterDetailsViewModel()
         {

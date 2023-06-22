@@ -44,6 +44,7 @@
     "DisplayName": "Гигант",
     "DetailsDisplayName": "Гигант",
     "Description": "Гигант",
+    "StaminaModifier": 1,
     "IncompatibleFeatures": [ "SmallSize" ],
     "IncludedFeatures": [ "BigSize", "PowerfulAttack", "MassAttack" ]
   },
@@ -91,7 +92,14 @@
   {
     "Key": "Swarm",
     "DisplayName": "Потуст. Консрукт. Рой",
-    "DetailsDisplayName": "Неуязвим к физическим атакам",    
+    "DetailsDisplayName": "Неуязвим к физическим атакам",
     "Description": "Неуязвим к физическим атакам"
+  },
+  {
+    "Key": "Regeneration",
+    "DisplayName": "Регенерация",
+    "DetailsDisplayName": "Увеличенное Здоровье",
+    "Description": "Увеличенное Здоровье",
+    "StaminaModifier": 1
   }
 ]

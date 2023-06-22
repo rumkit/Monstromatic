@@ -17,7 +17,7 @@ namespace Monstromatic.Tests.Utils
             sourceList.AddOnce(2);
             sourceList.AddOnce(1);
 
-            sourceList.Items.Should().BeEquivalentTo(1, 2);
+            sourceList.Items.Should().BeEquivalentTo(new [] {1,2});
         }
     }
 }
