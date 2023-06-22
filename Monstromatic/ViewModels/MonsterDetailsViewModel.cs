@@ -57,7 +57,7 @@ namespace Monstromatic.ViewModels
 
         private int DefenceModifier => Features.Sum(f => f.DefenceModifier) + 1;
 
-        private int StaminaModifier => 1;
+        private int StaminaModifier => Features.Sum(f => f.StaminaModifier) + 1;
 
         public MonsterDetailsViewModel()
         {
@@ -87,8 +87,6 @@ namespace Monstromatic.ViewModels
                 this.RaisePropertyChanged(nameof(DescriptiveFeatures));
                 this.RaisePropertyChanged(nameof(Level));
             });
-
-            this.WhenAnyValue(x => x.Level).Subscribe(_ => SetCounterDefaults());
 
             ResetDefenceCounterCommand = ReactiveCommand.Create(ResetDefence);
             ResetAttackCounterCommand = ReactiveCommand.Create(ResetAttack);

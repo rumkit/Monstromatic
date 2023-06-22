@@ -8,7 +8,7 @@ using ReactiveUI;
 
 namespace Monstromatic.Views
 {
-    public class MainWindow : ReactiveWindow<MainWindowViewModel>
+    public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
     {
         public MainWindow()
         {

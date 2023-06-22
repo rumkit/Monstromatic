@@ -12,8 +12,8 @@ namespace Monstromatic.Models
         public int LevelModifier { get; init; }
         public int AttackModifier { get; init; }
         public int DefenceModifier { get; init; }
+        public int StaminaModifier { get; init; }
         public string Description { get; init; }
-        
         public bool IsHidden { get; init; }
 
         [JsonPropertyName("IncompatibleFeatures")]

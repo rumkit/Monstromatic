@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         x:Class="Monstromatic.Views.MonsterDetailsView"
         Title="{Binding Name}"
-        HasSystemDecorations="False"
+        SystemDecorations="None"
         SizeToContent="Height"
         CanResize="True"
         Width="350"
@@ -44,9 +44,11 @@
       <Button Grid.Column="0" Classes="round" Click="ExpandButton_Click" Background="{StaticResource MonstromaticAccent}">
         <Button.RenderTransform>
           <RotateTransform Angle="0">
-           <!-- <RotateTransform.Transitions> -->
-           <!--     <DoubleTransition Property="Angle" Duration="0:0:0.1" Easing="SplineEasing"/> -->
-           <!-- </RotateTransform.Transitions> -->
+            <RotateTransform.Transitions>
+               <Transitions>
+                 <DoubleTransition Property="Angle" Duration="0:0:0.1" Easing="SplineEasing"/>
+               </Transitions>
+            </RotateTransform.Transitions>
           </RotateTransform>
         </Button.RenderTransform>
         <Path Data="M 0 5 L 5 0 L 10 5" Stroke="{StaticResource ThemeControlHighlightLowBrush}" StrokeThickness="2"></Path>
@@ -116,7 +118,7 @@
       </StackPanel>
       <Grid Grid.Row="1" Margin="20,0,20,0">
         <Border BorderBrush="{StaticResource ThemeControlHighlightLowBrush}" BorderThickness="2" CornerRadius="5">
-          <ItemsControl Items="{Binding DescriptiveFeatures}">
+          <ItemsControl ItemsSource="{Binding DescriptiveFeatures}">
             <ItemsControl.Styles>
               <Style Selector="TextBlock:pointerover">
                 <Setter Property="Background" Value="{StaticResource ThemeControlHighlightLowBrush}"/>
